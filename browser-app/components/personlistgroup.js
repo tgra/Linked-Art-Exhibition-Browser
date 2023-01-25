@@ -14,7 +14,7 @@ export default function Person({ id, _label, name, born, died, total_exhibitions
   born = born.split('T')[0].split("-")[0]
   died = died.split('T')[0].split("-")[0]
 
-console.log(idx)
+
   return (
 
 <ListGroup.Item variant="dark" action key={id} href={idx}>{_label} {born == ""? "" : '(' + born + '-' + died + ')'}</ListGroup.Item>

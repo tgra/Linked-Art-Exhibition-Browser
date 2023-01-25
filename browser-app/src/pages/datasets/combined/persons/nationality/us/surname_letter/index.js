@@ -53,19 +53,27 @@ const IndexPage = ({
 
 
           <Container>
-
+          <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+            
             <Row>
               <Col>
                 <Breadcrumb>
                   <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
                  
-                  <Breadcrumb.Item active >{process.env.NEXT_PUBLIC_PERSON_BREADCRUMB_PLURAL}</Breadcrumb.Item>
-                  <Breadcrumb.Item active >Dataset:combined Nationality:US  </Breadcrumb.Item>
-
+                 <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
+                 <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
+                 <Breadcrumb.Item>Persons</Breadcrumb.Item>
+                 <Breadcrumb.Item>Nationality</Breadcrumb.Item>
+                 <Breadcrumb.Item>US</Breadcrumb.Item>
+                 <Breadcrumb.Item>Surname letter</Breadcrumb.Item>
                 </Breadcrumb>
 
-                <h3>Dataset:combined Nationality:US </h3>
                 
+                <h1>Persons - ordered by surname letter  </h1>
+                      <ul>
+                        <li>Dataset:Combined</li>
+                        <li>Nationality:US</li>
+                        </ul>       
                
 
               </Col>

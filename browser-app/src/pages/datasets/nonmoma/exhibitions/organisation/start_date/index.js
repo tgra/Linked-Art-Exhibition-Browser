@@ -45,8 +45,6 @@ const IndexPage = ({
 
         var events = Object.keys(exSummaryDataList["events"]).sort()
 
-        
-
         let index = events.indexOf("The Museum of Modern Art");
         if (index > -1) { // only splice array when item is found
             events.splice(index, 1); // 2nd parameter means remove one item only
@@ -55,6 +53,8 @@ const IndexPage = ({
         if (index > -1) { // only splice array when item is found
             events.splice(index, 1); // 2nd parameter means remove one item only
         }
+
+     
 
     } else {
         return (<SSRProvider><div></div></SSRProvider>)
@@ -84,10 +84,11 @@ const IndexPage = ({
                         <Col>
                             <Breadcrumb>
                                 <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                                <Breadcrumb.Item active >Dataset: non-MoMA</Breadcrumb.Item>
-
-                                <Breadcrumb.Item active >{process.env.NEXT_PUBLIC_ACTIVITY_BREADCRUMB_PLURAL}</Breadcrumb.Item>
-
+                               <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
+                               <Breadcrumb.Item href="../../../">non-MoMA</Breadcrumb.Item>
+                               <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
+                               <Breadcrumb.Item >Organisation</Breadcrumb.Item>
+                               <Breadcrumb.Item>Start date</Breadcrumb.Item>
                             </Breadcrumb>
 
 
@@ -95,10 +96,11 @@ const IndexPage = ({
                     </Row>
                     <Row>
                         <Col>
+                        <h1>Exhibitions - ordered by organisation and exhibition start date  </h1>
+                                <ul><li>Dataset:non-MoMA</li></ul>
 
 
-                            <h2><b>Exhibitions</b></h2>
-                            <p>Listed by organisation and then exhibition start date</p>
+                            
 
                         </Col>
                     </Row>

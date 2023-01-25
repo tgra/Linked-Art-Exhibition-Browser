@@ -2,7 +2,6 @@ import Head from 'next/head'
 
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '../../../../../../styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -39,21 +38,27 @@ const IndexPage = ({
 
                 </Head>
 
-                <main className={styles.main}>
+                <main >
 
 
                     <Container>
+                    <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
 
                         <Row>
                             <Col>
                                 <Breadcrumb>
-                                    <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-
-                                    <Breadcrumb.Item active >Index: Person - Birth Year</Breadcrumb.Item>
-
+                                <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                  <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
+                  <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
+                  <Breadcrumb.Item>Indexes</Breadcrumb.Item>
+                  <Breadcrumb.Item>Persons</Breadcrumb.Item>
+                 
+                  <Breadcrumb.Item  >Birth year</Breadcrumb.Item>
+                  <Breadcrumb.Item>All</Breadcrumb.Item>
+            
                                 </Breadcrumb>
 
-                                <h1>Index: Person - Birth Year</h1>
+                                <h1>Index :  Persons : Birth year : All</h1>
 
                                 <p>The following list are birth years with a count of the corresponding persons. Click on an item to view more information.</p>
 

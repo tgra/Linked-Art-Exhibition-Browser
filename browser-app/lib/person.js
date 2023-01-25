@@ -1,3 +1,4 @@
+import { eventNames } from 'process';
 
 const fs = require('fs')
 
@@ -18,6 +19,30 @@ export async function GetPersonsByBirthYear(year) {
     }
 
     return result.persons[year]
+}
+
+
+// GetPersonsByNationalityBirthYear
+export async function GetPersonsByNationalityBirthYear(nationality) {
+    let file = data_dir + "/summary/persons/persons_" + nationality.toLowerCase() + "_birthyear.json"
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+
+    return (result)
+
+
+}
+
+
+
+export async function GetPersonsByDatasetBirthYear(dataset) {
+    let file = data_dir + "/summary/activity/events_" + dataset + "_persons_birthyear.json"
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+
+    return (result)
+
+
 }
 
 // GetPersonSummary, GetPerson, GetPersonIDs
@@ -70,7 +95,7 @@ export async function GetPersonIDs() {
         }
     })
 
-   
+
     return (ids)
 }
 
@@ -79,7 +104,7 @@ export async function GetPersonIDs() {
 export async function GetPersonsByNationality() {
 
     let nationality_dict = {}
-    
+
     let file = "../data/summary/persons_all.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
@@ -92,17 +117,17 @@ export async function GetPersonsByNationality() {
         if (nationality == undefined || nationality == "") {
             continue
         }
-        if (["Male", "Female","American"].includes(nationality)) {
+        if (["Male", "Female", "American"].includes(nationality)) {
             continue
         }
 
-        if (nationality_dict[nationality] == undefined){
+        if (nationality_dict[nationality] == undefined) {
             nationality_dict[nationality] = []
         }
         nationality_dict[nationality].push(person)
 
     }
-    
+
     return (nationality_dict)
 }
 
@@ -111,9 +136,9 @@ export async function GetPersonsByNationality() {
 
 export async function GetPersonsSurnameLetter() {
 
-    let ignore_list=["American"]
+    let ignore_list = ["American"]
     let name_dict = {}
-    
+
     let file = "../data/summary/persons_all.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
@@ -133,12 +158,12 @@ export async function GetPersonsSurnameLetter() {
             continue
         }
 
-        if (name_dict[value] == undefined){
+        if (name_dict[value] == undefined) {
             name_dict[value] = []
         }
         name_dict[value].push(person)
     }
-    
+
     return (name_dict)
 }
 
@@ -165,12 +190,12 @@ export async function GetPersonSurnamesFirstLetter() {
     alphabet = alphabet.filter((v, i, a) => a.indexOf(v) == i)
     alphabet.sort()
 
-    
+
     return alphabet
 
 
 
-    
+
 }
 
 

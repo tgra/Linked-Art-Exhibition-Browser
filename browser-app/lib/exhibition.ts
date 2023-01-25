@@ -14,6 +14,15 @@ export async function GetExsOrganisation() {
     return (result)
 }
 
+export async function GetExsStartDate() {
+
+    let file =  data_dir + "/summary/events_all_startdate.json"
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+
+
+    return (result)
+}
 
 export async function GetExs() {
     let file =  data_dir + "/summary/events_all.json"

@@ -73,18 +73,22 @@ const IndexPage = ({
 
           <Container>
 
-            <Row>
-              <Col>
-                <Breadcrumb>
-                  <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                 
-                  <Breadcrumb.Item active >{process.env.NEXT_PUBLIC_PERSON_BREADCRUMB_PLURAL}</Breadcrumb.Item>
-                  <Breadcrumb.Item active >Surname Index / First letter / {letter} </Breadcrumb.Item>
+          <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
 
-                </Breadcrumb>
+<Row>
+    <Col>
+        <Breadcrumb>
+            <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+            <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
+            <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
+            <Breadcrumb.Item>Indexes</Breadcrumb.Item>
+            <Breadcrumb.Item href="../../"> Surname first letter</Breadcrumb.Item>
+            <Breadcrumb.Item>{letter}</Breadcrumb.Item>
+        </Breadcrumb>
+        <h1>Index : Surname first letter : {letter}</h1>
 
-                <h3>Surname Index / First letter / {letter} </h3>
-                <a id="top"/>
+
+                 <p>Click to go to surnames with first three letter:</p>
                 {
                 Object.entries(personSummaryDataList).sort().map(([abbv, person_list]) => (
                   

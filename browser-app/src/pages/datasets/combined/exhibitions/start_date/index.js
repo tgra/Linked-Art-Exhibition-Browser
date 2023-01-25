@@ -8,7 +8,7 @@ import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } fr
 import Ex from '/components/ex'
 
 // api
-import { GetExsOrganisation } from '/lib/exhibition'
+import { GetExsStartDate } from '/lib/exhibition'
 
 
 
@@ -17,7 +17,7 @@ export const getStaticProps = async (
     context
 ) => {
 
-    const exs = await GetExsOrganisation()
+    const exs = await GetExsStartDate()
 
     return {
         props: {
@@ -34,17 +34,12 @@ const IndexPage = ({
 }) => {
 
 
-
-
-
-    console.log(exSummaryDataList)
     if (exSummaryDataList == undefined) {
         return (<SSRProvider><div></div></SSRProvider>)
     }
     if (Object.keys(exSummaryDataList).includes("events")) {
 
-        var events = ["The Museum of Modern Art", "MoMA PS1"]
-        
+        var events = Object.keys(exSummaryDataList["events"]).sort()
 
 
     } else {
@@ -75,12 +70,10 @@ const IndexPage = ({
                         <Col>
                             <Breadcrumb>
                                 <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                                <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
-                                <Breadcrumb.Item href="../../../">MoMA</Breadcrumb.Item>
-                               
-                                <Breadcrumb.Item >Exhibitions</Breadcrumb.Item>
-                                <Breadcrumb.Item  >Organisation</Breadcrumb.Item>
-                                <Breadcrumb.Item  >Start date</Breadcrumb.Item>
+                               <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
+                               <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
+                               <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
+                               <Breadcrumb.Item>Start date</Breadcrumb.Item>
                             </Breadcrumb>
 
 
@@ -88,31 +81,25 @@ const IndexPage = ({
                     </Row>
                     <Row>
                         <Col>
-                        <h1>Exhibitions - ordered by organisation and exhibition start date  </h1>
-                                <ul><li>Dataset:MoMA</li></ul>
+                        <h1>Exhibitions ordered by start date</h1>
+                                <ul><li>Dataset:Combined</li></ul>
+
 
                             
 
                         </Col>
                     </Row>
                     <Row>
-                        <Accordion alwaysOpen>
-                            {events.map((org) => (
-                                <Accordion.Item key={"section_" + org} eventKey={"section_" + org}>
-                                    <Accordion.Header>{org} ({exSummaryDataList["counter"][org]} exhibition)</Accordion.Header>
-                                    <Accordion.Body>
-
-
-                                        <Container>
-                                            <Accordion alwaysOpen>
+                       <Col>
+                       <Accordion alwaysOpen>
                                                 {
-                                                    Object.keys(exSummaryDataList["events"][org]).sort().map((year) => (
+                                                    Object.keys(exSummaryDataList["events"]).sort().map((year) => (
 
-                                                        <Accordion.Item key={"section_" + org + year} eventKey={"section_" + org + year}>
-                                                            <Accordion.Header>{year}</Accordion.Header>
+                                                        <Accordion.Item key={"section_" + year} eventKey={"section_" + year}>
+                                                            <Accordion.Header>{year} </Accordion.Header>
                                                             <Accordion.Body>
-                                                                {
-                                                                    Object.keys(exSummaryDataList["events"][org][year]).sort().map((month) => (
+                                                            {
+                                                                    Object.keys(exSummaryDataList["events"][year]).sort().map((month) => (
                                                                         <Row key={"month" + month} >
                                                                             <Col>
 
@@ -120,7 +107,7 @@ const IndexPage = ({
 
                                                                                 <ListGroup>
                                                                                     {
-                                                                                        exSummaryDataList["events"][org][year][month].map((ex) => (<Ex {...ex} key={"ex_" + ex.id} />))
+                                                                                        exSummaryDataList["events"][year][month].map((ex) => (<Ex {...ex} key={"ex_" + ex.id} />))
                                                                                     }
                                                                                 </ListGroup>
 
@@ -130,6 +117,8 @@ const IndexPage = ({
 
                                                                     ))
                                                                 }
+
+
                                                             </Accordion.Body>
                                                         </Accordion.Item>
 
@@ -138,26 +127,21 @@ const IndexPage = ({
 
                                                 }
                                             </Accordion>
-
-                                        </Container>
-
+                       </Col>
 
 
-                                    </Accordion.Body>
-                                </Accordion.Item>
+                       
+                                            </Row>
+                            
 
-                            ))}
-                        </Accordion>
+                    </Container>
 
 
 
-                    </Row></Container>
+</div>
 
 
-
-
-
-            </div>
+           
         </SSRProvider>
     )
 }

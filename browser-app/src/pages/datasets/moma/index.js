@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '../../../styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
+import {Breadcrumb, Button, Container, Card, Row, Col} from 'react-bootstrap'
 export default function Home() {
   return (
     <>
@@ -12,10 +12,27 @@ export default function Home() {
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
         <meta name="description" content="Exhibition data browser" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-       
+        <link rel="stylesheet"
+                        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+                        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+                        crossOrigin="anonymous"
+                    ></link>
+    
       </Head>
-      <main className={styles.main}>
+      <main>
+        <Container>
 
+            <Row>
+                <Col>
+                <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+      
+      <Breadcrumb>
+                                    <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>  
+                              
+                       <Breadcrumb.Item href="../">Datasets</Breadcrumb.Item>   
+
+                       <Breadcrumb.Item>MoMA</Breadcrumb.Item>    
+                                </Breadcrumb>
     
 
 
@@ -23,32 +40,55 @@ export default function Home() {
 
 
         
-        <div className={styles.description}>
+       
           <h1>Dataset:MoMA</h1>
-         
-        </div> 
+                </Col>
+            </Row>
+      
+         <Row>
+
+            <Col>
+            
+            </Col>
+         </Row>
+        
 
       
  
-<h1>Exhibitions</h1>
-<div className={styles.grid}>
+<h2>Exhibitions</h2>
+
+<Col>
+<Card  style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>Organisation / Start date</Card.Title>
+        <Card.Text>
+         View MoMA exhibitions ordered by organisation and start date.
+        </Card.Text>
+        <Button href="exhibitions/organisation/start_date" variant="primary">Go</Button>
+      </Card.Body>
+    </Card>
+    </Col>
 
 
-<a
-            href="moma/exhibitions/organisation/start_date"
-            className={styles.card}
-            
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Exhibitions
-            </h2>
-            <p>Browse via organisation and exhibition start date</p>
-          </a>
-
-</div>
-       
+</Container>
       </main>
     </>
   )
 }
+
+/*
+<!--
+    <Col>
+
+<Card  style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>Start date</Card.Title>
+        <Card.Text>
+         View MoMA exhibitions ordered by start date.
+        </Card.Text>
+        <Button href="exhibitions/start_date" variant="primary">Go</Button>
+      </Card.Body>
+    </Card>
+    </Col>  
+-->
+*/

@@ -1,10 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
+
+import {Card, Button, Container, Row, Col} from 'react-bootstrap'
 export default function Home() {
   return (
     <>
@@ -12,38 +13,52 @@ export default function Home() {
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
         <meta name="description" content="Exhibition data browser" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-       
+       <link rel="stylesheet"
+                        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+                        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+                        crossOrigin="anonymous"
+                    ></link>
       </Head>
-      <main className={styles.main}>
+      <main>
 
         
-        <div className={styles.description}>
-          <h1>{process.env.NEXT_PUBLIC_APP_NAME}</h1>
+        
+          <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
          
          
-        </div> 
+        
 
-        <div className={styles.center}>
-        <p>This application provides a browsable HTML interface to an art exhibition dataset provided by MoMA, serialized as Linked Art JSON-LD.
-</p>
-         
-        </div>
+        
  
-<div className={styles.grid}>
+        <Container>
 
-{process.env.top_level_entry.map((entry) => (<a
-            href={entry.path} key={entry.path}
-            className={styles.card}
-          
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              {entry.label} <span>-&gt;</span>
-            </h2>
-            <p>Browse the data via {entry.label}</p>
-          </a>))}
+          <Row>
+            <Col>
+            <p>This application provides a browsable HTML interface to an art exhibition dataset provided by MoMA, serialized as Linked Art JSON-LD.
+</p></Col>
+          </Row>
+      <Row>
+        <Col>
 
-</div>
+{process.env.top_level_entry.map((entry) => (
+
+
+<Card key={entry.path} style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>{entry.label}</Card.Title>
+        <Card.Text>
+         {entry.desc}
+        </Card.Text>
+        <Button href="datasets" variant="primary">Go</Button>
+      </Card.Body>
+    </Card>
+  
+
+))}
+
+</Col>
+      </Row>
+    </Container>
        
       </main>
     </>

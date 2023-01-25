@@ -12,7 +12,6 @@ import { GetPersonsByNationality } from '/lib/person'
 
 
 
-
 export const getStaticProps = async (context) => {
 
 
@@ -55,7 +54,9 @@ const IndexPage = ({
 
         </Head>
 
-        <main>
+
+        <main >
+
 
 
           <Container>
@@ -64,15 +65,18 @@ const IndexPage = ({
               <Col>
                 <Breadcrumb>
                   <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-
-                  <Breadcrumb.Item active >{process.env.NEXT_PUBLIC_PERSON_BREADCRUMB_PLURAL}</Breadcrumb.Item>
-                  <Breadcrumb.Item active >Dataset:Combined  - Nationality:Non-US</Breadcrumb.Item>
-
+                  <Breadcrumb.Item>Datasets</Breadcrumb.Item>
+                  <Breadcrumb.Item>Combined</Breadcrumb.Item>
+                  <Breadcrumb.Item>Nationality</Breadcrumb.Item>
+                  <Breadcrumb.Item>non-US</Breadcrumb.Item>
+                  <Breadcrumb.Item>Nationality</Breadcrumb.Item>
                 </Breadcrumb>
 
-                <h3>Non-US Persons</h3>
-                <a id="top" />
-
+                <h1>Persons - ordered by nationality</h1>
+                <ul>
+                  <li>Dataset: Combined</li>
+                  <li>Nationality: non-United States</li>
+                </ul>
 
                 <Accordion>
 

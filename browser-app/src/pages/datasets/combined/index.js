@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '../../../styles/Home.module.css'
+
+import { Breadcrumb, Button, Container, Card, Row, Col } from 'react-bootstrap'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,54 +14,75 @@ export default function Home() {
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
         <meta name="description" content="Exhibition data browser" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-       
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+          crossOrigin="anonymous"
+        ></link>
       </Head>
-      <main className={styles.main}>
+      <main>
+        <Container>
+          <Row>
+            <Col>
+              <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+              <Breadcrumb>
+                <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                <Breadcrumb.Item href="../">Datasets</Breadcrumb.Item>
+                <Breadcrumb.Item>Combined</Breadcrumb.Item>
+              </Breadcrumb>
+              <div>
+                <h1>Datasets:Combined</h1>
+              </div>
+              <h2>Persons</h2>
+</Col>
+</Row>
+
+<Row>
+{process.env.nationality.map((entry) => (
+
+<Col key={entry.path}>
+<Card  style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>Nationality:{entry.label}</Card.Title>
+        <Card.Text>
+         {entry.desc}
+        </Card.Text>
+        <Button href={entry.path} variant="primary">Go</Button>
+      </Card.Body>
+    </Card>
+    </Col>
+    ))}
+              
+</Row>
+
+<Row><Col>
+
+              <div>
+
+               
+
+              </div>
+              <h2>Indexes</h2>
+              <div>
 
 
-        <div className={styles.description}>
-          <h1>Datasets:Combined</h1>
-         
-        </div> 
+                {process.env.indexes.map((entry) => (<Col key={entry.path}>
+<Card  style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>Index:{entry.label}</Card.Title>
+        <Card.Text>
+         {entry.desc}
+        </Card.Text>
+        <Button href={entry.path} variant="primary">Go</Button>
+      </Card.Body>
+    </Card>
+    </Col>))}
 
-      
- 
-<h1>Persons</h1>
-
-<div className={styles.grid}>
-
-{process.env.nationality.map((entry) => (<a
-            href={entry.path} key={entry.path}
-            className={styles.card}
-           
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Nationality: {entry.label} 
-            </h2>
-            <p>Browse {entry.label} data</p>
-          </a>))}
-
-</div>
-<h1>Indexes</h1>
-<div className={styles.grid}>
-
-
-{process.env.indexes.map((entry) => (<a
-            href={entry.path} key={entry.path}
-            className={styles.card}
-            
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              {entry.label}
-            </h2>
-            <p>Browse via the {entry.label}</p>
-          </a>))}
-
-</div>
-       
+              </div>
+            </Col></Row>
+        </Container>
       </main>
-   </div>
+    </div>
   )
 }

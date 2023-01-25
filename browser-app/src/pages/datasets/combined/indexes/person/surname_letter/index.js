@@ -1,7 +1,7 @@
 import Head from 'next/head'
 
 
-import {  Row, Col, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
+import { Row, Col, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 
 
 import { GetPersonSurnamesFirstLetter } from '/lib/person'
@@ -9,13 +9,13 @@ import { GetPersonSurnamesFirstLetter } from '/lib/person'
 
 export const getStaticProps = async (context) => {
 
-   
+
     const alphabet = await GetPersonSurnamesFirstLetter()
 
     return {
         props: {
             alphabet: alphabet
-            
+
         },
     }
 }
@@ -26,7 +26,7 @@ const IndexPage = ({
     alphabet
 }) => {
 
-    
+
 
 
     return (
@@ -48,37 +48,39 @@ const IndexPage = ({
 
 
                     <Container>
+                        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
 
                         <Row>
                             <Col>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                               
-                                    <Breadcrumb.Item active >{process.env.NEXT_PUBLIC_PERSON_BREADCRUMB_PLURAL}</Breadcrumb.Item>
-                                    <Breadcrumb.Item active > Surname Index / First letter</Breadcrumb.Item>
+                                    <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
+                                    <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
+                                    <Breadcrumb.Item>Indexes</Breadcrumb.Item>
+                                    <Breadcrumb.Item > Surname first letter</Breadcrumb.Item>
                                 </Breadcrumb>
-                                <h3>Surname Index / First letter</h3>
-
-                                
+                                <h1>Index: Surname first letter</h1>
 
 
 
-                                
+
+
+
                             </Col>
                         </Row>
                         <Row>
-                        
-<ListGroup>
+
+                            <ListGroup>
 
 
-                        {
-                                        alphabet?.sort().map((key) => (
+                                {
+                                    alphabet?.sort().map((key) => (
 
-                                            <ListGroup.Item variant="dark" key={"but" + key} action href={"/datasets/combined/indexes/person/surname_letter/letter/" + key} >{key}</ListGroup.Item>
-                                           
-                                        ))}
+                                        <ListGroup.Item variant="dark" key={"but" + key} action href={"/datasets/combined/indexes/person/surname_letter/letter/" + key} >{key}</ListGroup.Item>
 
-</ListGroup>
+                                    ))}
+
+                            </ListGroup>
 
 
                         </Row>
