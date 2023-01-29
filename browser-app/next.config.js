@@ -28,7 +28,7 @@ const nextConfig = {
       { label: "US - Surname letter", id: "us", path: "/datasets/combined/persons/nationality/us/surname_letter/", desc: "Browse entries associated with US persons across the combined dataset" },
       { label: "US - Birth year", id: "us__birthyear", path: "/datasets/combined/persons/nationality/us/birth_year/", desc: "Browse entries associated with US persons across the combined dataset" },
    
-      { label: "non-US - Surname letter", id: "nonus", path: "/datasets/combined/persons/nationality/nonus/nationality/", desc: "Browse entries associated with non-US persons across the combined dataset." },
+      { label: "non-US - Nationality", id: "nonus", path: "/datasets/combined/persons/nationality/nonus/nationality/", desc: "Browse entries associated with non-US persons across the combined dataset." },
       
       { label: "non-US - Birth year", id: "nonus_birthyear", path: "/datasets/combined/persons/nationality/nonus/birth_year/", desc: "Browse entries associated with non-US persons across the combined dataset." },
       

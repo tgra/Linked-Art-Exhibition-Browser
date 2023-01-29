@@ -5,9 +5,10 @@ import { Inter } from '@next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
-import Person from "/components/personlistgroup"
+import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
+import Person from '/components/personlistgrouptab'
+import TabPanePerson from '/components/tabpaneperson'
 
-import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
 
 import { GetPersonsByNationalityBirthYear } from '/lib/person'
 
@@ -76,17 +77,27 @@ const IndexPage = ({
                                     {
                                         Object.entries(years).map(([year, count]) => (
 
-                                            <Accordion.Item eventKey={"year" + year}>
+                                            <Accordion.Item key={year} eventKey={"year" + year}>
                                                 <Accordion.Header key={"born_" + year}>
                                                     {year == "" ? "no year recorded" : year} ({count})
                                                 </Accordion.Header>
                                                 <Accordion.Body>
 
-                                                    <ListGroup>
-
-                                                        {Array.isArray(persons[year]) ? persons[year].map((person) => (<Person {...person} key={person.id} />)) : ""}
-
-                                                    </ListGroup>
+                                                <Tab.Container id="list-group-tabs" >
+                                                    <Row>
+                                                        <Col sm={4}>
+                                                            <ListGroup numbered>
+                                                                {Array.isArray(persons[year]) ? persons[year].map((person) => (<Person {...person} key={person.id} />)) : ""}
+                                                            </ListGroup>
+                                                        </Col>
+                                                        <Col sm={8}>
+                                                            <Tab.Content>
+                                                                {Array.isArray(persons[year]) ? persons[year].map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
+                                                                }
+                                                            </Tab.Content>
+                                                        </Col>
+                                                    </Row>
+                                                </Tab.Container>
                                                 </Accordion.Body>
 
                                             </Accordion.Item>

@@ -2,9 +2,10 @@ import Head from 'next/head'
 
 import { ParsedUrlQuery } from 'querystring'
 
-import Person from '/components/personlistgroup'
 
-import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
+import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
+import Person from '/components/personlistgrouptab'
+import TabPanePerson from '/components/tabpaneperson'
 
 
 import { GetPersonsByNationality } from '/lib/person'
@@ -65,8 +66,9 @@ const IndexPage = ({
               <Col>
                 <Breadcrumb>
                   <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                  <Breadcrumb.Item>Datasets</Breadcrumb.Item>
-                  <Breadcrumb.Item>Combined</Breadcrumb.Item>
+                  <Breadcrumb.Item href="/dataset">Datasets</Breadcrumb.Item>
+                  <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
+                  <Breadcrumb.Item>Persons</Breadcrumb.Item>
                   <Breadcrumb.Item>Nationality</Breadcrumb.Item>
                   <Breadcrumb.Item>non-US</Breadcrumb.Item>
                   <Breadcrumb.Item>Nationality</Breadcrumb.Item>
@@ -85,11 +87,25 @@ const IndexPage = ({
                     <Accordion.Item key={"section_" + country} eventKey={"section_" + country}>
                       <Accordion.Header>{country}</Accordion.Header>
                       <Accordion.Body>
-                        <ListGroup>
 
-                          {Array.isArray(person_list) ? person_list.map((person) => (<Person {...person} key={person.id} />)) : ""}
 
-                        </ListGroup>
+                        
+                      <Tab.Container id="list-group-tabs" >
+                                                    <Row>
+                                                        <Col sm={4}>
+                                                            <ListGroup numbered>
+                                                                {Array.isArray(person_list) ? person_list.map((person) => (<Person {...person} key={person.id} />)) : ""}
+                                                            </ListGroup>
+                                                        </Col>
+                                                        <Col sm={8}>
+                                                            <Tab.Content>
+                                                                {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
+                                                                }
+                                                            </Tab.Content>
+                                                        </Col>
+                                                    </Row>
+                                                </Tab.Container>
+
 
                       </Accordion.Body>
 

@@ -5,6 +5,10 @@ const fs = require('fs')
 const data_dir = "/Users/tanya/Documents/Code/exhibition-browser-2023/data"
 
 
+
+
+
+
 export async function GetPersonsByBirthYear(year) {
     let file = data_dir + "/summary/persons_all_born.json"
     let rawdata = fs.readFileSync(file);
@@ -20,7 +24,7 @@ export async function GetPersonsByBirthYear(year) {
 
     return result.persons[year]
 }
-
+    
 
 // GetPersonsByNationalityBirthYear
 export async function GetPersonsByNationalityBirthYear(nationality) {

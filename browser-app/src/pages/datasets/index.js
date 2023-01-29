@@ -44,8 +44,9 @@ export default function Home() {
 
 {process.env.datasets.map((entry) => (
  <Col key={entry.path}>
-<Card  style={{ width: '18rem' }}>
+<Card  style={{ width: '12rem' }}>
       <Card.Body>
+     
         <Card.Title>{entry.label}</Card.Title>
         <Card.Text>
          {entry.desc}
