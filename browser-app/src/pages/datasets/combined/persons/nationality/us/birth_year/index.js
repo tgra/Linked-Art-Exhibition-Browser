@@ -14,7 +14,7 @@ import { GetPersonsByNationalityBirthYear } from '/lib/person'
 
 
 export const getStaticProps = async (context) => {
-    let result = await GetPersonsByNationalityBirthYear("american")
+    let result = await GetPersonsByNationalityBirthYear("us")
 
     let persons = ("persons" in result) ? result.persons : []
     let years = ("count" in result) ? result.count : []
@@ -47,10 +47,10 @@ const IndexPage = ({
 
                 <main >
 
-               
+
                     <Container>
-                    <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
-            
+                        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+
                         <Row>
                             <Col>
                                 <Breadcrumb>
@@ -61,7 +61,7 @@ const IndexPage = ({
                                     <Breadcrumb.Item>Nationality</Breadcrumb.Item>
                                     <Breadcrumb.Item>US</Breadcrumb.Item>
                                     <Breadcrumb.Item>Birth year</Breadcrumb.Item>
- 
+
                                 </Breadcrumb>
 
                                 <h1>Persons - ordered by birth year  </h1>
@@ -79,24 +79,37 @@ const IndexPage = ({
                                                     {year == "" ? "no year recorded" : year} ({count})
                                                 </Accordion.Header>
                                                 <Accordion.Body>
+                                                    {
 
-                                               
-                                                <Tab.Container id="list-group-tabs" >
-                                                    <Row>
-                                                        <Col sm={4}>
-                                                            <ListGroup numbered>
-                                                                {Array.isArray(persons[year]) ? persons[year].map((person) => (<Person {...person} key={person.id} />)) : ""}
-                                                            </ListGroup>
-                                                        </Col>
-                                                        <Col sm={8}>
-                                                            <Tab.Content>
-                                                                {Array.isArray(persons[year]) ? persons[year].map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
+                                                        Object.entries(persons[year]).sort().map(([letter, person_list]) => (
+                                                        
+                                                        <div key="{year + letter}"><h5>{letter}</h5>
+
+<Tab.Container id="list-group-tabs" >
+                                                                    <Row>
+                                                                        <Col sm={4}>
+                                                                            <ListGroup numbered>
+                                                                                {Array.isArray(person_list) ? person_list.map((person) => (<Person {...person} key={person.id} />)) : ""}
+                                                                            </ListGroup>
+                                                                        </Col>
+                                                                        <Col sm={8}>
+                                                                            <Tab.Content>
+                                                                                {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
                                                                 }
-                                                            </Tab.Content>
-                                                        </Col>
-                                                    </Row>
-                                                </Tab.Container>
-                                                    
+                                                                            </Tab.Content>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Tab.Container>
+                                                            
+
+
+
+                                                        </div>))
+
+                                                    }
+
+
+
                                                 </Accordion.Body>
 
                                             </Accordion.Item>

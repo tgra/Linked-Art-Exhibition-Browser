@@ -1,12 +1,10 @@
 
-import Col from 'react-bootstrap/Col';
+
 import ListGroup from 'react-bootstrap/ListGroup';
-import Card from 'react-bootstrap/Card';
 
-export default function Ex({ id, _label, org, location}) {
+export default function Ex({ id, _label}) {
 
-  let idx = "/datasets/combined/exhibition/"
-  idx = idx + id.split("/").pop()
+  let idx = "/exhibition/" + id.split("/").pop()
   
 
   return (

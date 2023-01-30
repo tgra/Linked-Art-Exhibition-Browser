@@ -1,9 +1,9 @@
 import Head from 'next/head'
 
-import Image from 'next/image'
 import { Inter } from '@next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
+
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
@@ -45,27 +45,24 @@ const IndexPage = ({
 
                 </Head>
 
-                <main>
+                <main >
+
 
                     <Container>
-                    <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
-            
+                        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+
                         <Row>
                             <Col>
                                 <Breadcrumb>
-                                    <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>  
-                               <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
-                               <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
-                               <Breadcrumb.Item>Persons</Breadcrumb.Item>
-                               <Breadcrumb.Item>Nationality</Breadcrumb.Item>
-                               <Breadcrumb.Item>non-US</Breadcrumb.Item>
-                               <Breadcrumb.Item>Birth year</Breadcrumb.Item>
+                                    <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
 
-
+                                    <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
+                                    <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
+                                    <Breadcrumb.Item>Nationality</Breadcrumb.Item>
+                                    <Breadcrumb.Item>non-US</Breadcrumb.Item>
+                                    <Breadcrumb.Item>Birth year</Breadcrumb.Item>
 
                                 </Breadcrumb>
-
-                                
 
                                 <h1>Persons - ordered by birth year  </h1>
                                 <ul><li>Dataset:Combined</li>
@@ -82,22 +79,37 @@ const IndexPage = ({
                                                     {year == "" ? "no year recorded" : year} ({count})
                                                 </Accordion.Header>
                                                 <Accordion.Body>
+                                                    {
 
-                                                <Tab.Container id="list-group-tabs" >
-                                                    <Row>
-                                                        <Col sm={4}>
-                                                            <ListGroup numbered>
-                                                                {Array.isArray(persons[year]) ? persons[year].map((person) => (<Person {...person} key={person.id} />)) : ""}
-                                                            </ListGroup>
-                                                        </Col>
-                                                        <Col sm={8}>
-                                                            <Tab.Content>
-                                                                {Array.isArray(persons[year]) ? persons[year].map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
+                                                        Object.entries(persons[year]).sort().map(([letter, person_list]) => (
+                                                        
+                                                        <div key={year + letter}><h5>{letter}</h5>
+
+<Tab.Container id="list-group-tabs" >
+                                                                    <Row>
+                                                                        <Col sm={4}>
+                                                                            <ListGroup numbered>
+                                                                                {Array.isArray(person_list) ? person_list.map((person) => (<Person {...person} key={person.id} />)) : ""}
+                                                                            </ListGroup>
+                                                                        </Col>
+                                                                        <Col sm={8}>
+                                                                            <Tab.Content>
+                                                                                {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
                                                                 }
-                                                            </Tab.Content>
-                                                        </Col>
-                                                    </Row>
-                                                </Tab.Container>
+                                                                            </Tab.Content>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Tab.Container>
+                                                            
+
+
+
+                                                        </div>))
+
+                                                    }
+
+
+
                                                 </Accordion.Body>
 
                                             </Accordion.Item>

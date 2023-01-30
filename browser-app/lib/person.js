@@ -6,11 +6,17 @@ const data_dir = "/Users/tanya/Documents/Code/exhibition-browser-2023/data"
 
 
 
+const persons_all = data_dir + "/summary/persons/persons_all.json"
 
 
+const summary_dir = "/summary/"
+
+const person_dir = "/persons"
+
+const persons_all_born = data_dir + "/summary/persons/persons_all_born.json"
 
 export async function GetPersonsByBirthYear(year) {
-    let file = data_dir + "/summary/persons_all_born.json"
+    let file = persons_all_born 
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -28,7 +34,7 @@ export async function GetPersonsByBirthYear(year) {
 
 // GetPersonsByNationalityBirthYear
 export async function GetPersonsByNationalityBirthYear(nationality) {
-    let file = data_dir + "/summary/persons/persons_" + nationality.toLowerCase() + "_birthyear.json"
+    let file = data_dir + "/summary/persons/persons_" + nationality.toLowerCase() + "_born.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -68,7 +74,7 @@ export async function GetPerson(id) {
 
 export async function GetPersonSummary(id) {
 
-    let file = data_dir + "/summary/persons_all.json"
+    let file = persons_all
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -86,7 +92,7 @@ export async function GetPersonSummary(id) {
 export async function GetPersonIDs() {
     var ids = []
 
-    let fpath = data_dir + "/summary/persons_all.json"
+    let fpath = persons_all
     let rawdata = fs.readFileSync(fpath)
     let result = JSON.parse(rawdata)
 
@@ -109,7 +115,7 @@ export async function GetPersonsByNationality() {
 
     let nationality_dict = {}
 
-    let file = "../data/summary/persons_all.json"
+    let file = persons_all
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -121,7 +127,7 @@ export async function GetPersonsByNationality() {
         if (nationality == undefined || nationality == "") {
             continue
         }
-        if (["Male", "Female", "American"].includes(nationality)) {
+        if (["American"].includes(nationality)) {
             continue
         }
 
@@ -130,6 +136,9 @@ export async function GetPersonsByNationality() {
         }
         nationality_dict[nationality].push(person)
 
+
+   
+        
     }
 
     return (nationality_dict)
@@ -143,7 +152,7 @@ export async function GetPersonsSurnameLetter() {
     let ignore_list = ["American"]
     let name_dict = {}
 
-    let file = "../data/summary/persons_all.json"
+    let file = persons_all
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -178,7 +187,7 @@ export async function GetPersonsSurnameLetter() {
 
 export async function GetPersonSurnamesFirstLetter() {
 
-    let file = data_dir + "/summary/persons_all_surname_full.json"
+    let file = data_dir + "/summary/persons/persons_all_surname_full.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -207,7 +216,7 @@ export async function GetPersonSurnamesFirstLetter() {
 
 export async function GetPersonsSurnameByLetter(letter) {
 
-    let file = data_dir + "/summary/persons_all_surname.json"
+    let file = data_dir + "/summary/persons/persons_all_surname.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -231,7 +240,7 @@ export async function GetPersonsSurnameByLetter(letter) {
 
 export async function GetPersonSurnamesAll() {
 
-    let file = data_dir + "/summary/persons_all_surname_full.json"
+    let file = data_dir + "/summary/persons/persons_all_surname_full.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -244,7 +253,7 @@ export async function GetPersonSurnamesAll() {
 
 export async function GetPersonsBySurname(surname) {
 
-    let file = data_dir + "/summary/persons_all_surname_full.json"
+    let file = data_dir + "/summary/persons/persons_all_surname_full.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 

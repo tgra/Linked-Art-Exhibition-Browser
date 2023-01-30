@@ -80,8 +80,8 @@ const IndexPage = ({
               <Col>
                 <Breadcrumb>
                   <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                  <Breadcrumb.Item>Datasets</Breadcrumb.Item>
-                  <Breadcrumb.Item>Combined</Breadcrumb.Item>
+                  <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
+                  <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
                   <Breadcrumb.Item>Indexes</Breadcrumb.Item>
                   <Breadcrumb.Item>Persons</Breadcrumb.Item>
                   <Breadcrumb.Item  >Birth year</Breadcrumb.Item>

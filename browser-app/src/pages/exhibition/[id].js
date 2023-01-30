@@ -61,22 +61,8 @@ const Ex = ({ exData }) => {
     DEFAULT_CENTER = DEFAULT_CENTER.split(")")[0]
     DEFAULT_CENTER = DEFAULT_CENTER.split(" ")
 
-    let influencers = exData.influenced_by
-    influencers = influencers.sort(function(first, second) {
     
-        let a = second._label 
-        let b = first._label
-    
-        if (a > b) {
-          return -1;
-      }
-      if (b > a) {
-          return 1;
-      }
-      return 0;
-       })
 
-    console.log(exData.influenced_by)
     
     
 
@@ -138,16 +124,7 @@ const Ex = ({ exData }) => {
             </div>
           )}
         </Map>       
-                <h3>Artists and other Influencers</h3>
-                <ListGroup numbered>
-                {
-                
-                
-                influencers.map((agent) => (
-                      <ListGroup.Item variant="dark" key={"agent" + agent.id} action href={"/person/" + agent.id.split("/").pop()}>{agent._label}
-    </ListGroup.Item> ))}
-                            
-                                    </ListGroup>
+               
                 
         <br/><br/>
                                 
@@ -187,4 +164,35 @@ export default Ex
                         </Card.Body>
                     </Card>
 
+*/
+
+
+/*
+
+
+let influencers = exData.influenced_by
+    influencers = influencers.sort(function(first, second) {
+    
+        let a = second._label 
+        let b = first._label
+    
+        if (a > b) {
+          return -1;
+      }
+      if (b > a) {
+          return 1;
+      }
+      return 0;
+       })
+
+ <h3>Artists and other Influencers</h3>
+                <ListGroup numbered>
+                {
+                
+                
+                influencers.map((agent) => (
+                      <ListGroup.Item variant="dark" key={"agent" + agent.id} action href={"/person/" + agent.id.split("/").pop()}>{agent._label}
+    </ListGroup.Item> ))}
+                            
+                                    </ListGroup>
 */

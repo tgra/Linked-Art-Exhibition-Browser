@@ -4,10 +4,13 @@ import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 
 
-import { Row, Col, ListGroup, CardGroup, Card, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
+
+import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
+import Person from '/components/personlistgrouptab'
+import TabPanePerson from '/components/tabpaneperson'
 
 
-import Person from '/components/personlistgroup'
+
 
 import { GetPersonsSurnameByLetter, GetPersonSurnamesFirstLetter } from '/lib/person'
 
@@ -17,7 +20,6 @@ export const getStaticPaths = async () => {
 
   const alphabet = await GetPersonSurnamesFirstLetter()
 
-  console.log(alphabet)
   return {
     paths: alphabet?.map((letter) => {
       return { params: { letter: letter} }
@@ -88,35 +90,50 @@ const IndexPage = ({
         <h1>Index : Surname first letter : {letter}</h1>
 
 
-                 <p>Click to go to surnames with first three letter:</p>
-                {
-                Object.entries(personSummaryDataList).sort().map(([abbv, person_list]) => (
-                  
-                  <span key={"ab_" + abbv}><a href={"#" + abbv}>{abbv}</a> </span>
-                ))}
+                 
 
               </Col>
             </Row>
             <Row>
+<Accordion alwaysOpen>
+
+
 
               {
-                Object.entries(personSummaryDataList).sort().map(([abbv, person_list]) => (
+                Object.entries(personSummaryDataList).sort().map(([abbv, persons]) => (
 
-                  <div key={"abv" + abbv}>
-                    <a id={abbv}/>
-                    <h5>{abbv}</h5>
+                  <Accordion.Item key={"abv" + abbv} eventKey={"abv" + abbv}>
+                      <Accordion.Header>{abbv}</Accordion.Header>
+                      <Accordion.Body>
+                    
+
+                    <Tab.Container id="list-group-tabs" >
+                                                    <Row>
+                                                        <Col sm={4}>
+                                                            <ListGroup numbered>
+                                                                {Array.isArray(persons) ? persons.map((person) => (<Person {...person} key={person.id} />)) : ""}
+                                                            </ListGroup>
+                                                        </Col>
+                                                        <Col sm={8}>
+                                                            <Tab.Content>
+                                                                {Array.isArray(persons) ? persons.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
+                                                                }
+                                                            </Tab.Content>
+                                                        </Col>
+                                                    </Row>
+                                                </Tab.Container>
+                      </Accordion.Body>
+                 
+                   </Accordion.Item>
                    
-                    <ListGroup numbered>
-                      { Array.isArray(person_list) ?  person_list.map((person) => (<Person {...person} key={person.id} />) ) :""}
-                    </ListGroup>
-                    <p><a href="#top">Back to top</a></p>
-                  </div>
+                   
+                  
                  
                 ))
               }
 
 
-
+</Accordion>
 
 
             </Row>
@@ -142,6 +159,13 @@ export default IndexPage
             }
 
 
+
+            <p>Click to go to surnames with first three letter:</p>
+                {
+                Object.entries(personSummaryDataList).sort().map(([abbv, person_list]) => (
+                  
+                  <span key={"ab_" + abbv}><a href={"#" + abbv}>{abbv}</a> </span>
+                ))}
 */
 
 

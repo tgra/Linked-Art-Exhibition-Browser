@@ -2,7 +2,7 @@ import { Tab, ListGroup, Accordion} from 'react-bootstrap';
 
 
 
-export default function TabPanePerson({ id, _label, name, born, died, total_exhibitions, nationality, exhibitions }) {
+export default function TabPanePerson({ id, _label, name, born, died, total_exhibitions, nationality, exhibitions, gender }) {
 
     
   let idx = "/person/"
@@ -52,6 +52,7 @@ export default function TabPanePerson({ id, _label, name, born, died, total_exhi
                            <ListGroup.Item variant="dark"><h5>Born</h5>{born}</ListGroup.Item>
                            <ListGroup.Item variant="dark"><h5>Died</h5>{died}</ListGroup.Item>
                            <ListGroup.Item variant="dark"><h5>Nationality</h5>{nationality}</ListGroup.Item>
+                           <ListGroup.Item variant="dark"><h5>Gender</h5>{gender}</ListGroup.Item>
                        </ListGroup>
             
                       <br/>
