@@ -1,6 +1,5 @@
 import Head from 'next/head'
 
-import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
 
 import { ParsedUrlQuery } from 'querystring'
 import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';

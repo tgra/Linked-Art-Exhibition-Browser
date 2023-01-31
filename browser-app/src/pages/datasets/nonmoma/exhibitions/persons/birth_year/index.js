@@ -55,6 +55,7 @@ const IndexPage = ({
 
                         <Row>
                             <Col>
+                            <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
                             <Breadcrumb>
                                 <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
                                <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>

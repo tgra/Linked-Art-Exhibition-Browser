@@ -46,10 +46,10 @@ export default function TabPanePerson({ id, _label, name, born, died, total_exhi
             
             
             
-                       <ListGroup horizontal>
+                       <ListGroup>
             
                           
-                           <ListGroup.Item variant="dark"><h5>Born</h5>{born}</ListGroup.Item>
+                           <ListGroup.Item variant="dark"><h5>Born</h5><a href={"/datasets/combined/indexes/person/birth_date/" + born}>{born}</a></ListGroup.Item>
                            <ListGroup.Item variant="dark"><h5>Died</h5>{died}</ListGroup.Item>
                            <ListGroup.Item variant="dark"><h5>Nationality</h5>{nationality}</ListGroup.Item>
                            <ListGroup.Item variant="dark"><h5>Gender</h5>{gender}</ListGroup.Item>

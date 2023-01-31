@@ -15,8 +15,44 @@ const person_dir = "/persons"
 
 const persons_all_born = data_dir + "/summary/persons/persons_all_born.json"
 
+export async function GetPersons() {
+    let file = persons_all
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+    const personList = (result.persons)
+    return personList
+}
+
+export async function GetPersonsByEx(exid) {
+
+    let person_list = []
+    let file = persons_all
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+
+    result.persons.forEach(function (person) {
+        if ("exhibitions" in person) {
+            person.exhibitions.forEach(function (ex) {
+                let id = ex.id.split("/").pop()
+                if (id == exid) { person_list.push(person) }
+            })
+        }
+    })
+
+    person_list = person_list.sort(function (first, second) {
+        let a = second.name
+        let b = first.name
+        if (a > b) { return -1; }
+        if (b > a) { return 1; }
+        return 0;
+    })
+
+    return person_list
+}
+
+
 export async function GetPersonsByBirthYear(year) {
-    let file = persons_all_born 
+    let file = persons_all_born
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -30,7 +66,7 @@ export async function GetPersonsByBirthYear(year) {
 
     return result.persons[year]
 }
-    
+
 
 // GetPersonsByNationalityBirthYear
 export async function GetPersonsByNationalityBirthYear(nationality) {
@@ -137,8 +173,8 @@ export async function GetPersonsByNationality() {
         nationality_dict[nationality].push(person)
 
 
-   
-        
+
+
     }
 
     return (nationality_dict)

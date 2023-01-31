@@ -1,18 +1,17 @@
 import Link from 'next/link'
 import Head from 'next/head'
 
-import {Row, Col, ListGroup, CardGroup, Card, Breadcrumb,Container } from 'react-bootstrap';
+
+import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
+import Person from '/components/personlistgrouptab'
+import TabPanePerson from '/components/tabpaneperson'
 
 import React from 'react'
-import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
-import { ParsedUrlQuery } from 'querystring'
 
 import { GetExs, GetEx } from '/lib/exhibition'
-import ExNav from '/components/exnav'
+import { GetPersonsByEx } from '/lib/person'
 
 import Map from '/components/Map';
-import styles from '../../styles/Home.module.css';
-
 
 
 
@@ -41,16 +40,18 @@ export const getStaticProps = async (
 ) => {
     const { id } = context.params
     const exData = await GetEx(parseInt(id))
+    const person_list = await GetPersonsByEx(id)
+   
     return {
         props: {
-            exData,
+            exData, person_list
         },
     }
 }
 
 
 
-const Ex = ({ exData }) => {
+const Ex = ({ exData, person_list }) => {
 
     if (exData == undefined) {
         return <div>processing...</div>
@@ -61,84 +62,87 @@ const Ex = ({ exData }) => {
     DEFAULT_CENTER = DEFAULT_CENTER.split(")")[0]
     DEFAULT_CENTER = DEFAULT_CENTER.split(" ")
 
-    
-
-    
-    
-
     return (
-        <div>
+        <SSRProvider>
             <Head>
                 <title> Alternative New York Exhibition - Exhibition</title>
-                <script src="https://unpkg.com/react/umd/react.production.min.js"  async></script>
+                <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
                     integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
                     crossOrigin="anonymous" />
-                    
+
             </Head>
-            <Container>
-                <Row>
-                    <Col>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
 
-                    <Breadcrumb.Item active href="#">Exhibition</Breadcrumb.Item>
-                    <Breadcrumb.Item active href="#">{exData._label}</Breadcrumb.Item>
-                </Breadcrumb>
-                </Col>
-                </Row>
-                <Row>
-                   
-                    <Col>
+            <main>
 
-                <h2>Exhibition: {exData._label}</h2>
+                <Container>
 
+                    <Row>
+                        <Col>
+                            <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
 
-                <h3>Exhibition Dates</h3>
+           
+         
+            
 
-                <p>{new Date(exData.timespan?.begin_of_the_begin).toDateString()}  to  {new Date(exData.timespan?.end_of_the_end).toDateString()}
-                      </p>   
-                      
-                      <h3>Location</h3>
-<p>Venue: {exData.took_place_at[0]._label}</p>
-<p>Coordinates: {exData.took_place_at[0].defined_by}</p>
-                
-              
+                        <Breadcrumb>
+                            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
 
-                    
-                   
-
+                            <Breadcrumb.Item active href="#">Exhibition</Breadcrumb.Item>
                             
-                                <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15}>
-          {({ TileLayer, Marker, Popup }) => (
-            <div>
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                
-              />
-              <Marker position={DEFAULT_CENTER}>
-                <Popup>
-                 Exhibition
-                </Popup>
-              </Marker>
-            </div>
-          )}
-        </Map>       
-               
-                
-        <br/><br/>
-                                
-                           
+                        </Breadcrumb>
+                   
+                   </Col>
+                   </Row>
+                <Row>
+
+                    <Col>
+
+                        <h2>Title: {exData._label}</h2>
+
+
+                        <h3>Date</h3>
+
+                        <p>{new Date(exData.timespan?.begin_of_the_begin).toDateString()}  until {new Date(exData.timespan?.end_of_the_end).toDateString()}
+                        </p>
+
+                        <h3>Location</h3>
+                        <p>Venue: {exData.took_place_at[0]._label}</p>
+                        <h3>Artists and other Influencers</h3>
+                       
+
+
+                        <Tab.Container id="list-group-tabs" >
+                                                    <Row>
+                                                        <Col sm={4}>
+                                                            <ListGroup numbered>
+                                                                {Array.isArray(person_list) ? person_list.map((person) => (<Person {...person} key={person.id} />)) : ""}
+                                                            </ListGroup>
+                                                        </Col>
+                                                        <Col sm={8}>
+                                                            <Tab.Content>
+                                                                {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
+                                                                }
+                                                            </Tab.Content>
+                                                        </Col>
+                                                    </Row>
+                                                </Tab.Container>
+
+
+                       
                        
 
 
 
-                    
-                    
-                    </Col>
-                    </Row>
+</Col>
+
+
+                   
+           
+            </Row>
             </Container>
-        </div>
+            </main>
+        </SSRProvider>
     )
 }
 
@@ -195,4 +199,21 @@ let influencers = exData.influenced_by
     </ListGroup.Item> ))}
                             
                                     </ListGroup>
+
+                                    <p>Coordinates: {exData.took_place_at[0].defined_by}</p>
+                        <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15}>
+                            {({ TileLayer, Marker, Popup }) => (
+                                <div>
+                                    <TileLayer
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+
+                                    />
+                                    <Marker position={DEFAULT_CENTER}>
+                                        <Popup>
+                                            Exhibition
+                                        </Popup>
+                                    </Marker>
+                                </div>
+                            )}
+                        </Map>
 */

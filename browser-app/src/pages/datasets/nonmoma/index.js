@@ -28,8 +28,8 @@ export default function Home() {
                             <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
                             <Breadcrumb>
                                 <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                                <Breadcrumb.Item href="../">Datasets</Breadcrumb.Item>
-                                <Breadcrumb.Item>non-MoMA</Breadcrumb.Item>
+                                <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
+                                <Breadcrumb.Item href="/dataset/nonmoma">non-MoMA</Breadcrumb.Item>
                             </Breadcrumb>
 
 
@@ -54,7 +54,17 @@ export default function Home() {
       </Card.Body>
     </Card>
     </Col>
-
+    <Col>
+<Card  style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title> Start date</Card.Title>
+        <Card.Text>
+         View non-MoMA exhibitions ordered by start date.
+        </Card.Text>
+        <Button href="exhibitions/start_date" variant="primary">Go</Button>
+      </Card.Body>
+    </Card>
+    </Col>
     </Row>
     <h2>Persons</h2>
     <Row>

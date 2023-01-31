@@ -1,7 +1,4 @@
 import Head from 'next/head'
-import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
-
-import { ParsedUrlQuery } from 'querystring'
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'

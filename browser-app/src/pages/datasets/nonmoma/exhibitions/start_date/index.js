@@ -8,7 +8,7 @@ import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } fr
 import Ex from '/components/ex'
 
 // api
-import { GetExsStartdateMoma } from '/lib/exhibition'
+import { GetExsStartdateNonmoma } from '/lib/exhibition'
 
 
 
@@ -17,7 +17,7 @@ export const getStaticProps = async (
     context
 ) => {
 
-    const exs = await GetExsStartdateMoma()
+    const exs = await GetExsStartdateNonmoma()
 
     return {
         props: {
@@ -72,7 +72,7 @@ const IndexPage = ({
                             <Breadcrumb>
                                 <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
                                <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
-                               <Breadcrumb.Item href="/datasets/moma">MoMA</Breadcrumb.Item>
+                               <Breadcrumb.Item href="/datasets/combined">non-MoMA</Breadcrumb.Item>
                                <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
                                <Breadcrumb.Item>Start date</Breadcrumb.Item>
                             </Breadcrumb>
@@ -83,7 +83,7 @@ const IndexPage = ({
                     <Row>
                         <Col>
                         <h1>Exhibitions ordered by start date</h1>
-                                <ul><li>Dataset:MoMA</li></ul>
+                                <ul><li>Dataset:non-MoMA</li></ul>
 
 
                             
