@@ -5,7 +5,7 @@ import { Inter } from '@next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 
-import {Card, Button, Container, Row, Col} from 'react-bootstrap'
+import {Card, CardGroup, Button, Container, Row, Col} from 'react-bootstrap'
 export default function Home() {
   return (
     <>
@@ -39,11 +39,11 @@ export default function Home() {
           </Row>
       <Row>
         <Col>
-
+        <CardGroup>
 {process.env.top_level_entry.map((entry) => (
 
 
-<Card key={entry.path} style={{ width: '18rem' }}>
+<Card bg="light" key={entry.path} style={{ width: '18rem' }}>
       <Card.Body>
         <Card.Title>{entry.label}</Card.Title>
         <Card.Text>
@@ -55,7 +55,7 @@ export default function Home() {
   
 
 ))}
-
+</CardGroup>
 </Col>
       </Row>
     </Container>

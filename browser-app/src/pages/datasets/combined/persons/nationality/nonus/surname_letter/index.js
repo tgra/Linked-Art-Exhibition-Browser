@@ -5,13 +5,13 @@ import Person from '/components/personlistgrouptab'
 import TabPanePerson from '/components/tabpaneperson'
 
 
-import { GetPersonsSurnameLetterUS } from '/lib/person'
+import { GetPersonsSurnameLetterNonUS } from '/lib/person'
 
 
 export const getStaticProps = async (context) => {
 
 
-    const persons = await GetPersonsSurnameLetterUS()
+    const persons = await GetPersonsSurnameLetterNonUS()
 
     return {
         props: {
@@ -62,7 +62,7 @@ const IndexPage = ({
                                     <Breadcrumb.Item href="../../../../">Combined</Breadcrumb.Item>
                                     <Breadcrumb.Item>Persons</Breadcrumb.Item>
                                     <Breadcrumb.Item>Nationality</Breadcrumb.Item>
-                                    <Breadcrumb.Item>US</Breadcrumb.Item>
+                                    <Breadcrumb.Item>non-US</Breadcrumb.Item>
                                     <Breadcrumb.Item>Surname letter</Breadcrumb.Item>
                                 </Breadcrumb>
                                 
@@ -70,7 +70,7 @@ const IndexPage = ({
                                 <h1>Persons - ordered by surname letter  </h1>
                                 <ul>
                                     <li>Dataset:Combined</li>
-                                    <li>Nationality:US</li>
+                                    <li>Nationality:non-US</li>
                                 </ul>
 
                                 

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import { Breadcrumb, Button, Container, Card, Row, Col } from 'react-bootstrap'
+import { CardGroup, Breadcrumb, Button, Container, Card, Row, Col } from 'react-bootstrap'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,9 +27,9 @@ export default function Home() {
                         <Col>
                             <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
                             <Breadcrumb>
-                                <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                                <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
-                                <Breadcrumb.Item href="/dataset/nonmoma">non-MoMA</Breadcrumb.Item>
+                                <Breadcrumb.Item href="../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                                <Breadcrumb.Item href="../">Datasets</Breadcrumb.Item>
+                                <Breadcrumb.Item>non-MoMA</Breadcrumb.Item>
                             </Breadcrumb>
 
 
@@ -39,12 +39,13 @@ export default function Home() {
 
 
 
-                    <h1>Dataset:non-MoMA</h1>
+                    <h1>Non-MoMA Dataset</h1>
 
 
                    <h2>Exhibitions</h2>
                    <Col>
-<Card  style={{ width: '18rem' }}>
+                   <CardGroup>
+<Card  bg="light">
       <Card.Body>
         <Card.Title>Organisation / Start date</Card.Title>
         <Card.Text>
@@ -53,9 +54,8 @@ export default function Home() {
         <Button href="exhibitions/organisation/start_date" variant="primary">Go</Button>
       </Card.Body>
     </Card>
-    </Col>
-    <Col>
-<Card  style={{ width: '18rem' }}>
+    
+<Card  bg="light">
       <Card.Body>
         <Card.Title> Start date</Card.Title>
         <Card.Text>
@@ -64,14 +64,15 @@ export default function Home() {
         <Button href="exhibitions/start_date" variant="primary">Go</Button>
       </Card.Body>
     </Card>
+    </CardGroup>
     </Col>
     </Row>
     <h2>Persons</h2>
     <Row>
     <Col>
-        <Card  style={{ width: '18rem' }}>
+        <Card  bg="light">
       <Card.Body>
-        <Card.Title>Persons / Birth year</Card.Title>
+        <Card.Title>Birth year</Card.Title>
         <Card.Text>
          View people involved in non-MoMA exhibitions ordered by birth year.
         </Card.Text>

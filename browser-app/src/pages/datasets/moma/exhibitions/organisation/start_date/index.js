@@ -76,13 +76,13 @@ const IndexPage = ({
   
             <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
                             <Breadcrumb>
-                                <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                                <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
-                                <Breadcrumb.Item href="/datasets/moma">MoMA</Breadcrumb.Item>
+                                <Breadcrumb.Item href="../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                                <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
+                                <Breadcrumb.Item href="../../../">MoMA</Breadcrumb.Item>
                                
-                                <Breadcrumb.Item >Exhibitions</Breadcrumb.Item>
-                                <Breadcrumb.Item  >Organisation</Breadcrumb.Item>
-                                <Breadcrumb.Item  >Start date</Breadcrumb.Item>
+                                <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
+                                <Breadcrumb.Item>Organisation</Breadcrumb.Item>
+                                <Breadcrumb.Item>Start date</Breadcrumb.Item>
                             </Breadcrumb>
 
 

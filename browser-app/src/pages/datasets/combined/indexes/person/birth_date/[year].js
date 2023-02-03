@@ -10,15 +10,15 @@ import TabPanePerson from '/components/tabpaneperson'
 
 
 
-import { GetPersonsByBirthYear } from '/lib/person'
+import { GetPersonsByBirthYear, GetPersonsBirthYearAll } from '/lib/person'
 
 
 export const getStaticPaths = async () => {
 
-  const years = []
+  const years = GetPersonsBirthYearAll()
 
   return {
-    paths: years.map((year) => {
+    paths: Array.from(years).map((year) => {
       return { params: { year: year, dataset: "combined" } }
     }),
     fallback: true,
@@ -79,12 +79,12 @@ const IndexPage = ({
             <Row>
               <Col>
                 <Breadcrumb>
-                  <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                  <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
-                  <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
+                  <Breadcrumb.Item href="../../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                  <Breadcrumb.Item href="../../../../../">Datasets</Breadcrumb.Item>
+                  <Breadcrumb.Item href="../../../../">Combined</Breadcrumb.Item>
                   <Breadcrumb.Item>Indexes</Breadcrumb.Item>
                   <Breadcrumb.Item>Persons</Breadcrumb.Item>
-                  <Breadcrumb.Item  >Birth year</Breadcrumb.Item>
+                  <Breadcrumb.Item>Birth year</Breadcrumb.Item>
                   <Breadcrumb.Item>{year}</Breadcrumb.Item>
                 </Breadcrumb>
 

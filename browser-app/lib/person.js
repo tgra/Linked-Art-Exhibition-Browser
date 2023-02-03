@@ -68,6 +68,23 @@ export async function GetPersonsByBirthYear(year) {
 }
 
 
+// return list of all birth years in dataset
+
+export async function GetPersonsBirthYearAll() {
+    let file = persons_all_born
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+
+
+   
+    return Object.keys(result.count)
+
+    
+
+}
+    
+
+
 // GetPersonsByNationalityBirthYear
 export async function GetPersonsByNationalityBirthYear(nationality) {
     let file = data_dir + "/summary/persons/persons_" + nationality.toLowerCase() + "_born.json"
@@ -183,9 +200,9 @@ export async function GetPersonsByNationality() {
 
 // GetPersonsSurnameByLetter
 
-export async function GetPersonsSurnameLetter() {
+export async function GetPersonsSurnameLetterUS() {
 
-    let ignore_list = ["American"]
+    let lang_list = ["American"]
     let name_dict = {}
 
     let file = persons_all
@@ -197,13 +214,15 @@ export async function GetPersonsSurnameLetter() {
 
         let name = person["name"]
         let nationality = person["nationality"]
-
+        if (nationality == undefined || nationality == "") {
+            continue
+        }
         let value = name.split("")[0]
 
         if (value == undefined || value == "") {
             continue
         }
-        if (ignore_list.includes(nationality) == false) {
+        if (lang_list.includes(nationality) == false) {
             continue
         }
 
@@ -216,6 +235,41 @@ export async function GetPersonsSurnameLetter() {
     return (name_dict)
 }
 
+export async function GetPersonsSurnameLetterNonUS() {
+
+    let lang_list = ["American"]
+    let name_dict = {}
+
+    let file = persons_all
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+
+    for (var idx in result.persons) {
+        let person = result.persons[idx]
+
+        let name = person["name"]
+        let nationality = person["nationality"]
+        if (nationality == undefined || nationality == "") {
+            continue
+        }
+        let value = name.split("")[0]
+
+        if (value == undefined || value == "") {
+            continue
+        }
+        if (lang_list.includes(nationality) == true) {
+            continue
+        }
+
+
+        if (name_dict[value] == undefined) {
+            name_dict[value] = []
+        }
+        name_dict[value].push(person)
+    }
+
+    return (name_dict)
+}
 
 //  GetPersonSurnamesFirstLetter
 

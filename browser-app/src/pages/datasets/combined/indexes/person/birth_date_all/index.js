@@ -47,12 +47,11 @@ const IndexPage = ({
                         <Row>
                             <Col>
                                 <Breadcrumb>
-                                <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                  <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
-                  <Breadcrumb.Item href="/datasets/combined">Combined</Breadcrumb.Item>
+                                <Breadcrumb.Item href="../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                  <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
+                  <Breadcrumb.Item href="../../../">Combined</Breadcrumb.Item>
                   <Breadcrumb.Item>Indexes</Breadcrumb.Item>
                   <Breadcrumb.Item>Persons</Breadcrumb.Item>
-                 
                   <Breadcrumb.Item  >Birth year</Breadcrumb.Item>
                   <Breadcrumb.Item>All</Breadcrumb.Item>
             
@@ -69,7 +68,7 @@ const IndexPage = ({
                         <ListGroup>
                                 {
                                     Object.entries(years).map(([key, value]) => (
-                                        <ListGroup.Item key={"born_" + key} variant="dark" action href={"/datasets/combined/indexes/person/birth_date/" + key}> {key} ({value})</ListGroup.Item>
+                                        <ListGroup.Item key={"born_" + key} variant="dark" action href={"../birth_date/" + key}> {key} ({value})</ListGroup.Item>
                                     ))}
 
                             </ListGroup>

@@ -1,5 +1,5 @@
 import { Tab, ListGroup, Accordion} from 'react-bootstrap';
-
+import Link from 'next/link'
 
 
 export default function TabPanePerson({ id, _label, name, born, died, total_exhibitions, nationality, exhibitions, gender }) {
@@ -49,7 +49,7 @@ export default function TabPanePerson({ id, _label, name, born, died, total_exhi
                        <ListGroup>
             
                           
-                           <ListGroup.Item variant="dark"><h5>Born</h5><a href={"/datasets/combined/indexes/person/birth_date/" + born}>{born}</a></ListGroup.Item>
+                           <ListGroup.Item variant="dark"><h5>Born</h5><Link href={"/datasets/combined/indexes/person/birth_date/" + born}>{born}</Link></ListGroup.Item>
                            <ListGroup.Item variant="dark"><h5>Died</h5>{died}</ListGroup.Item>
                            <ListGroup.Item variant="dark"><h5>Nationality</h5>{nationality}</ListGroup.Item>
                            <ListGroup.Item variant="dark"><h5>Gender</h5>{gender}</ListGroup.Item>
@@ -73,7 +73,7 @@ export default function TabPanePerson({ id, _label, name, born, died, total_exhi
                                        <ListGroup numbered >
                                   {
                                exhibitions?.map((ex) => (
-                                   <ListGroup.Item variant="light" key={'influenced' + ex.id} action href={'/exhibition/' + ex.id.split("/").pop()}>
+                                   <ListGroup.Item variant="light" key={'influenced' + ex.id} action href={ process.env.basePath + '/exhibition/' + ex.id.split("/").pop()}>
                                        {ex.start.split("T")[0]}<h5>{ex._label}</h5></ListGroup.Item>
                                ))}
                                 </ListGroup>

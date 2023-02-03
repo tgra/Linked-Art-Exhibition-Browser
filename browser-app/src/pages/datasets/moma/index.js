@@ -4,7 +4,7 @@ import { Inter } from '@next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
-import { Breadcrumb, Button, Container, Card, Row, Col } from 'react-bootstrap'
+import { CardGroup, Breadcrumb, Button, Container, Card, Row, Col } from 'react-bootstrap'
 export default function Home() {
   return (
     <>
@@ -26,9 +26,9 @@ export default function Home() {
             <Col>
               <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
               <Breadcrumb>
-                <Breadcrumb.Item href="/">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                <Breadcrumb.Item href="/datasets">Datasets</Breadcrumb.Item>
-                <Breadcrumb.Item href="/datasets/moma">MoMA</Breadcrumb.Item>
+                <Breadcrumb.Item href="../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                <Breadcrumb.Item href="../">Datasets</Breadcrumb.Item>
+                <Breadcrumb.Item >MoMA</Breadcrumb.Item>
               </Breadcrumb>
 
 
@@ -38,7 +38,7 @@ export default function Home() {
 
 
 
-              <h1>Dataset:MoMA</h1>
+              <h1>MoMA Dataset</h1>
             </Col>
           </Row>
 
@@ -49,13 +49,13 @@ export default function Home() {
             </Col>
           </Row>
 
-
+<Row><Col>
 
 
           <h2>Exhibitions</h2>
 
-          <Col>
-            <Card style={{ width: '18rem' }}>
+          <CardGroup>
+            <Card bg="light">
               <Card.Body>
                 <Card.Title>Organisation / Start date</Card.Title>
                 <Card.Text>
@@ -64,9 +64,8 @@ export default function Home() {
                 <Button href="exhibitions/organisation/start_date" variant="primary">Go</Button>
               </Card.Body>
             </Card>
-          </Col>
-          <Col>
-            <Card style={{ width: '18rem' }}>
+          
+            <Card bg="light">
               <Card.Body>
                 <Card.Title>Start date</Card.Title>
                 <Card.Text>
@@ -75,7 +74,8 @@ export default function Home() {
                 <Button href="exhibitions/start_date" variant="primary">Go</Button>
               </Card.Body>
             </Card>
-          </Col>
+            </CardGroup>
+            </Col></Row>
         </Container>
       </main>
     </>

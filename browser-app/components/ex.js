@@ -4,7 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function Ex({ id, _label}) {
 
-  let idx = "/exhibition/" + id.split("/").pop()
+  let idx =  process.env.basePath +  "/exhibition/" + id.split("/").pop()
   
 
   return (

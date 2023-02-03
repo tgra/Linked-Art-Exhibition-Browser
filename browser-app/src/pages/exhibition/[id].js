@@ -86,9 +86,9 @@ const Ex = ({ exData, person_list }) => {
             
 
                         <Breadcrumb>
-                            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+                            <Breadcrumb.Item href={process.env.basePath }>Home</Breadcrumb.Item>
 
-                            <Breadcrumb.Item active href="#">Exhibition</Breadcrumb.Item>
+                            <Breadcrumb.Item >Exhibition</Breadcrumb.Item>
                             
                         </Breadcrumb>
                    
