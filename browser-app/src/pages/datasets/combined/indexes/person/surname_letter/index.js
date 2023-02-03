@@ -76,7 +76,7 @@ const IndexPage = ({
                                 {
                                     alphabet?.sort().map((key) => (
 
-                                        <ListGroup.Item variant="dark" key={"but" + key} action href={"/datasets/combined/indexes/person/surname_letter/letter/" + key} >{key}</ListGroup.Item>
+                                        <ListGroup.Item variant="dark" key={"but" + key} action href={"letter/" + key + "/"} >{key}</ListGroup.Item>
 
                                     ))}
 

@@ -1,13 +1,8 @@
 import Head from 'next/head'
 
-import { ParsedUrlQuery } from 'querystring'
-
-
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
 import TabPanePerson from '/components/tabpaneperson'
-
-
 
 
 import { GetPersonsByBirthYear, GetPersonsBirthYearAll } from '/lib/person'
@@ -15,11 +10,13 @@ import { GetPersonsByBirthYear, GetPersonsBirthYearAll } from '/lib/person'
 
 export const getStaticPaths = async () => {
 
-  const years = GetPersonsBirthYearAll()
+  let years = await GetPersonsBirthYearAll()
+
+  years = Array.from(years)
 
   return {
-    paths: Array.from(years).map((year) => {
-      return { params: { year: year, dataset: "combined" } }
+    paths: years.map((year) => {
+      return { params: { year: year } }
     }),
     fallback: true,
   }
@@ -30,6 +27,8 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
 
   const { year } = context.params
+
+  console.log(year)
   let persons = await GetPersonsByBirthYear(year)
 
   if (persons == undefined) {
