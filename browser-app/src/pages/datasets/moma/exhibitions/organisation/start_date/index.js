@@ -1,5 +1,6 @@
 import Head from 'next/head'
 
+import Link from 'next/link'
 import { ParsedUrlQuery } from 'querystring'
 import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
 
@@ -88,8 +89,8 @@ const IndexPage = ({
                     </Row>
                     <Row>
                         <Col>
-                        <h1>Exhibitions - ordered by organisation and exhibition start date  </h1>
-                                <ul><li>Dataset:MoMA</li></ul>
+                        <h2>MoMA Exhibitions</h2>
+                                <ul><li>Order: organisation / start date</li></ul>
 
                             
 
@@ -101,8 +102,9 @@ const IndexPage = ({
                                 <Accordion.Item key={"section_" + org} eventKey={"section_" + org}>
                                     <Accordion.Header>{org} ({exSummaryDataList["counter"][org]} exhibition)</Accordion.Header>
                                     <Accordion.Body>
-
-
+<p>
+                                    <Link href={"/datasets/combined/exhibitions/" + org + "/"}>View the exhibitions carried out by <i>{org}</i> on a separate page</Link>
+                                    </p>                       
                                         <Container>
                                             <Accordion alwaysOpen>
                                                 {

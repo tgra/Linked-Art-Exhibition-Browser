@@ -28,7 +28,6 @@ export const getStaticProps = async (context) => {
 
   const { year } = context.params
 
-  console.log(year)
   let persons = await GetPersonsByBirthYear(year)
 
   if (persons == undefined) {
@@ -47,7 +46,7 @@ export const getStaticProps = async (context) => {
 
 
 const IndexPage = ({
-  persons, year, dataset
+  persons, year
 }) => {
 
 
@@ -93,7 +92,7 @@ const IndexPage = ({
               </Col>
             </Row>
             <Row>
-
+<p>In this dataset, there were <b>{Object.keys(persons).length}</b> people born in <b>{year}</b>.</p>
               <Accordion alwaysOpen>
                 {
                   Object.entries(persons).sort().map(([letter, persons]) => (

@@ -41,15 +41,10 @@ const IndexPage = ({
                         crossOrigin="anonymous"
                     ></link>
                     <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
-
                 </Head>
-
                 <main>
-
-
                     <Container>
                         <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
-
                         <Row>
                             <Col>
                                 <Breadcrumb>
@@ -60,35 +55,18 @@ const IndexPage = ({
                                     <Breadcrumb.Item >Surname first letter</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Index: Surname first letter</h1>
-
-
-
-
-
-
                             </Col>
                         </Row>
                         <Row>
-
                             <ListGroup>
-
-
                                 {
                                     alphabet?.sort().map((key) => (
-
-                                        <ListGroup.Item variant="dark" key={"but" + key} action href={"letter/" + key + "/"} >{key}</ListGroup.Item>
-
+                                        <ListGroup.Item variant="dark" key={"but" + key} action href={"./letter/" + key + "/"} >{key}</ListGroup.Item>
                                     ))}
-
                             </ListGroup>
-
-
                         </Row>
-
-
                     </Container>
                 </main>
-
             </div>
         </SSRProvider>
     )

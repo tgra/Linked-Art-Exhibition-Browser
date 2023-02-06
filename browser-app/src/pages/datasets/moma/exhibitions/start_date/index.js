@@ -81,9 +81,11 @@ const IndexPage = ({
                     </Row>
                     <Row>
                         <Col>
-                        <h1>Exhibitions ordered by start date</h1>
-                                <ul><li>Dataset:MoMA</li></ul>
-
+                     
+                                <h2>MoMA Exhibitions</h2>
+                                <ul><li>Order:  start date</li>
+                                <li>Organisations:  MoMA</li>
+                                </ul>
 
                             
 

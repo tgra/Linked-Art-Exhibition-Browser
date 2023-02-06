@@ -33,6 +33,34 @@ export async function GetExsOrganisation() {
     return (result)
 }
 
+export async function GetExsSelectedOrganisation(org) {
+
+   
+    let file =  data_dir + "/summary/events_all_org.json"
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+
+    let events = result.events[org]
+
+    
+   
+
+
+    return ({"events":events})
+}
+
+export async function GetExsOrganisationAll() {
+
+    let file =  data_dir + "/summary/events_all_org.json"
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+    let orgs = Object.keys(result.counter)
+
+    return (orgs)
+}
+
+
+
 export async function GetExsStartDate() {
 
     let file =  data_dir + "/summary/events_all_startdate.json"

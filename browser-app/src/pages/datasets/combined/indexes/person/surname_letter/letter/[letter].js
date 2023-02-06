@@ -78,9 +78,9 @@ const IndexPage = ({
 <Row>
     <Col>
         <Breadcrumb>
-        <Breadcrumb.Item href="../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                  <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
-                  <Breadcrumb.Item href="../../../">Combined</Breadcrumb.Item>
+        <Breadcrumb.Item href="../../../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                  <Breadcrumb.Item href="../../../../../../">Datasets</Breadcrumb.Item>
+                  <Breadcrumb.Item href="../../../../../">Combined</Breadcrumb.Item>
                   <Breadcrumb.Item>Indexes</Breadcrumb.Item>
                   <Breadcrumb.Item>Persons</Breadcrumb.Item>
                  

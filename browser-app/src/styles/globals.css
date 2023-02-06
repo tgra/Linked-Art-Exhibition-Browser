@@ -1,4 +1,18 @@
 
+.ex_summary {
+  background-color: #d3d3d4;
+  padding:10px;
+  border-radius: 10px;
+ 
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100vh;
+}
+
+
+
 Breadcrumb, Breadcrumb.item {
 
   background-color: whitesmoke;

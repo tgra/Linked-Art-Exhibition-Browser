@@ -1,13 +1,25 @@
 import Head from 'next/head'
 
-import Link from 'next/link'
 
+import { ParsedUrlQuery } from 'querystring'
 import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
 
 import Ex from '/components/ex'
 
 // api
-import { GetExsOrganisation } from '/lib/exhibition'
+import { GetExsOrganisationAll, GetExsSelectedOrganisation } from '/lib/exhibition'
+
+export const getStaticPaths = async () => {
+
+    let organisations = await GetExsOrganisationAll()
+  
+    return {
+      paths: organisations.map((organisation) => {
+        return { params: { organisation: organisation } }
+      }),
+      fallback: true,
+    }
+  }
 
 
 
@@ -16,11 +28,13 @@ export const getStaticProps = async (
     context
 ) => {
 
-    const exs = await GetExsOrganisation()
+    const { organisation } = context.params
+
+    const exs = await GetExsSelectedOrganisation(organisation)
 
     return {
         props: {
-            exSummaryDataList: exs
+            exSummaryDataList: exs, organisation: organisation
 
 
 
@@ -29,7 +43,7 @@ export const getStaticProps = async (
 }
 
 const IndexPage = ({
-    exSummaryDataList
+    exSummaryDataList, organisation
 }) => {
 
     if (exSummaryDataList == undefined) {
@@ -39,16 +53,8 @@ const IndexPage = ({
 
         var events = Object.keys(exSummaryDataList["events"]).sort()
 
-        let index = events.indexOf("The Museum of Modern Art");
-        if (index > -1) { // only splice array when item is found
-            events.splice(index, 1); // 2nd parameter means remove one item only
-        }
-         index = events.indexOf("MoMA PS1");
-        if (index > -1) { // only splice array when item is found
-            events.splice(index, 1); // 2nd parameter means remove one item only
-        }
 
-     
+  
 
     } else {
         return (<SSRProvider><div></div></SSRProvider>)
@@ -78,12 +84,12 @@ const IndexPage = ({
                         <Col>
                         <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
                             <Breadcrumb>
-                                <Breadcrumb.Item href="../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                               <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
-                               <Breadcrumb.Item href="../../../">non-MoMA</Breadcrumb.Item>
+                                <Breadcrumb.Item href="../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                               <Breadcrumb.Item href="../../../">Datasets</Breadcrumb.Item>
+                               <Breadcrumb.Item href="../../">Combined</Breadcrumb.Item>
                                <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
-                               <Breadcrumb.Item >Organisation</Breadcrumb.Item>
-                               <Breadcrumb.Item>Start date</Breadcrumb.Item>
+                               <Breadcrumb.Item >Organisation : {organisation}</Breadcrumb.Item>
+                               
                             </Breadcrumb>
 
 
@@ -91,33 +97,22 @@ const IndexPage = ({
                     </Row>
                     <Row>
                         <Col>
-                        <h1>Exhibitions - ordered by organisation and exhibition start date  </h1>
-                                <ul><li>Dataset:non-MoMA</li></ul>
-
-
+                        <h2>Exhibitions carried out by: <i>{organisation}</i></h2>
                             
-
                         </Col>
                     </Row>
                     <Row>
-                        <Accordion alwaysOpen>
-                            {events.map((org) => (
-                                <Accordion.Item key={"section_" + org} eventKey={"section_" + org}>
-                                    <Accordion.Header>{org} ({exSummaryDataList["counter"][org]} exhibition)</Accordion.Header>
-                                    <Accordion.Body>
-
-                                    <Link href={"/datasets/combined/exhibitions/" + org + "/"}>View the exhibitions carried out by <i>{org}</i> on a separate page</Link>
-                                 
+                     
                                         <Container>
                                             <Accordion alwaysOpen>
                                                 {
-                                                    Object.keys(exSummaryDataList["events"][org]).sort().map((year) => (
+                                                    Object.keys(exSummaryDataList["events"]).sort().map((year) => (
 
-                                                        <Accordion.Item key={"section_" + org + year} eventKey={"section_" + org + year}>
+                                                        <Accordion.Item key={"section_" + year} eventKey={"section_" + year}>
                                                             <Accordion.Header>{year}</Accordion.Header>
                                                             <Accordion.Body>
                                                                 {
-                                                                    Object.keys(exSummaryDataList["events"][org][year]).sort().map((month) => (
+                                                                    Object.keys(exSummaryDataList["events"][year]).sort().map((month) => (
                                                                         <Row key={"month" + month} >
                                                                             <Col>
 
@@ -125,7 +120,7 @@ const IndexPage = ({
 
                                                                                 <ListGroup>
                                                                                     {
-                                                                                        exSummaryDataList["events"][org][year][month].map((ex) => (<Ex {...ex} key={"ex_" + ex.id} />))
+                                                                                        exSummaryDataList["events"][year][month].map((ex) => (<Ex {...ex} key={"ex_" + ex.id} />))
                                                                                     }
                                                                                 </ListGroup>
 
@@ -143,18 +138,7 @@ const IndexPage = ({
 
                                                 }
                                             </Accordion>
-
                                         </Container>
-
-
-
-                                    </Accordion.Body>
-                                </Accordion.Item>
-
-                            ))}
-                        </Accordion>
-
-
 
                     </Row></Container>
 
