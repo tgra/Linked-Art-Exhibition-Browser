@@ -50,18 +50,12 @@ const IndexPage = ({
         return (<SSRProvider><div></div></SSRProvider>)
     }
     if (Object.keys(exSummaryDataList).includes("events")) {
-
         var events = Object.keys(exSummaryDataList["events"]).sort()
-
-
-  
-
     } else {
         return (<SSRProvider><div></div></SSRProvider>)
-
     }
 
-
+    
     var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 

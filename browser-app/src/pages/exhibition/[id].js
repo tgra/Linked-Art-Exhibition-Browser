@@ -2,13 +2,14 @@ import Link from 'next/link'
 import Head from 'next/head'
 
 
-import { Tab, Row, Col, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
+import { Tab, Row, Col, ListGroup, Breadcrumb, Container, SSRProvider, ListGroupItem } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
 import TabPanePerson from '/components/tabpaneperson'
 
 
 
-import { GetExs, GetEx } from '/lib/exhibition'
+
+import { GetExs, GetEx, GetExsSameDate } from '/lib/exhibition'
 import { GetPersonsByEx } from '/lib/person'
 
 import React from "react";
@@ -42,18 +43,22 @@ export const getStaticProps = async (
 ) => {
     const { id } = context.params
     const exData = await GetEx(parseInt(id))
+    
     const person_list = await GetPersonsByEx(id)
+    const exs_samedate = await GetExsSameDate(id)
 
     return {
         props: {
-            exData, person_list
+            exData, person_list, exs_samedate
         },
     }
 }
 
 
 
-const Ex = ({ exData, person_list }) => {
+const Ex = ({ exData, person_list, exs_samedate }) => {
+
+
 
     if (exData == undefined) {
         return <div>processing...</div>
@@ -72,12 +77,12 @@ const Ex = ({ exData, person_list }) => {
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
                     integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
                     crossOrigin="anonymous" />
-                    <link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-  crossorigin=""
-/>
+                <link
+                    rel="stylesheet"
+                    href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+                    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+                    crossorigin=""
+                />
             </Head>
             <main>
                 <Container>
@@ -104,7 +109,7 @@ const Ex = ({ exData, person_list }) => {
                             {exData.timespan?.begin_of_the_begin ?
                                 <div key={exData.timespan.begin_of_the_begin + exData.timespan.end_of_the_end}>
                                     <h5>Date</h5>
-                                    <p>{new Date(exData.timespan?.begin_of_the_begin).toDateString()}  until {new Date(exData.timespan?.end_of_the_end).toDateString()}
+                                    <p>{new Date(exData.timespan?.begin_of_the_begin).toDateString()}  {exData.timespan?.end_of_the_end ? " until " + new Date(exData.timespan?.end_of_the_end).toDateString() : "until [not recorded]"}
                                     </p>
                                 </div>
 
@@ -131,9 +136,9 @@ const Ex = ({ exData, person_list }) => {
 
                                         : ""}
 
-                              
 
-    
+
+
 
 
 
@@ -162,7 +167,7 @@ const Ex = ({ exData, person_list }) => {
                                         <h5>Carried out by</h5>
                                         <p>{exData.carried_out_by[0]._label}</p>
 
-<p><Link href={"../datasets/combined/exhibitions/" + exData.carried_out_by[0]._label + "/"}>Browse other exhibitions carried out by <i>{exData.carried_out_by[0]._label}</i></Link></p>
+                                        <p><Link href={"../datasets/combined/exhibitions/" + exData.carried_out_by[0]._label + "/"}>Browse other exhibitions carried out by <i>{exData.carried_out_by[0]._label}</i></Link></p>
 
                                     </div>
                                     : ""}
@@ -186,25 +191,25 @@ const Ex = ({ exData, person_list }) => {
                         </Row>
                     </div>
 
-                   <Row><Col>
-                   <br/>
-                    <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={20}>
-          {({ TileLayer, Marker, Popup }) => (
-            <div>
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                
-              />
-              <Marker position={DEFAULT_CENTER}>
-                <Popup>
-                 Exhibition
-                </Popup>
-              </Marker>
-            </div>
-          )}
-        </Map>   
-</Col></Row>
-                   
+                    <Row><Col>
+                        <br />
+                        <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={20}>
+                            {({ TileLayer, Marker, Popup }) => (
+                                <div>
+                                    <TileLayer
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+
+                                    />
+                                    <Marker position={DEFAULT_CENTER}>
+                                        <Popup>
+                                            Exhibition
+                                        </Popup>
+                                    </Marker>
+                                </div>
+                            )}
+                        </Map>
+                    </Col></Row>
+
                     <Row><Col>
 
 
@@ -221,6 +226,24 @@ const Ex = ({ exData, person_list }) => {
                                         {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
                                         }
                                     </Tab.Content>
+                                </Col>
+                            </Row>
+
+
+                            <Row>
+
+                                <Col>
+<br/>
+                                    <h3>Exhibitions running at the same time</h3>
+<p>There were <b>{exs_samedate.length}</b> exhibitions running at a time that overlaps with this exhibition, in this dataset.</p>
+                                    <ListGroup numbered>
+                                       {exs_samedate.map((ex)=> (
+
+                                        <ListGroup.Item key={ex.id} action variant="dark" href={process.env.basePath + "/exhibition/" + ex.id.split("/").pop()}>{ex._label} | {ex.location} </ListGroup.Item>
+                                       ))}
+                                    </ListGroup>
+
+                                    <br/><br/>
                                 </Col>
                             </Row>
                         </Tab.Container>

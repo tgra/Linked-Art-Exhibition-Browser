@@ -1,3 +1,4 @@
+import { exit } from "process";
 
 const fs = require('fs')
 
@@ -42,12 +43,30 @@ export async function GetExsSelectedOrganisation(org) {
 
     let events = result.events[org]
 
-    
-   
-
-
     return ({"events":events})
 }
+
+export async function GetExsSameDate(event_id) {
+
+   
+    let file =  data_dir + "/summary/activity/ex_co.json"
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+
+    for (var i = 0; i < result.length; i++){
+        var event_list = Object.entries(result[i])
+        var ev_id = Object.keys(result[i]).toString().split("/").pop();
+
+        if (event_id == ev_id){
+            return Object.values(event_list)[0][1]
+        }
+       
+    }
+
+    return []
+}
+
+
 
 export async function GetExsOrganisationAll() {
 
