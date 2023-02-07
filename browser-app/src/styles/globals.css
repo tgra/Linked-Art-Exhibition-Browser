@@ -1,4 +1,7 @@
-
+Bar {
+  width:100%;
+  height:20px
+}
 .ex_summary {
   background-color: #d3d3d4;
   padding:10px;

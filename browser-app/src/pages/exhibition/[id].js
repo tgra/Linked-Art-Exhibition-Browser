@@ -18,6 +18,12 @@ import Map from '../../../components/Map';
 import styles from '../../styles/Home.module.css';
 
 
+import 'chart.js/auto';
+import { Bar } from 'react-chartjs-2';
+
+
+
+
 function extractNumber(str) {
     return str.id.split("/").pop()
 }
@@ -43,7 +49,7 @@ export const getStaticProps = async (
 ) => {
     const { id } = context.params
     const exData = await GetEx(parseInt(id))
-    
+
     const person_list = await GetPersonsByEx(id)
     const exs_samedate = await GetExsSameDate(id)
 
@@ -68,6 +74,8 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
     DEFAULT_CENTER = DEFAULT_CENTER.split("POINT(")[1]
     DEFAULT_CENTER = DEFAULT_CENTER.split(")")[0]
     DEFAULT_CENTER = DEFAULT_CENTER.split(" ")
+
+ 
 
     return (
         <SSRProvider>
@@ -114,13 +122,9 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
                                 </div>
 
                                 : ""}
-
                         </Col>
                             <Col>
-
-
                                 {
-
                                     exData.took_place_at ?
                                         <div>
                                             <h5>Location</h5>
@@ -133,19 +137,8 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
 
                                                 }</ul>
                                         </div>
-
                                         : ""}
-
-
-
-
-
-
-
-
-
                                 {
-
                                     (exData.subject_of && exData.subject_of[0].digitally_carried_by[0]?.classified_as[0].id == 'http://vocab.getty.edu/aat/300264578') ?
                                         <div>
                                             <h5>External web page for the exhibition</h5>
@@ -155,28 +148,23 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
                                                 </Link></p>
                                         </div>
                                         : ""
-
                                 }
-
-                            </Col></Row>
-
+                            </Col>
+                            </Row>
                         <Row>
                             <Col>
                                 {exData.carried_out_by[0] ?
                                     <div>
                                         <h5>Carried out by</h5>
                                         <p>{exData.carried_out_by[0]._label}</p>
-
                                         <p><Link href={"../datasets/combined/exhibitions/" + exData.carried_out_by[0]._label + "/"}>Browse other exhibitions carried out by <i>{exData.carried_out_by[0]._label}</i></Link></p>
 
                                     </div>
                                     : ""}
-
                             </Col>
                             <Col>
                                 {exData.carried_out_by[0] ?
                                     <div>
-
                                         <h6>Authority files for <i>{exData.carried_out_by[0]._label}</i></h6>
                                         <ul>
                                             {exData.carried_out_by[0].equivalent.map((ex_link) => (
@@ -185,12 +173,9 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
                                             }</ul>
                                     </div>
                                     : ""}
-
                             </Col>
-
                         </Row>
                     </div>
-
                     <Row><Col>
                         <br />
                         <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={20}>
@@ -214,6 +199,8 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
 
 
                         <h5>Artists and other Influencers</h5>
+
+                        
                         <Tab.Container id="list-group-tabs" >
                             <Row>
                                 <Col sm={4}>
@@ -222,9 +209,13 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
                                     </ListGroup>
                                 </Col>
                                 <Col sm={8}>
+                                
                                     <Tab.Content>
+                                   
                                         {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
                                         }
+                                        
+                                        
                                     </Tab.Content>
                                 </Col>
                             </Row>
@@ -233,17 +224,17 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
                             <Row>
 
                                 <Col>
-<br/>
+                                    <br />
                                     <h3>Exhibitions running at the same time</h3>
-<p>There were <b>{exs_samedate.length}</b> exhibitions running at a time that overlaps with this exhibition, in this dataset.</p>
+                                    <p>There were <b>{exs_samedate.length}</b> exhibitions running at a time that overlaps with this exhibition, in this dataset.</p>
                                     <ListGroup numbered>
-                                       {exs_samedate.map((ex)=> (
+                                        {exs_samedate.map((ex) => (
 
-                                        <ListGroup.Item key={ex.id} action variant="dark" href={process.env.basePath + "/exhibition/" + ex.id.split("/").pop()}>{ex._label} | {ex.location} </ListGroup.Item>
-                                       ))}
+                                            <ListGroup.Item key={ex.id} action variant="dark" href={process.env.basePath + "/exhibition/" + ex.id.split("/").pop()}>{ex._label} | {ex.location} </ListGroup.Item>
+                                        ))}
                                     </ListGroup>
 
-                                    <br/><br/>
+                                    <br /><br />
                                 </Col>
                             </Row>
                         </Tab.Container>

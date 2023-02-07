@@ -1,9 +1,13 @@
 import { Tab, ListGroup, Accordion } from 'react-bootstrap';
 import Link from 'next/link'
+import 'chart.js/auto';
+import { Bar } from 'react-chartjs-2';
+
 
 
 export default function TabPanePerson({ id, _label, name, born, died, total_exhibitions, nationality, exhibitions, gender }) {
 
+ 
 
   let idx = "/person/"
   const arr = id?.match(/[0-9]+$/);
@@ -54,6 +58,28 @@ if (numDecadeCount < minDecadeCount) {
   }
 }
 
+var keys = Object.keys(exDecades)
+var labels = []
+for(var i=0; i<keys.length; i++) {
+  labels.push(keys[i] + "0s")
+}
+
+
+var count = []
+var values = Object.values(exDecades)
+
+for(var i=0; i<values.length; i++) {
+    count.push(values[i].length)
+}
+
+const data = {
+  labels: labels,
+  datasets: [{
+      label: '# of Exhibitions',
+      data: count,
+      borderWidth: 1
+  }]
+}
 
 
 
@@ -83,13 +109,14 @@ if (numDecadeCount < minDecadeCount) {
       <li>Decade with the most number of exhibitions was the <b>{maxDecade}0s</b> with <b>{maxDecadeCount}</b> exhibitions.</li>
       <li>Decade with the least number of exhibitions was the <b>{minDecade}0s</b> with <b>{minDecadeCount}</b> exhibitions.</li>
       </ul>
-
+      <Bar data={data} options={{ maintainAspectRatio: true }} />
       <Accordion alwaysOpen >
         {Object.entries(exDecades).map(([decade, exhibitions]) => (
 
           <Accordion.Item key={"section_" + decade} eventKey={"section_" + decade}>
             <Accordion.Header>{decade}0s ({exhibitions && Array.isArray(exhibitions) ? exhibitions.length : ""})</Accordion.Header>
             <Accordion.Body>
+            
               <ListGroup numbered >
                 {
                   exhibitions?.map((ex) => (
