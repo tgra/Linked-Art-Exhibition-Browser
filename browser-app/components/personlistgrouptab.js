@@ -17,7 +17,7 @@ export default function Person({ id, _label,  born, died,  }) {
 
   return (
 
-<ListGroup.Item variant="dark" action key={id} href={"#link" + id.split("/").pop()}>{_label} {born == ""? "" : '(' + born + '-' + died + ')'}</ListGroup.Item>
+<ListGroup.Item variant="dark" action key={id} href={"#link" + id.split("/").pop()}>{_label} </ListGroup.Item>
 
 
 

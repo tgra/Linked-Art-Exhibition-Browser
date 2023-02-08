@@ -1,4 +1,4 @@
-import { Tab, ListGroup, Accordion } from 'react-bootstrap';
+import { Tab, ListGroup, Accordion, Row, Col, Container } from 'react-bootstrap';
 import Link from 'next/link'
 import 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
@@ -89,20 +89,20 @@ const data = {
     <Tab.Pane key={"#link" + id.split("/").pop()} eventKey={"#link" + id.split("/").pop()}>
 
 
-      <h1>{_label}</h1>
+      <h3>{_label}</h3>
+<Container className="bio">
+<Row>
+  <Col><b>Born</b> {born} <sup><Link href={"/datasets/combined/indexes/person/birth_date/" + born}>(click to view other people born in this year)</Link></sup></Col>
+  <Col><b>Died</b> {died}</Col>
+</Row>
+<Row>
+  <Col><b>Nationality</b> {nationality}</Col>
+  <Col><b>Gender</b> {gender}</Col>
+</Row>
+</Container>
+   
 
-
-
-      <ListGroup>
-
-
-        <ListGroup.Item variant="dark"><h5>Born</h5>{born} <sup><Link href={"/datasets/combined/indexes/person/birth_date/" + born}>(click to view other people born in this year)</Link></sup></ListGroup.Item>
-        <ListGroup.Item variant="dark"><h5>Died</h5>{died}</ListGroup.Item>
-        <ListGroup.Item variant="dark"><h5>Nationality</h5>{nationality}</ListGroup.Item>
-        <ListGroup.Item variant="dark"><h5>Gender</h5>{gender}</ListGroup.Item>
-      </ListGroup>
-
-      <br />
+      <br/>
       <h4>Exhibitions</h4>
       <p>In this dataset, <b>{_label}</b> was involved in <b>{total_exhibitions}</b> exhibitions across <b>{Object.entries(exDecades).length}</b> decades.</p>
 <ul>
@@ -110,6 +110,7 @@ const data = {
       <li>Decade with the least number of exhibitions was the <b>{minDecade}0s</b> with <b>{minDecadeCount}</b> exhibitions.</li>
       </ul>
       <Bar data={data} options={{ maintainAspectRatio: true }} />
+      <br/>
       <Accordion alwaysOpen >
         {Object.entries(exDecades).map(([decade, exhibitions]) => (
 
@@ -117,11 +118,11 @@ const data = {
             <Accordion.Header>{decade}0s ({exhibitions && Array.isArray(exhibitions) ? exhibitions.length : ""})</Accordion.Header>
             <Accordion.Body>
             
-              <ListGroup numbered >
+              <ListGroup>
                 {
                   exhibitions?.map((ex) => (
                     <ListGroup.Item variant="light" key={'influenced' + ex.id} action href={process.env.basePath + '/exhibition/' + ex.id.split("/").pop()}>
-                      {ex.start.split("T")[0]}<h5>{ex._label}</h5></ListGroup.Item>
+                      {ex.start.split("-")[0]} : {ex._label}</ListGroup.Item>
                   ))}
               </ListGroup>
 

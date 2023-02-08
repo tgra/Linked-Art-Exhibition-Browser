@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 
 
-import { Tab, Row, Col, ListGroup, Breadcrumb, Container, SSRProvider, ListGroupItem, Accordion } from 'react-bootstrap';
+import { Tab, Row, Col, ListGroup, Breadcrumb, Container, SSRProvider, Accordion     } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
 import TabPanePerson from '/components/tabpaneperson'
 
@@ -74,6 +74,11 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
     DEFAULT_CENTER = DEFAULT_CENTER.split(" ")
 
  
+    let person_count = 0
+
+    Object.values(person_list).map((persons) => {
+        person_count += Object.values(persons).length
+    });
 
     return (
         <SSRProvider>
@@ -195,21 +200,23 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
 
                     <Row><Col>
 
-
+<br/>
                         <h5>Artists and other Influencers</h5>
 
+<p>There were <b>{person_count}</b> persons who influenced this exhibition.</p>
+<p>Persons are ordered alphabetically by surname. Select a letter in the concertina to continue. Click on the person's name to view further information.</p>
                         
                         <Tab.Container id="list-group-tabs" >
                             <Row>
                                 <Col sm={4}>
 
-                                <Accordion alwaysOpen >
+                                <Accordion alwaysOpen className="accordion_persons">
         {Object.entries(person_list).map(([letter, persons]) => (
 
-          <Accordion.Item key={"section_person_" + letter} eventKey={"section_person_" + letter}>
+          <Accordion.Item className="accordion_persons" key={"section_person_" + letter} eventKey={"section_person_" + letter}>
             <Accordion.Header>{letter}</Accordion.Header>
             <Accordion.Body>
-            <ListGroup numbered>
+            <ListGroup>
                                         {persons.map((person) => (<Person {...person} key={person.id} />))}
                                     </ListGroup>
                 </Accordion.Body>
