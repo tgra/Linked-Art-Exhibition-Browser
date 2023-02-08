@@ -11,6 +11,9 @@ import TabPanePerson from '/components/tabpaneperson'
 
 
 import { GetPersonsByNationalityBirthYear } from '/lib/person'
+import 'chart.js/auto';
+import { Bar } from 'react-chartjs-2';
+
 
 
 export const getStaticProps = async (context) => {
@@ -30,6 +33,21 @@ const IndexPage = ({
     if (persons == undefined) {
         return (<SSRProvider><div /></SSRProvider>)
     }
+
+
+    var labels = Object.keys(years)
+    var count = Object.values(years)
+    
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: '# of Persons',
+            data: count,
+            borderWidth: 1
+        }]
+    }
+
+
     return (
         <SSRProvider>
             <div>
@@ -64,11 +82,14 @@ const IndexPage = ({
 
                                 </Breadcrumb>
 
-                                <h1>Persons - ordered by birth year  </h1>
+                                <h2>Persons ordered by birth year  </h2>
                                 <ul><li>Dataset:Combined</li>
                                     <li>Nationality:non-United States </li>
                                 </ul>
                                 <p>A list of persons of non-United States nationality who influenced all exhibitions, ordered by birth year. Persons without a birth year in the record have been omitted.</p>
+                                <Bar data={data} options={{ maintainAspectRatio: true }} />
+
+                               
                                 <Accordion alwaysOpen>
 
                                     {

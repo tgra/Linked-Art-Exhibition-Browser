@@ -12,6 +12,10 @@ import TabPanePerson from '/components/tabpaneperson'
 
 import { GetPersonsByNationalityBirthYear } from '/lib/person'
 
+import 'chart.js/auto';
+import { Bar } from 'react-chartjs-2';
+
+
 
 export const getStaticProps = async (context) => {
     let result = await GetPersonsByNationalityBirthYear("us")
@@ -27,9 +31,25 @@ const IndexPage = ({
 
 
 
+
     if (persons == undefined) {
         return (<SSRProvider><div /></SSRProvider>)
     }
+
+
+    var labels = Object.keys(years)
+    var count = Object.values(years)
+    
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: '# of Persons',
+            data: count,
+            borderWidth: 1
+        }]
+    }
+
+
     return (
         <SSRProvider>
             <div>
@@ -45,7 +65,7 @@ const IndexPage = ({
 
                 </Head>
 
-                <main >
+                <main>
 
 
                     <Container>
@@ -64,11 +84,14 @@ const IndexPage = ({
 
                                 </Breadcrumb>
 
-                                <h1>Persons - ordered by birth year  </h1>
+                                <h2>Persons ordered by birth year</h2>
                                 <ul><li>Dataset:Combined</li>
                                     <li>Nationality:United States </li>
                                 </ul>
                                 <p>A list of persons of United States nationality who influenced all exhibitions, ordered by birth year. Persons without a birth year in the record have been omitted.</p>
+
+                                <Bar data={data} options={{ maintainAspectRatio: true }} />
+
                                 <Accordion alwaysOpen>
 
                                     {
@@ -82,10 +105,10 @@ const IndexPage = ({
                                                     {
 
                                                         Object.entries(persons[year]).sort().map(([letter, person_list]) => (
-                                                        
-                                                        <div key="{year + letter}"><h5>{letter}</h5>
 
-<Tab.Container id="list-group-tabs" >
+                                                            <div key="{year + letter}"><h5>{letter}</h5>
+
+                                                                <Tab.Container id="list-group-tabs" >
                                                                     <Row>
                                                                         <Col sm={4}>
                                                                             <ListGroup numbered>
@@ -95,16 +118,16 @@ const IndexPage = ({
                                                                         <Col sm={8}>
                                                                             <Tab.Content>
                                                                                 {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
-                                                                }
+                                                                                }
                                                                             </Tab.Content>
                                                                         </Col>
                                                                     </Row>
                                                                 </Tab.Container>
-                                                            
 
 
 
-                                                        </div>))
+
+                                                            </div>))
 
                                                     }
 

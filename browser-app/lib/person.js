@@ -31,6 +31,7 @@ export async function GetPersonsByEx(exid) {
     let result = JSON.parse(rawdata);
 
     result.persons.forEach(function (person) {
+        
         if ("exhibitions" in person) {
             person.exhibitions.forEach(function (ex) {
                 let id = ex.id.split("/").pop()
@@ -47,7 +48,23 @@ export async function GetPersonsByEx(exid) {
         return 0;
     })
 
-    return person_list
+    let person_list_letter = {}
+
+    person_list.forEach(function (person) {
+        let person_letter = person.name.split("")[0]
+
+        if (person_list_letter[person_letter] == undefined){
+            person_list_letter[person_letter] = []
+        }
+        person_list_letter[person_letter].push(person)
+        
+
+    })
+    
+
+
+
+    return person_list_letter
 }
 
 

@@ -67,7 +67,7 @@ const IndexPage = ({
                                 </Breadcrumb>
                                 
 
-                                <h1>Persons - ordered by surname letter  </h1>
+                                <h2>Persons ordered by surname letter  </h2>
                                 <ul>
                                     <li>Dataset:Combined</li>
                                     <li>Nationality:non-US</li>

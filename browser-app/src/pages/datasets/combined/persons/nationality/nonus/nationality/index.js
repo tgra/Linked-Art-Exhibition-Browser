@@ -10,6 +10,8 @@ import TabPanePerson from '/components/tabpaneperson'
 
 import { GetPersonsByNationality } from '/lib/person'
 
+import 'chart.js/auto';
+import { Bar } from 'react-chartjs-2';
 
 
 
@@ -31,14 +33,26 @@ const IndexPage = ({
   personSummaryDataList
 }) => {
 
-
-
   if (personSummaryDataList == undefined) {
     personSummaryDataList = {}
   }
 
 
+  var labels = Object.keys(personSummaryDataList)
+  var count = []
+  var values = Object.values(personSummaryDataList)
+  for (var i = 0; i < values.length; i++) {
+    count.push(values[i].length)
+  }
 
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: '# of Persons',
+      data: count,
+      borderWidth: 1
+    }]
+  }
 
   return (
     <SSRProvider>
@@ -52,16 +66,10 @@ const IndexPage = ({
             crossOrigin="anonymous"
           ></link>
           <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
-
         </Head>
-
-
-        <main >
-
-
-
+        <main>
           <Container>
-
+            <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
             <Row>
               <Col>
                 <Breadcrumb>
@@ -74,37 +82,38 @@ const IndexPage = ({
                   <Breadcrumb.Item>Nationality</Breadcrumb.Item>
                 </Breadcrumb>
 
-                <h1>Persons - ordered by nationality</h1>
+                <h2>Persons ordered by nationality</h2>
                 <ul>
                   <li>Dataset: Combined</li>
                   <li>Nationality: non-United States</li>
                 </ul>
+                <Bar data={data} options={{ maintainAspectRatio: true }} />
 
                 <Accordion>
 
                   {Object.entries(personSummaryDataList).sort().map(([country, person_list]) => (
 
                     <Accordion.Item key={"section_" + country} eventKey={"section_" + country}>
-                      <Accordion.Header>{country}</Accordion.Header>
+                      <Accordion.Header>{country} ({Object.keys(person_list).length})</Accordion.Header>
                       <Accordion.Body>
 
 
-                        
-                      <Tab.Container id="list-group-tabs" >
-                                                    <Row>
-                                                        <Col sm={4}>
-                                                            <ListGroup numbered>
-                                                                {Array.isArray(person_list) ? person_list.map((person) => (<Person {...person} key={person.id} />)) : ""}
-                                                            </ListGroup>
-                                                        </Col>
-                                                        <Col sm={8}>
-                                                            <Tab.Content>
-                                                                {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
-                                                                }
-                                                            </Tab.Content>
-                                                        </Col>
-                                                    </Row>
-                                                </Tab.Container>
+
+                        <Tab.Container id="list-group-tabs" >
+                          <Row>
+                            <Col sm={4}>
+                              <ListGroup numbered>
+                                {Array.isArray(person_list) ? person_list.map((person) => (<Person {...person} key={person.id} />)) : ""}
+                              </ListGroup>
+                            </Col>
+                            <Col sm={8}>
+                              <Tab.Content>
+                                {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
+                                }
+                              </Tab.Content>
+                            </Col>
+                          </Row>
+                        </Tab.Container>
 
 
                       </Accordion.Body>

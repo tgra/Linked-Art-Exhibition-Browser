@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 
 
-import { Tab, Row, Col, ListGroup, Breadcrumb, Container, SSRProvider, ListGroupItem } from 'react-bootstrap';
+import { Tab, Row, Col, ListGroup, Breadcrumb, Container, SSRProvider, ListGroupItem, Accordion } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
 import TabPanePerson from '/components/tabpaneperson'
 
@@ -63,8 +63,6 @@ export const getStaticProps = async (
 
 
 const Ex = ({ exData, person_list, exs_samedate }) => {
-
-
 
     if (exData == undefined) {
         return <div>processing...</div>
@@ -204,18 +202,38 @@ const Ex = ({ exData, person_list, exs_samedate }) => {
                         <Tab.Container id="list-group-tabs" >
                             <Row>
                                 <Col sm={4}>
-                                    <ListGroup numbered>
-                                        {Array.isArray(person_list) ? person_list.map((person) => (<Person {...person} key={person.id} />)) : ""}
+
+                                <Accordion alwaysOpen >
+        {Object.entries(person_list).map(([letter, persons]) => (
+
+          <Accordion.Item key={"section_person_" + letter} eventKey={"section_person_" + letter}>
+            <Accordion.Header>{letter}</Accordion.Header>
+            <Accordion.Body>
+            <ListGroup numbered>
+                                        {persons.map((person) => (<Person {...person} key={person.id} />))}
                                     </ListGroup>
+                </Accordion.Body>
+
+                </Accordion.Item>
+                
+        ))}
+                </Accordion>
+               
+
+
+                                
+
+                                   
                                 </Col>
                                 <Col sm={8}>
                                 
                                     <Tab.Content>
-                                   
-                                        {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
-                                        }
-                                        
-                                        
+                                    {
+                                    Object.entries(person_list).map(([letter, persons]) => (
+                                            persons.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />
+                                            ))
+                                            ))
+                                            }
                                     </Tab.Content>
                                 </Col>
                             </Row>
