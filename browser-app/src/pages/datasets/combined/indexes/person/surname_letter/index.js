@@ -5,16 +5,17 @@ import { Row, Col, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-b
 
 
 import { GetPersonSurnamesFirstLetter } from '/lib/person'
-
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 
 export const getStaticProps = async (context) => {
 
 
-    const alphabet = await GetPersonSurnamesFirstLetter()
+    const result = await GetPersonSurnamesFirstLetter()
 
     return {
         props: {
-            alphabet: alphabet
+            alphabet: result.alphabet
 
         },
     }
@@ -43,20 +44,20 @@ const IndexPage = ({
                     <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
                 </Head>
                 <main>
-                    <Container>
-                        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
-                        <Row>
-                            <Col>
+
+                   
+                    <Container fluid>
+                    <Navbar/>
+                        
                                 <Breadcrumb>
-                                    <Breadcrumb.Item href="../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                                    <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
-                                    <Breadcrumb.Item href="../../../">Combined</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                                    <Breadcrumb.Item >Dataset: All</Breadcrumb.Item>
+                                   
                                     <Breadcrumb.Item>Indexes</Breadcrumb.Item>
                                     <Breadcrumb.Item >Surname first letter</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Index: Surname first letter</h1>
-                            </Col>
-                        </Row>
+                            
                         <Row>
                             <ListGroup>
                                 {
@@ -65,6 +66,7 @@ const IndexPage = ({
                                     ))}
                             </ListGroup>
                         </Row>
+                        <Footer/>
                     </Container>
                 </main>
             </div>

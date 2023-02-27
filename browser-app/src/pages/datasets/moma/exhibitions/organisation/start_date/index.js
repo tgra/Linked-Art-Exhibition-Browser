@@ -5,6 +5,8 @@ import { ParsedUrlQuery } from 'querystring'
 import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
 
 import Ex from '/components/ex'
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 
 // api
 import { GetExsOrganisation } from '/lib/exhibition'
@@ -69,33 +71,24 @@ const IndexPage = ({
                     <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
 
                 </Head>
-                <Container>
-                    <Row>
-                        <Col>
+                <Container fluid>
+                    <Navbar/>
+                   
   
-            <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
+          
                             <Breadcrumb>
-                                <Breadcrumb.Item href="../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                                <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
-                                <Breadcrumb.Item href="../../../">MoMA</Breadcrumb.Item>
+                                <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                                <Breadcrumb.Item >Dataset: MoMA</Breadcrumb.Item>
+                              
                                
                                 <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
                                 <Breadcrumb.Item>Organisation</Breadcrumb.Item>
                                 <Breadcrumb.Item>Start date</Breadcrumb.Item>
                             </Breadcrumb>
+                            <h1>Exhibitions:MoMA</h1>
 
-
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                        <h2>MoMA Exhibitions</h2>
-                                <ul><li>Order: organisation / start date</li></ul>
-
-                            
-
-                        </Col>
-                    </Row>
+                        
+                  
                     <Row>
                         <Accordion alwaysOpen>
                             {events.map((org) => (
@@ -153,7 +146,10 @@ const IndexPage = ({
 
 
 
-                    </Row></Container>
+                    </Row>
+                    
+                    <Footer/>
+                    </Container>
 
 
 

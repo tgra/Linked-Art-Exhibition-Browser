@@ -2,9 +2,11 @@ import Head from 'next/head'
 
 
 import { ParsedUrlQuery } from 'querystring'
-import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
+import { Accordion, Nav, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
+import Navbar from '/components/navbar';
 
 import Ex from '/components/ex'
+import Footer from 'components/footer'
 
 // api
 import { GetExsStartDate } from '/lib/exhibition'
@@ -64,83 +66,76 @@ const IndexPage = ({
                     <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
 
                 </Head>
-                <Container>
+
+
+                <Container fluid>
+                    <Navbar />
+                    <Breadcrumb>
+                        <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                        <Breadcrumb.Item>Dataset:All</Breadcrumb.Item>
+                        <Breadcrumb.Item>Exhibitions:Start date </Breadcrumb.Item>
+
+                    </Breadcrumb>
+                    <h1>Exhibition start date</h1>
+                    <p>Explore exhibitions via exhibition start date.</p>
+
+
+
+
+
                     <Row>
                         <Col>
-                            <Breadcrumb>
-                                <Breadcrumb.Item href="../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                               <Breadcrumb.Item href="../../../">Datasets</Breadcrumb.Item>
-                               <Breadcrumb.Item href="../../">Combined</Breadcrumb.Item>
-                               <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
-                               <Breadcrumb.Item>Start date</Breadcrumb.Item>
-                            </Breadcrumb>
+                            <Accordion alwaysOpen>
+                                {
+                                    Object.keys(exSummaryDataList["events"]).sort().map((year) => (
 
-
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                        <h1>Exhibitions ordered by start date</h1>
-                                <ul><li>Dataset:Combined</li></ul>
-
-
-                            
-
-                        </Col>
-                    </Row>
-                    <Row>
-                       <Col>
-                       <Accordion alwaysOpen>
+                                        <Accordion.Item key={"section_" + year} eventKey={"section_" + year}>
+                                            <Accordion.Header>{year} </Accordion.Header>
+                                            <Accordion.Body>
                                                 {
-                                                    Object.keys(exSummaryDataList["events"]).sort().map((year) => (
+                                                    Object.keys(exSummaryDataList["events"][year]).sort().map((month) => (
+                                                        <Row key={"month" + month} >
+                                                            <Col>
 
-                                                        <Accordion.Item key={"section_" + year} eventKey={"section_" + year}>
-                                                            <Accordion.Header>{year} </Accordion.Header>
-                                                            <Accordion.Body>
-                                                            {
-                                                                    Object.keys(exSummaryDataList["events"][year]).sort().map((month) => (
-                                                                        <Row key={"month" + month} >
-                                                                            <Col>
+                                                                <h6>{mL[parseInt(month) - 1]} {year} </h6>
 
-                                                                                <h6>{mL[parseInt(month) - 1]} {year} </h6>
-
-                                                                                <ListGroup>
-                                                                                    {
-                                                                                        exSummaryDataList["events"][year][month].map((ex) => (<Ex {...ex} key={"ex_" + ex.id} />))
-                                                                                    }
-                                                                                </ListGroup>
+                                                                <ListGroup>
+                                                                    {
+                                                                        exSummaryDataList["events"][year][month].map((ex) => (<Ex {...ex} key={"ex_" + ex.id} />))
+                                                                    }
+                                                                </ListGroup>
 
 
-                                                                            </Col>
-                                                                        </Row>
-
-                                                                    ))
-                                                                }
-
-
-                                                            </Accordion.Body>
-                                                        </Accordion.Item>
+                                                            </Col>
+                                                        </Row>
 
                                                     ))
-
-
                                                 }
-                                            </Accordion>
-                       </Col>
 
 
-                       
-                                            </Row>
-                            
+                                            </Accordion.Body>
+                                        </Accordion.Item>
 
-                    </Container>
-
+                                    ))
 
 
-</div>
+                                }
+                            </Accordion>
+                        </Col>
 
 
-           
+
+                    </Row>
+
+<Footer/>
+                </Container>
+
+
+
+            </div>
+
+
+
         </SSRProvider>
     )
 }

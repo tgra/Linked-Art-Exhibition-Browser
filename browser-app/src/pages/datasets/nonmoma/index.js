@@ -4,6 +4,9 @@ import { Inter } from '@next/font/google'
 import { CardGroup, Breadcrumb, Button, Container, Card, Row, Col } from 'react-bootstrap'
 
 const inter = Inter({ subsets: ['latin'] })
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
+
 
 export default function Home() {
     return (
@@ -22,67 +25,25 @@ export default function Home() {
             <main>
 
                 <Container>
-
-                    <Row>
-                        <Col>
-                            <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
+<Navbar/>
+                  
                             <Breadcrumb>
-                                <Breadcrumb.Item href="../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                                <Breadcrumb.Item href="../">Datasets</Breadcrumb.Item>
+                                <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                                <Breadcrumb.Item>Dataset</Breadcrumb.Item>
                                 <Breadcrumb.Item>non-MoMA</Breadcrumb.Item>
                             </Breadcrumb>
 
 
-                        </Col></Row>
+                      
 
-<Row>
+
 
 
 
                     <h1>Non-MoMA Dataset</h1>
 
 
-                   <h2>Exhibitions</h2>
-                   <Col>
-                   <CardGroup>
-<Card  bg="light">
-      <Card.Body>
-        <Card.Title>Organisation / Start date</Card.Title>
-        <Card.Text>
-         View non-MoMA exhibitions ordered by organisation and start date.
-        </Card.Text>
-        <Button href="exhibitions/organisation/start_date" variant="primary">Go</Button>
-      </Card.Body>
-    </Card>
-    
-<Card  bg="light">
-      <Card.Body>
-        <Card.Title> Start date</Card.Title>
-        <Card.Text>
-         View non-MoMA exhibitions ordered by start date.
-        </Card.Text>
-        <Button href="exhibitions/start_date" variant="primary">Go</Button>
-      </Card.Body>
-    </Card>
-    </CardGroup>
-    </Col>
-    </Row>
-    <h2>Persons</h2>
-    <Row>
-    <Col>
-        <Card  bg="light">
-      <Card.Body>
-        <Card.Title>Birth year</Card.Title>
-        <Card.Text>
-         View people involved in non-MoMA exhibitions ordered by birth year.
-        </Card.Text>
-        <Button href="exhibitions/persons/birth_year" variant="primary">Go</Button>
-      </Card.Body>
-    </Card>
-
-    
-    </Col>         
-       </Row>
+                 <Footer/>
                 </Container>
             </main>
         </>

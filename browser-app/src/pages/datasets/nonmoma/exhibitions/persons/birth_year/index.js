@@ -5,11 +5,12 @@ import { Inter } from '@next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
-
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/tabpaneperson'
+import TabPanePerson from '/components/tabpaneperson_no_histogram'
 
 
 
@@ -52,14 +53,13 @@ const IndexPage = ({
 
 
                     <Container>
-
-                        <Row>
-                            <Col>
-                            <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
+<Navbar/>
+                      
+                           
                             <Breadcrumb>
-                                <Breadcrumb.Item href="../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                               <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
-                               <Breadcrumb.Item href="../../../">non-MoMA</Breadcrumb.Item>
+                                <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                               <Breadcrumb.Item>Dataset</Breadcrumb.Item>
+                               <Breadcrumb.Item>non-MoMA</Breadcrumb.Item>
                                <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
                                <Breadcrumb.Item >Persons</Breadcrumb.Item>
                                <Breadcrumb.Item>Birth year</Breadcrumb.Item>
@@ -67,10 +67,11 @@ const IndexPage = ({
 
                                
                                 <h1>Persons ordered by birth year</h1>
-                                <ul><li>Exhibitions:non-MoMA</li>
-                                   
-                                </ul>
+                               
                                 <p>A list of persons who influenced <b>non-MoMA</b> exhibitions, ordered by birth year. Persons without a birth year in the record have been omitted.</p>
+                            
+                            <Row><Col>
+                            
                                 <Accordion alwaysOpen>
 
                                     {
@@ -108,12 +109,7 @@ const IndexPage = ({
 
                             </Col>
                         </Row>
-                        <Row>
-                            <ListGroup>
-
-                            </ListGroup>
-
-                        </Row>
+                       <Footer/>
 
 
                     </Container>

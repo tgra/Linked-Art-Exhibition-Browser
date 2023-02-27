@@ -2,7 +2,7 @@ import { eventNames } from 'process';
 
 const fs = require('fs')
 
-const data_dir = "/Users/tanya/Documents/Code/exhibition-browser-2023/data"
+const data_dir = "../data"
 
 
 
@@ -21,6 +21,34 @@ export async function GetPersons() {
     let result = JSON.parse(rawdata);
     const personList = (result.persons)
     return personList
+}
+
+
+export async function GetExInfluencersSummaryData(id_list ) {
+
+    let file = persons_all
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+    const person_list_all = (result.persons)
+
+    let person_list_selected = {}
+   
+    person_list_all.forEach(function(person) {
+        let person_id = person.id
+
+        let letter = person.name.split("")[0]
+
+        if (person_list_selected[letter] == undefined){
+            person_list_selected[letter] = []
+        }
+        
+        if (id_list.includes(person_id)){
+            person_list_selected[letter].push(person)
+            }
+        })
+    return person_list_selected
+
+
 }
 
 export async function GetPersonsByEx(exid) {
@@ -148,15 +176,12 @@ export async function GetPersonSummary(id) {
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
-    let persons = []
-
     result.persons.forEach(function (person) {
         if (person["id"].split("/").pop().toUpperCase() == id.toUpperCase()) {
-            persons.push(person)
+            return person
         }
     })
-
-    return (persons)
+    return {}
 }
 
 export async function GetPersonIDs() {
@@ -189,6 +214,8 @@ export async function GetPersonsByNationality() {
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
+    let count = {}
+
     for (var idx in result.persons) {
         let person = result.persons[idx]
 
@@ -204,14 +231,17 @@ export async function GetPersonsByNationality() {
         if (nationality_dict[nationality] == undefined) {
             nationality_dict[nationality] = []
         }
+
+        if (count[nationality] == undefined) {
+            count[nationality] = 0
+        }
+        count[nationality] += 1
         nationality_dict[nationality].push(person)
-
-
 
 
     }
 
-    return (nationality_dict)
+    return ({count: count, persons: nationality_dict})
 }
 
 
@@ -226,6 +256,7 @@ export async function GetPersonsSurnameLetterUS() {
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
+    let count = {}
     for (var idx in result.persons) {
         let person = result.persons[idx]
 
@@ -243,13 +274,16 @@ export async function GetPersonsSurnameLetterUS() {
             continue
         }
 
+        
         if (name_dict[value] == undefined) {
             name_dict[value] = []
+            count[value] = 0
         }
+        count[value] += 1
         name_dict[value].push(person)
     }
 
-    return (name_dict)
+    return ({count:count, persons:name_dict})
 }
 
 export async function GetPersonsSurnameLetterNonUS() {
@@ -261,6 +295,7 @@ export async function GetPersonsSurnameLetterNonUS() {
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
+    let count = {}
     for (var idx in result.persons) {
         let person = result.persons[idx]
 
@@ -279,16 +314,25 @@ export async function GetPersonsSurnameLetterNonUS() {
         }
 
 
+        if (count[value] == undefined) {
+            count[value] = 0
+        }
+
+        count[value] += 1
+        
         if (name_dict[value] == undefined) {
             name_dict[value] = []
         }
         name_dict[value].push(person)
     }
 
-    return (name_dict)
+    return ({count:count, persons:name_dict})
 }
 
 //  GetPersonSurnamesFirstLetter
+
+
+
 
 
 
@@ -300,8 +344,17 @@ export async function GetPersonSurnamesFirstLetter() {
 
 
     let alphabet = [];
+
+    let counter = {}
+
     for (var surname in result.persons) {
         let first_letter = surname.split("")[0]
+
+        if (counter[first_letter] == undefined){
+            counter[first_letter] = 0
+        }
+
+        counter[first_letter] +=1
 
         alphabet.push(first_letter)
 
@@ -311,7 +364,7 @@ export async function GetPersonSurnamesFirstLetter() {
     alphabet.sort()
 
 
-    return alphabet
+    return {count:counter, alphabet: alphabet}
 
 
 

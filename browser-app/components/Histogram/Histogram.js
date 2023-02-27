@@ -17,7 +17,7 @@ const options = {
 
 
 const numbers = [12, 19, 3, 5, 2, 3]
-const labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orage']
+const labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
 
 
 const data_combined_us_surnameletter = {

@@ -5,24 +5,24 @@ import { ParsedUrlQuery } from 'querystring'
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/tabpaneperson'
+import TabPanePerson from '/components/tabpaneperson_no_histogram'
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
+
+import 'chart.js/auto';
+import { Bar, Pie, Doughnut } from 'react-chartjs-2';
 
 
 import { GetPersonsByNationality } from '/lib/person'
-
-import 'chart.js/auto';
-import { Bar } from 'react-chartjs-2';
-
-
-
 export const getStaticProps = async (context) => {
 
 
-  const persons = await GetPersonsByNationality()
+  const result = await GetPersonsByNationality()
 
+  
   return {
     props: {
-      personSummaryDataList: persons
+      personSummaryDataList: result.persons, count: result.count
     },
   }
 }
@@ -30,29 +30,37 @@ export const getStaticProps = async (context) => {
 
 
 const IndexPage = ({
-  personSummaryDataList
+  personSummaryDataList, count
 }) => {
 
   if (personSummaryDataList == undefined) {
     personSummaryDataList = {}
   }
 
-
-  var labels = Object.keys(personSummaryDataList)
-  var count = []
-  var values = Object.values(personSummaryDataList)
-  for (var i = 0; i < values.length; i++) {
-    count.push(values[i].length)
-  }
-
-  const data = {
-    labels: labels,
+  
+  const data_nonusnat = {
+    labels: Object.keys(count),
     datasets: [{
       label: '# of Persons',
-      data: count,
+      data: Object.values(count),
       borderWidth: 1
     }]
   }
+ 
+
+  let options_hor = {
+    indexAxis: 'y',
+
+    elements: {
+      bar: {
+        borderWidth: 2,
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: true,
+
+  };
+
 
   return (
     <SSRProvider>
@@ -68,27 +76,32 @@ const IndexPage = ({
           <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
         </Head>
         <main>
-          <Container>
-            <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
-            <Row>
-              <Col>
+          <Container fluid>
+            <Navbar/>
+           
                 <Breadcrumb>
-                  <Breadcrumb.Item href="../../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                  <Breadcrumb.Item href="../../../../../">Datasets</Breadcrumb.Item>
-                  <Breadcrumb.Item href="../../../../">Combined</Breadcrumb.Item>
+                  <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                  <Breadcrumb.Item >Dataset: All</Breadcrumb.Item>
+          
                   <Breadcrumb.Item>Persons</Breadcrumb.Item>
-                  <Breadcrumb.Item>Nationality</Breadcrumb.Item>
-                  <Breadcrumb.Item>non-US</Breadcrumb.Item>
+                  <Breadcrumb.Item>Nationality: non-US </Breadcrumb.Item>
+                 
                   <Breadcrumb.Item>Nationality</Breadcrumb.Item>
                 </Breadcrumb>
 
-                <h2>Persons ordered by nationality</h2>
-                <ul>
-                  <li>Dataset: Combined</li>
-                  <li>Nationality: non-United States</li>
-                </ul>
-                <Bar data={data} options={{ maintainAspectRatio: true }} />
+<Row leg={2}><Col>
 
+<h1>Persons: Nationality</h1>
+<p>Explore persons involved in exhibitions by nationality.</p>
+</Col>
+
+<Col>
+
+<Pie data={data_nonusnat}  /></Col></Row>
+                
+               
+               <Row><Col>
+               
                 <Accordion>
 
                   {Object.entries(personSummaryDataList).sort().map(([country, person_list]) => (
@@ -122,22 +135,10 @@ const IndexPage = ({
 
                   ))}
                 </Accordion>
-              </Col>
-            </Row>
-            <Row>
-
-
-
-
-
-
-
-
-
-
-            </Row>
-
-
+             
+           
+                </Col></Row>
+<Footer/>
           </Container>
         </main>
 

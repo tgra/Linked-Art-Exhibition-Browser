@@ -5,8 +5,9 @@ import Head from 'next/head'
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/tabpaneperson'
-
+import TabPanePerson from '/components/person_exhibition_detail'
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 
 
 
@@ -16,16 +17,15 @@ import { GetPersonsSurnameByLetter, GetPersonSurnamesFirstLetter } from '/lib/pe
 
 export const getStaticPaths = async () => {
 
-  const alphabet = await GetPersonSurnamesFirstLetter()
+  const result = await GetPersonSurnamesFirstLetter()
 
   return {
-    paths: alphabet?.map((letter) => {
-      return { params: { letter: letter} }
+    paths: result.alphabet?.map((letter) => {
+      return { params: { letter: letter } }
     }),
     fallback: true,
   }
 }
-
 
 
 export const getStaticProps = async (context) => {
@@ -37,7 +37,7 @@ export const getStaticProps = async (context) => {
     props: {
       personSummaryDataList: persons,
       letter: letter
-     
+
     },
   }
 }
@@ -64,81 +64,67 @@ const IndexPage = ({
             integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
             crossOrigin="anonymous"
           ></link>
-          <script src="https://unpkg.com/react/umd/react.production.min.js"  async></script>
+          <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
 
         </Head>
 
         <main>
 
 
-          <Container>
 
-          <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+          <Container fluid>
 
-<Row>
-    <Col>
-        <Breadcrumb>
-        <Breadcrumb.Item href="../../../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                  <Breadcrumb.Item href="../../../../../../">Datasets</Breadcrumb.Item>
-                  <Breadcrumb.Item href="../../../../../">Combined</Breadcrumb.Item>
+          <Navbar/>
+          
+
+           
+                <Breadcrumb>
+                  <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                  <Breadcrumb.Item >Dataset: All</Breadcrumb.Item>
+                 
                   <Breadcrumb.Item>Indexes</Breadcrumb.Item>
-                  <Breadcrumb.Item>Persons</Breadcrumb.Item>
                  
-            <Breadcrumb.Item href="../../"> Surname first letter</Breadcrumb.Item>
-            <Breadcrumb.Item>{letter}</Breadcrumb.Item>
-        </Breadcrumb>
-        <h1>Index : Surname first letter : {letter}</h1>
+                  <Breadcrumb.Item> Surname first letter</Breadcrumb.Item>
+                  <Breadcrumb.Item>{letter}</Breadcrumb.Item>
+                </Breadcrumb>
+                
+                <h1>Index : Surname first letter : {letter}</h1>
 
 
-                 
-
-              </Col>
-            </Row>
+             
             <Row>
-<Accordion alwaysOpen>
-
-
-
-              {
-                Object.entries(personSummaryDataList).sort().map(([abbv, persons]) => (
-
-                  <Accordion.Item key={"abv" + abbv} eventKey={"abv" + abbv}>
+              <Accordion alwaysOpen>
+                {
+                  Object.entries(personSummaryDataList).sort().map(([abbv, persons]) => (
+                    <Accordion.Item key={"abv" + abbv} eventKey={"abv" + abbv}>
                       <Accordion.Header>{abbv}</Accordion.Header>
                       <Accordion.Body>
-                    
-
-                    <Tab.Container id="list-group-tabs" >
-                                                    <Row>
-                                                        <Col sm={4}>
-                                                            <ListGroup numbered>
-                                                                {Array.isArray(persons) ? persons.map((person) => (<Person {...person} key={person.id} />)) : ""}
-                                                            </ListGroup>
-                                                        </Col>
-                                                        <Col sm={8}>
-                                                            <Tab.Content>
-                                                                {Array.isArray(persons) ? persons.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
-                                                                }
-                                                            </Tab.Content>
-                                                        </Col>
-                                                    </Row>
-                                                </Tab.Container>
+                        <Tab.Container id="list-group-tabs" >
+                          <Row>
+                            <Col sm={4}>
+                              <ListGroup numbered>
+                                {Array.isArray(persons) ? persons.map((person) => (<Person {...person} key={person.id} />)) : ""}
+                              </ListGroup>
+                            </Col>
+                            <Col sm={8}>
+                              <Tab.Content>
+                                {Array.isArray(persons) ? persons.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
+                                }
+                              </Tab.Content>
+                            </Col>
+                          </Row>
+                        </Tab.Container>
                       </Accordion.Body>
-                 
-                   </Accordion.Item>
-                   
-                   
-                  
-                 
-                ))
-              }
+                    </Accordion.Item>
 
-
-</Accordion>
+                  ))
+                }
+              </Accordion>
 
 
             </Row>
 
-
+<Footer/>
           </Container>
         </main>
 

@@ -16,6 +16,9 @@ const nextConfig = {
   },
 
   env: {
+
+    display_histograms : true,
+    
     basePath: "/exhibition-browser-static-demo",
 
     top_level_entry: [

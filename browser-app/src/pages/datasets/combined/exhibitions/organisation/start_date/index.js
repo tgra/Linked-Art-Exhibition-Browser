@@ -1,26 +1,14 @@
 import Head from 'next/head'
 
+import Link from 'next/link'
 
-import { ParsedUrlQuery } from 'querystring'
-import {  Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
+import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
 
 import Ex from '/components/ex'
 import Navbar from '/components/navbar';
 import Footer from '/components/footer';
 // api
-import { GetExsOrganisationAll, GetExsSelectedOrganisation } from '/lib/exhibition'
-
-export const getStaticPaths = async () => {
-
-    let organisations = await GetExsOrganisationAll()
-  
-    return {
-      paths: organisations.map((organisation) => {
-        return { params: { organisation: organisation } }
-      }),
-      fallback: true,
-    }
-  }
+import { GetExsOrganisation } from '/lib/exhibition'
 
 
 
@@ -29,13 +17,11 @@ export const getStaticProps = async (
     context
 ) => {
 
-    const { organisation } = context.params
-
-    const exs = await GetExsSelectedOrganisation(organisation)
+    const exs = await GetExsOrganisation()
 
     return {
         props: {
-            exSummaryDataList: exs, organisation: organisation
+            exSummaryDataList: exs
 
 
 
@@ -44,19 +30,26 @@ export const getStaticProps = async (
 }
 
 const IndexPage = ({
-    exSummaryDataList, organisation
+    exSummaryDataList
 }) => {
 
     if (exSummaryDataList == undefined) {
         return (<SSRProvider><div></div></SSRProvider>)
     }
     if (Object.keys(exSummaryDataList).includes("events")) {
+
         var events = Object.keys(exSummaryDataList["events"]).sort()
+
+   
+
+     
+
     } else {
         return (<SSRProvider><div></div></SSRProvider>)
+
     }
 
-    
+
     var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 
@@ -74,32 +67,40 @@ const IndexPage = ({
                     <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
 
                 </Head>
+
                 <Container fluid>
-               <Navbar/>
-               <Breadcrumb>
+                <Navbar/>
+                <Breadcrumb>
                                 <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                               <Breadcrumb.Item >Dataset: All</Breadcrumb.Item>
-                               
-                               <Breadcrumb.Item>Organisation: {organisation}</Breadcrumb.Item>
+                               <Breadcrumb.Item >Dataset:All</Breadcrumb.Item>
+                              
+                               <Breadcrumb.Item>Organisation : Start date</Breadcrumb.Item>
                                
                             </Breadcrumb>
-                        <h1>{organisation}</h1>
-                        <p>Explore all exhibitions by the selected organisation - {organisation}</p>
-                        
-                    
-                    
+                <h1>Organisation: Start date</h1>
+                <p>Explore exhibitions by organisation and then start date.</p>
+               
+                 
+                
                     <Row>
-                     
+                        <Accordion alwaysOpen>
+                            {events.map((org) => (
+                                <Accordion.Item key={"section_" + org} eventKey={"section_" + org}>
+                                    <Accordion.Header>{org} ({exSummaryDataList["counter"][org]} exhibition)</Accordion.Header>
+                                    <Accordion.Body>
+
+                                    <Link href={"/datasets/combined/exhibitions/" + org + "/"}>View the exhibitions carried out by <i>{org}</i> on a separate page</Link>
+                                 
                                         <Container>
                                             <Accordion alwaysOpen>
                                                 {
-                                                    Object.keys(exSummaryDataList["events"]).sort().map((year) => (
+                                                    Object.keys(exSummaryDataList["events"][org]).sort().map((year) => (
 
-                                                        <Accordion.Item key={"section_" + year} eventKey={"section_" + year}>
+                                                        <Accordion.Item key={"section_" + org + year} eventKey={"section_" + org + year}>
                                                             <Accordion.Header>{year}</Accordion.Header>
                                                             <Accordion.Body>
                                                                 {
-                                                                    Object.keys(exSummaryDataList["events"][year]).sort().map((month) => (
+                                                                    Object.keys(exSummaryDataList["events"][org][year]).sort().map((month) => (
                                                                         <Row key={"month" + month} >
                                                                             <Col>
 
@@ -107,7 +108,7 @@ const IndexPage = ({
 
                                                                                 <ListGroup>
                                                                                     {
-                                                                                        exSummaryDataList["events"][year][month].map((ex) => (<Ex {...ex} key={"ex_" + ex.id} />))
+                                                                                        exSummaryDataList["events"][org][year][month].map((ex) => (<Ex {...ex} key={"ex_" + ex.id} />))
                                                                                     }
                                                                                 </ListGroup>
 
@@ -125,12 +126,22 @@ const IndexPage = ({
 
                                                 }
                                             </Accordion>
+
                                         </Container>
+
+
+
+                                    </Accordion.Body>
+                                </Accordion.Item>
+
+                            ))}
+                        </Accordion>
+
+
 
                     </Row>
                     
-                    <Footer/>
-                    </Container>
+                    <Footer/></Container>
 
 
 

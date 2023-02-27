@@ -7,8 +7,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/tabpaneperson'
+import TabPanePerson from '/components/tabpaneperson_no_histogram'
 
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 
 import { GetPersonsByNationalityBirthYear } from '/lib/person'
 
@@ -69,29 +71,32 @@ const IndexPage = ({
 
 
                     <Container>
-                        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+                        <Navbar/>
+                        <Breadcrumb>
+                                    <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
 
-                        <Row>
-                            <Col>
-                                <Breadcrumb>
-                                    <Breadcrumb.Item href="../../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-
-                                    <Breadcrumb.Item href="../../../../../">Datasets</Breadcrumb.Item>
-                                    <Breadcrumb.Item href="../../../../">Combined</Breadcrumb.Item>
-                                    <Breadcrumb.Item>Nationality</Breadcrumb.Item>
-                                    <Breadcrumb.Item>US</Breadcrumb.Item>
+                                    <Breadcrumb.Item >Dataset: All</Breadcrumb.Item>
+                                    
+                                    <Breadcrumb.Item>Nationality: US</Breadcrumb.Item>
+                                   
                                     <Breadcrumb.Item>Birth year</Breadcrumb.Item>
 
                                 </Breadcrumb>
 
-                                <h2>Persons ordered by birth year</h2>
-                                <ul><li>Dataset:Combined</li>
-                                    <li>Nationality:United States </li>
-                                </ul>
+<Row lg={2}>
+    <Col>
+    <h1>Persons: Birth year</h1>
+                              
                                 <p>A list of persons of United States nationality who influenced all exhibitions, ordered by birth year. Persons without a birth year in the record have been omitted.</p>
+</Col><Col>
 
+                                
                                 <Bar data={data} options={{ maintainAspectRatio: true }} />
 
+</Col></Row>
+                        <Row>
+                            <Col>
+                                
                                 <Accordion alwaysOpen>
 
                                     {
@@ -151,6 +156,7 @@ const IndexPage = ({
 
                         </Row>
 
+<Footer/>
 
                     </Container>
                 </main>

@@ -9,7 +9,8 @@ const inter = Inter({ subsets: ['latin'] })
 import { ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
 
 import { GetPersonsByBirthYear } from '/lib/person'
-
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 
 export const getStaticProps = async (context) => {
     let years = await GetPersonsByBirthYear("")
@@ -41,15 +42,17 @@ const IndexPage = ({
                 <main >
 
 
-                    <Container>
-                    <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+                    <Container fluid>
 
-                        <Row>
-                            <Col>
+                   <Navbar/>
+
+                  
+
+                        
                                 <Breadcrumb>
-                                <Breadcrumb.Item href="../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                  <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
-                  <Breadcrumb.Item href="../../../">Combined</Breadcrumb.Item>
+                                <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                  <Breadcrumb.Item>Dataset</Breadcrumb.Item>
+                  <Breadcrumb.Item>Combined</Breadcrumb.Item>
                   <Breadcrumb.Item>Indexes</Breadcrumb.Item>
                   <Breadcrumb.Item>Persons</Breadcrumb.Item>
                   <Breadcrumb.Item  >Birth year</Breadcrumb.Item>
@@ -62,8 +65,7 @@ const IndexPage = ({
                                 <p>The following list are birth years with a count of the corresponding persons. Click on an item to view more information.</p>
 
 
-                            </Col>
-                        </Row>
+                            
                         <Row>
                         <ListGroup>
                                 {
@@ -75,7 +77,7 @@ const IndexPage = ({
                            
                         </Row>
 
-
+<Footer/>
                     </Container>
                 </main>
 

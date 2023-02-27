@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 import { Breadcrumb, CardGroup, Card, Button, Container, Row, Col } from 'react-bootstrap'
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,45 +23,18 @@ export default function Home() {
 
       <main>
 
-        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+<Container fluid>
+
+  <Navbar/>
+       
 
         <Breadcrumb>
-          <Breadcrumb.Item href="../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+          <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
           <Breadcrumb.Item>Datasets</Breadcrumb.Item>
         </Breadcrumb>
 
-        <div>
-          <h1>Datasets</h1>
-
-
-        </div>
-
-
-
-        <Container>
-          <Row>
-
-          <Col>
-          <CardGroup>
-
-            {process.env.datasets.map((entry) => (
-             
-                <Card bg="light" key={entry.path}>
-                  <Card.Body>
-
-                    <Card.Title>{entry.label}</Card.Title>
-                    <Card.Text>
-                      {entry.desc}
-                    </Card.Text>
-                    <Button href={entry.path} variant="primary">Go</Button>
-                  </Card.Body>
-                </Card>
-             
-            ))}
-            </CardGroup>
-            </Col>
-          </Row></Container>
-
+       <Footer/>
+         </Container>
 
       </main>
     </>

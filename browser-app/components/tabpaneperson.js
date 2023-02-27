@@ -3,11 +3,10 @@ import Link from 'next/link'
 import 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
 
+import Image from 'next/image'
 
+export default function TabPanePerson({ id, _label, born, died, total_exhibitions, nationality, exhibitions, gender, equivalent, image_url }) {
 
-export default function TabPanePerson({ id, _label, name, born, died, total_exhibitions, nationality, exhibitions, gender }) {
-
- 
 
   let idx = "/person/"
   const arr = id?.match(/[0-9]+$/);
@@ -15,8 +14,8 @@ export default function TabPanePerson({ id, _label, name, born, died, total_exhi
     idx += arr[0];
   }
 
-  born = born.split('T')[0].split("-")[0]
-  died = died.split('T')[0].split("-")[0]
+  let born_year = born.split('T')[0].split("-")[0]
+  let died_year = died.split('T')[0].split("-")[0]
 
 
   let exDecades = {};
@@ -32,7 +31,7 @@ export default function TabPanePerson({ id, _label, name, born, died, total_exhi
   });
 
 
-  
+
   for (const decade in exDecades) {
     exDecades[decade] = exDecades[decade].sort((a, b) => (a.start > b.start) ? 1 : -1)
   }
@@ -43,81 +42,187 @@ export default function TabPanePerson({ id, _label, name, born, died, total_exhi
   var minDecadeCount = 10000000000000
 
 
-for (const decade in exDecades){
+  for (const decade in exDecades) {
 
-  var numDecadeCount = exDecades[decade].length
+    var numDecadeCount = exDecades[decade].length
 
-  if (numDecadeCount > maxDecadeCount) {
+    if (numDecadeCount > maxDecadeCount) {
       maxDecadeCount = numDecadeCount
       maxDecade = decade
+    }
+
+    if (numDecadeCount < minDecadeCount) {
+      minDecade = decade
+      minDecadeCount = numDecadeCount
+    }
   }
 
-if (numDecadeCount < minDecadeCount) {
-    minDecade = decade
-    minDecadeCount = numDecadeCount
+  if (minDecadeCount == 10000000000000) {
+    minDecadeCount == maxDecadeCount
   }
-}
 
-var keys = Object.keys(exDecades)
-var labels = []
-for(var i=0; i<keys.length; i++) {
-  labels.push(keys[i] + "0s")
-}
+  // calculate exhibition count per decade per location
 
 
-var count = []
-var values = Object.values(exDecades)
+  let exDecadesOrg = {};
 
-for(var i=0; i<values.length; i++) {
+  exhibitions.forEach(function (ex) {
+    let start_year = ex.start.split("-")[0]
+    let decade = start_year.substring(0, 3)
+    let org = ex.location
+
+    if (exDecadesOrg[org] == undefined) {
+      exDecadesOrg[org] = []
+    }
+
+    if (exDecadesOrg[org][decade] == undefined) {
+      exDecadesOrg[org][decade] = []
+    }
+    exDecadesOrg[org][decade].push(ex)
+
+  });
+
+
+  /*
+  let datasetsOrg = []
+
+  let colours = ['red', 'blue', 'yellow', 'green', 'purple', 'orange']
+
+  let cnt = 0
+
+
+  Object.keys(exDecadesOrg).forEach(function (org) {
+    let orgDict = {}
+
+    orgDict["label"] = org
+    orgDict["data"] = exDecadesOrg[org]
+    orgDict["borderWidth"] = 1
+    orgDict["backgroundColor"] = colours[cnt]
+
+
+    cnt += 1
+   
+    datasetsOrg.push(JSON.stringify(orgDict))
+
+  })
+
+*/
+
+
+  var keys = Object.keys(exDecades)
+  var labels = []
+  for (var i = 0; i < keys.length; i++) {
+    labels.push(keys[i] + "0s")
+  }
+
+
+  var count = []
+  var values = Object.values(exDecades)
+
+  for (var i = 0; i < values.length; i++) {
     count.push(values[i].length)
-}
+  }
 
-const data = {
-  labels: labels,
-  datasets: [{
-      label: '# of Exhibitions',
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Number of exhibitions',
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: true,
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
+    },
+  };
+
+
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: '# of exhibitions',
       data: count,
-      borderWidth: 1
-  }]
-}
+      borderWidth: 1,
+
+    }
+
+
+
+    ]
+  }
+
+ 
+
+
+ 
+ 
+
+             
+           
+  
+
 
 
 
   return (
-
-
     <Tab.Pane key={"#link" + id.split("/").pop()} eventKey={"#link" + id.split("/").pop()}>
-
-
       <h3>{_label}</h3>
-<Container className="bio">
-<Row>
-  <Col><b>Born</b> {born} <sup><Link href={"/datasets/combined/indexes/person/birth_date/" + born}>(click to view other people born in this year)</Link></sup></Col>
-  <Col><b>Died</b> {died}</Col>
-</Row>
-<Row>
-  <Col><b>Nationality</b> {nationality}</Col>
-  <Col><b>Gender</b> {gender}</Col>
-</Row>
-</Container>
-   
+      <Container className="bio">
+        <Row>
+          <Col><b>Born</b> {born_year} <sup><Link href={"/datasets/combined/indexes/person/birth_date/" + born}>(click to view other people born in this year)</Link></sup>
+            <p><b>Died</b> {died_year} </p>
+            <p>
+              <b>Nationality</b> {nationality}</p>
+            <p>
+              <b>Gender</b> {gender}</p>
 
-      <br/>
+            <p>
+              <b>External information resources for {_label}</b></p>
+            <ol>{equivalent.map((url) => (
+              <li key={url}><Link href={url} target="_new">{url.split("/")[2]}</Link></li>
+
+            ))}
+            </ol>
+          </Col>
+          <Col>
+            <div className='image'>
+              {
+                image_url ? <img key={image_url} src={image_url} height="100%" alt={"Picture of " + _label} /> : ""
+              }
+            </div>
+          </Col>
+
+        </Row>
+      </Container>
+
+
+      <br />
       <h4>Exhibitions</h4>
       <p>In this dataset, <b>{_label}</b> was involved in <b>{total_exhibitions}</b> exhibitions across <b>{Object.entries(exDecades).length}</b> decades.</p>
-<ul>
-      <li>Decade with the most number of exhibitions was the <b>{maxDecade}0s</b> with <b>{maxDecadeCount}</b> exhibitions.</li>
-      <li>Decade with the least number of exhibitions was the <b>{minDecade}0s</b> with <b>{minDecadeCount}</b> exhibitions.</li>
+      <ul>
+        <li>Decade with the most number of exhibitions was the <b>{maxDecade}0s</b> with <b>{maxDecadeCount}</b> exhibitions.</li>
+        <li>Decade with the least number of exhibitions was the <b>{minDecade}0s</b> with <b>{minDecadeCount}</b> exhibitions.</li>
       </ul>
-      <Bar data={data} options={{ maintainAspectRatio: true }} />
-      <br/>
+      <Bar data={data} width="200" height="50" options={{ maintainAspectRatio: true }} />
+
+      
+
+
+                                            <br/>
       <Accordion alwaysOpen >
         {Object.entries(exDecades).map(([decade, exhibitions]) => (
 
           <Accordion.Item key={"section_" + decade} eventKey={"section_" + decade}>
             <Accordion.Header>{decade}0s ({exhibitions && Array.isArray(exhibitions) ? exhibitions.length : ""})</Accordion.Header>
             <Accordion.Body>
-            
+
               <ListGroup>
                 {
                   exhibitions?.map((ex) => (
@@ -150,5 +255,8 @@ const data = {
 }
 
 
+/*
 
+
+*/
 

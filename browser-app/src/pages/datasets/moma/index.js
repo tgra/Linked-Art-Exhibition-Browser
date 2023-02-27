@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 const inter = Inter({ subsets: ['latin'] })
 
 import { CardGroup, Breadcrumb, Button, Container, Card, Row, Col } from 'react-bootstrap'
@@ -20,14 +21,13 @@ export default function Home() {
 
       </Head>
       <main>
-        <Container>
-
-          <Row>
-            <Col>
-              <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+        <Container fluid>
+<Navbar/>
+         
+             
               <Breadcrumb>
-                <Breadcrumb.Item href="../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                <Breadcrumb.Item href="../">Datasets</Breadcrumb.Item>
+                <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                <Breadcrumb.Item>Dataset</Breadcrumb.Item>
                 <Breadcrumb.Item >MoMA</Breadcrumb.Item>
               </Breadcrumb>
 
@@ -39,43 +39,13 @@ export default function Home() {
 
 
               <h1>MoMA Dataset</h1>
-            </Col>
-          </Row>
+            
 
-          <Row>
-
-            <Col>
-
-            </Col>
-          </Row>
-
-<Row><Col>
+         
 
 
-          <h2>Exhibitions</h2>
 
-          <CardGroup>
-            <Card bg="light">
-              <Card.Body>
-                <Card.Title>Organisation / Start date</Card.Title>
-                <Card.Text>
-                  View MoMA exhibitions ordered by organisation and start date.
-                </Card.Text>
-                <Button href="exhibitions/organisation/start_date" variant="primary">Go</Button>
-              </Card.Body>
-            </Card>
-          
-            <Card bg="light">
-              <Card.Body>
-                <Card.Title>Start date</Card.Title>
-                <Card.Text>
-                  View MoMA exhibitions ordered by start date.
-                </Card.Text>
-                <Button href="exhibitions/start_date" variant="primary">Go</Button>
-              </Card.Body>
-            </Card>
-            </CardGroup>
-            </Col></Row>
+       <Footer/>
         </Container>
       </main>
     </>

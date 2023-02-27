@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { Accordion, ListGroup, Container, Row, Col, SSRProvider, Breadcrumb } from 'react-bootstrap';
 
 import Ex from '/components/ex'
-
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 // api
 import { GetExsOrganisation } from '/lib/exhibition'
 
@@ -74,31 +75,26 @@ const IndexPage = ({
 
                 </Head>
                 <Container>
-                    <Row>
-                        <Col>
-                        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
+                    <Navbar/>
+                   
                             <Breadcrumb>
-                                <Breadcrumb.Item href="../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
-                               <Breadcrumb.Item href="../../../../">Datasets</Breadcrumb.Item>
-                               <Breadcrumb.Item href="../../../">non-MoMA</Breadcrumb.Item>
+                                <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                               <Breadcrumb.Item>Dataset</Breadcrumb.Item>
+                               <Breadcrumb.Item>non-MoMA</Breadcrumb.Item>
                                <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
                                <Breadcrumb.Item >Organisation</Breadcrumb.Item>
                                <Breadcrumb.Item>Start date</Breadcrumb.Item>
                             </Breadcrumb>
 
 
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                        <h1>Exhibitions - ordered by organisation and exhibition start date  </h1>
-                                <ul><li>Dataset:non-MoMA</li></ul>
+                   
+                        <h1>Exhibitions:  organisation and start date </h1>
+                               
 
 
                             
 
-                        </Col>
-                    </Row>
+                        
                     <Row>
                         <Accordion alwaysOpen>
                             {events.map((org) => (
@@ -156,7 +152,9 @@ const IndexPage = ({
 
 
 
-                    </Row></Container>
+                    </Row>
+                    <Footer/>
+                    </Container>
 
 
 

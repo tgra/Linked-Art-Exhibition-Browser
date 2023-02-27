@@ -7,8 +7,9 @@ const inter = Inter({ subsets: ['latin'] })
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/tabpaneperson'
-
+import TabPanePerson from '/components/tabpaneperson_no_histogram'
+import Navbar from '/components/navbar';
+import Footer from '/components/footer';
 
 import { GetPersonsByNationalityBirthYear } from '/lib/person'
 import 'chart.js/auto';
@@ -37,7 +38,7 @@ const IndexPage = ({
 
     var labels = Object.keys(years)
     var count = Object.values(years)
-    
+
     const data = {
         labels: labels,
         datasets: [{
@@ -66,30 +67,32 @@ const IndexPage = ({
                 <main >
 
 
-                    <Container>
-                        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+                    <Container fluid>
+                        <Navbar />
+                        <Breadcrumb>
+                            <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                            <Breadcrumb.Item >Dataset: All</Breadcrumb.Item>
+                            <Breadcrumb.Item>Nationality: non-US</Breadcrumb.Item>
+                            <Breadcrumb.Item>Birth year</Breadcrumb.Item>
+                        </Breadcrumb>
 
-                        <Row>
+                       
+
+                        
+                        
+                        <Row lg={2}>
                             <Col>
-                                <Breadcrumb>
-                                    <Breadcrumb.Item href="../../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                            <h1>Persons : Birth year  </h1>
+                            <p>A list of persons of non-United States nationality who influenced all exhibitions, ordered by birth year. Persons without a birth year in the record have been omitted.</p>
+</Col>
+                            <Col>
 
-                                    <Breadcrumb.Item href="../../../../../">Datasets</Breadcrumb.Item>
-                                    <Breadcrumb.Item href="../../../../">Combined</Breadcrumb.Item>
-                                    <Breadcrumb.Item>Nationality</Breadcrumb.Item>
-                                    <Breadcrumb.Item>non-US</Breadcrumb.Item>
-                                    <Breadcrumb.Item>Birth year</Breadcrumb.Item>
 
-                                </Breadcrumb>
-
-                                <h2>Persons ordered by birth year  </h2>
-                                <ul><li>Dataset:Combined</li>
-                                    <li>Nationality:non-United States </li>
-                                </ul>
-                                <p>A list of persons of non-United States nationality who influenced all exhibitions, ordered by birth year. Persons without a birth year in the record have been omitted.</p>
                                 <Bar data={data} options={{ maintainAspectRatio: true }} />
 
-                               
+</Col>
+</Row>
+<Row><Col>
                                 <Accordion alwaysOpen>
 
                                     {
@@ -103,10 +106,10 @@ const IndexPage = ({
                                                     {
 
                                                         Object.entries(persons[year]).sort().map(([letter, person_list]) => (
-                                                        
-                                                        <div key={year + letter}><h5>{letter}</h5>
 
-<Tab.Container id="list-group-tabs" >
+                                                            <div key={year + letter}><h5>{letter}</h5>
+
+                                                                <Tab.Container id="list-group-tabs" >
                                                                     <Row>
                                                                         <Col sm={4}>
                                                                             <ListGroup numbered>
@@ -116,16 +119,16 @@ const IndexPage = ({
                                                                         <Col sm={8}>
                                                                             <Tab.Content>
                                                                                 {Array.isArray(person_list) ? person_list.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />)) : ""
-                                                                }
+                                                                                }
                                                                             </Tab.Content>
                                                                         </Col>
                                                                     </Row>
                                                                 </Tab.Container>
-                                                            
 
 
 
-                                                        </div>))
+
+                                                            </div>))
 
                                                     }
 
@@ -142,14 +145,9 @@ const IndexPage = ({
 
                             </Col>
                         </Row>
-                        <Row>
-                            <ListGroup>
+                        
 
-                            </ListGroup>
-
-                        </Row>
-
-
+<Footer/>
                     </Container>
                 </main>
 

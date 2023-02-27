@@ -1,9 +1,11 @@
 import Head from 'next/head'
 
-import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
+import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider, Nav } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/tabpaneperson'
+import TabPanePerson from '/components/tabpaneperson_no_histogram'
 
+import Navbar from '/components/navbar';
+import Footer from 'components/footer'
 
 import { GetPersonsSurnameLetterNonUS } from '/lib/person'
 
@@ -11,11 +13,11 @@ import { GetPersonsSurnameLetterNonUS } from '/lib/person'
 export const getStaticProps = async (context) => {
 
 
-    const persons = await GetPersonsSurnameLetterNonUS()
+    const result = await GetPersonsSurnameLetterNonUS()
 
     return {
         props: {
-            personSummaryDataList: persons
+            personSummaryDataList: result.persons
 
         },
     }
@@ -50,32 +52,25 @@ const IndexPage = ({
                 <main>
                 
 
-                    <Container>
-                        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1>
+                    <Container fluid>
+                        <Navbar/>
+                      
 
-                        <Row>
-                            <Col>
+                       
                                 <Breadcrumb>
-                                    <Breadcrumb.Item href="../../../../../../">{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
 
-                                    <Breadcrumb.Item href="../../../../../">Datasets</Breadcrumb.Item>
-                                    <Breadcrumb.Item href="../../../../">Combined</Breadcrumb.Item>
+                                    <Breadcrumb.Item >Dataset: All</Breadcrumb.Item>
+                                 
                                     <Breadcrumb.Item>Persons</Breadcrumb.Item>
-                                    <Breadcrumb.Item>Nationality</Breadcrumb.Item>
-                                    <Breadcrumb.Item>non-US</Breadcrumb.Item>
-                                    <Breadcrumb.Item>Surname letter</Breadcrumb.Item>
+                                    <Breadcrumb.Item>Nationality: non-US </Breadcrumb.Item>
+                    
+                                    <Breadcrumb.Item>Surname</Breadcrumb.Item>
                                 </Breadcrumb>
                                 
 
-                                <h2>Persons ordered by surname letter  </h2>
-                                <ul>
-                                    <li>Dataset:Combined</li>
-                                    <li>Nationality:non-US</li>
-                                </ul>
-
-                                
-                            </Col>
-                        </Row>
+                                <h1>Persons: Surname</h1>
+                               <p>Explore persons by first letter of surname</p>
                         <Row>
 
                       
@@ -116,7 +111,7 @@ const IndexPage = ({
 
                         </Row>
 
-
+<Footer/>
                     </Container>
                 </main>
 

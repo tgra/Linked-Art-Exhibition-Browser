@@ -1,8 +1,53 @@
-
+.bg-dark{
+  background-color: lightblue !important;
+}
 .accordion_persons div.accordion-item {
   background-color:#35A7FF;
   
 }
+
+
+h1{color :black !important}
+.leaflet-container {
+
+  border: 3px solid silver
+}
+
+.react-calendar-timeline  .rct-calendar-header {
+  border-radius: 5px;
+ 
+}
+
+
+.react-calendar-timeline .rct-header-root, .rct-calendar-header {
+  border-radius: 10px;
+  background: cornflowerblue !important;
+}
+.react-calendar-timeline  {
+border-radius: 10px;
+  border: 1px solid silver
+}
+div.image{
+
+  position:relative;
+text-align: right;
+  height:400px
+}
+
+div.image img {
+
+  object-fit: "contain";
+  border-radius:30px;
+  border: 5px solid #555;
+}
+
+.footer {
+
+  padding:10px;
+  border-radius: 10px;
+  background-color:#D8DBE2;
+}
+
 
 h2{
   color:#373F51
