@@ -19,9 +19,13 @@ The entry points into the exhibition data that have been encoded in the Exhibiti
 
 
 ## Technical implementation
-The tool uses next.js built on React, to generate tabular HTML files from Linked Art JSON-LD, and consequent creation of a static HTML web site. 
+The tool uses the React framework Next.js, to generate tabular HTML files from Linked Art JSON-LD, and consequent creation of a static HTML web site. 
 
-Next.js - https://nextjs.org/ 
+
+## Links
+- Next.js - https://nextjs.org/  'The React Framework for the Web'
+- React - https://reactjs.org/ - 'A JavaScript library for building user interfaces'
+
 
 
 ### System Requirements
