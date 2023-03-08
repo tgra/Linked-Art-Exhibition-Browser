@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/tabpaneperson_no_histogram'
+import TabPanePerson from '/components/person_exhibition_detail'
 
 import Navbar from '/components/navbar';
 import Footer from '/components/footer';
@@ -70,7 +70,7 @@ const IndexPage = ({
                 <main>
 
 
-                    <Container>
+                    <Container fluid>
                         <Navbar/>
                         <Breadcrumb>
                                     <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>

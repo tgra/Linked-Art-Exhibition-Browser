@@ -65,10 +65,10 @@ const IndexPage = ({
                     <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
 
                 </Head>
-                <Container>
+                <Container fluid>
                     <Navbar/>
                     
-                        <h1>{process.env.NEXT_PUBLIC_APP_TITLE}</h1> 
+                       
                             <Breadcrumb>
                                 <Breadcrumb.Item href={process.env.basePath}>{process.env.NEXT_PUBLIC_APP_BREADCRUMB_HOME}</Breadcrumb.Item>
                                <Breadcrumb.Item>Dataset</Breadcrumb.Item>
@@ -76,7 +76,7 @@ const IndexPage = ({
                                <Breadcrumb.Item>Exhibitions</Breadcrumb.Item>
                                <Breadcrumb.Item>Start date</Breadcrumb.Item>
                             </Breadcrumb>
-
+<h1>Exhibition: Start date</h1>
 
                     <Row>
                        <Col>

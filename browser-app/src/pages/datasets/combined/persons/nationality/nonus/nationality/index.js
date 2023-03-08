@@ -5,12 +5,12 @@ import { ParsedUrlQuery } from 'querystring'
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/tabpaneperson_no_histogram'
+import TabPanePerson from '/components/person_exhibition_detail'
 import Navbar from '/components/navbar';
 import Footer from '/components/footer';
 
 import 'chart.js/auto';
-import { Bar, Pie, Doughnut } from 'react-chartjs-2';
+import {  Pie } from 'react-chartjs-2';
 
 
 import { GetPersonsByNationality } from '/lib/person'

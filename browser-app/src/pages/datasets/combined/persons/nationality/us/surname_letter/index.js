@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import { Nav,Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/tabpaneperson_no_histogram'
+import TabPanePerson from '/components/person_exhibition_detail'
 
 import Navbar from '/components/navbar';
 import Footer from '/components/footer';

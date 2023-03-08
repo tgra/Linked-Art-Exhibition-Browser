@@ -15,7 +15,7 @@ import Navbar from '/components/navbar';
 import Footer from '/components/footer';
 
 import { GetExs, GetEx, GetExsSameDate, GetExInfluencers, GetExInfluencersIds } from '/lib/exhibition'
-import { GetPersonsByEx, GetExInfluencersSummaryData } from '/lib/person'
+import {  GetExInfluencersSummaryData } from '/lib/person'
 
 import React from "react";
 
@@ -235,7 +235,7 @@ const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_lis
                 />
             </Head>
             <main>
-                <Container>
+                <Container fluid>
                     <Navbar/>
               
          

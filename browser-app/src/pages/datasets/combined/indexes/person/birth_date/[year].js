@@ -31,6 +31,9 @@ export const getStaticProps = async (context) => {
 
   let persons = await GetPersonsByBirthYear(year)
 
+
+
+
   if (persons == undefined) {
     persons = {}
   }

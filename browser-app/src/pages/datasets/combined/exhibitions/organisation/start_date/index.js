@@ -91,7 +91,7 @@ const IndexPage = ({
 
                                     <Link href={"/datasets/combined/exhibitions/" + org + "/"}>View the exhibitions carried out by <i>{org}</i> on a separate page</Link>
                                  
-                                        <Container>
+                                        <Container fluid>
                                             <Accordion alwaysOpen>
                                                 {
                                                     Object.keys(exSummaryDataList["events"][org]).sort().map((year) => (

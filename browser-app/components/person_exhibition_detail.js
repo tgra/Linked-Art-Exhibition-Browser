@@ -118,7 +118,7 @@ export default function TabPanePerson({ id, _label, born, died, total_exhibition
           <Col>
             <div className='image'>
               {
-                image_url ? <img key={image_url} src={image_url} height="100%" alt={"Picture of " + _label} /> : ""
+                image_url && image_url.includes(".tif") == false ? <img key={image_url} src={image_url} height="100%" alt={"Picture of " + _label} /> : ""
               }
             </div>
           </Col>
@@ -161,12 +161,12 @@ export default function TabPanePerson({ id, _label, born, died, total_exhibition
                     exhibitions?.map((ex, index) => (
 
                       <tr key={'influenced' + ex.id}>
-                        <td><Button variant="info" href={process.env.basePath + '/exhibition/' + ex.id.split("/").pop()}>{index + 1}</Button></td>
+                        <td><Button variant="primary" href={process.env.basePath + '/exhibition/' + ex.id.split("/").pop()}>{index + 1}</Button></td>
 
                         <td><nobr>{ex.start?.split('T')[0].slice(0,-3)}</nobr></td>
                         <td><nobr>{ex.end?.split('T')[0].slice(0,-3)}</nobr></td>
                         <td><nobr>{ex.location}</nobr></td>
-                        <td><Button variant="link" href={process.env.basePath + '/exhibition/' + ex.id.split("/").pop()}>{ex._label}</Button></td>
+                        <td><Link  href={'/exhibition/' + ex.id.split("/").pop()}>{ex._label}</Link></td>
                        
                       </tr>
 

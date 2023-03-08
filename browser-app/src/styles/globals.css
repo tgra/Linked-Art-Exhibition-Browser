@@ -1,3 +1,10 @@
+
+.card {
+  margin: 10px;
+  width:450px;
+  
+}
+
 .bg-dark{
   background-color: lightblue !important;
 }

@@ -144,7 +144,7 @@ export async function GetPersonsByNationalityBirthYear(nationality) {
 
 
 export async function GetPersonsByDatasetBirthYear(dataset) {
-    let file = data_dir + "/summary/activity/events_" + dataset + "_persons_birthyear.json"
+    let file = data_dir + "/summary/persons/persons_" + dataset + "_born.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -203,6 +203,35 @@ export async function GetPersonIDs() {
 
     return (ids)
 }
+
+
+
+export async function GetPersonsByNationalitySelected(nationality_selected) {
+
+    let nationality_list = {}
+
+    let file = persons_all
+    let rawdata = fs.readFileSync(file);
+    let result = JSON.parse(rawdata);
+
+    let count = {}
+
+    for (var idx in result.persons) {
+        let person = result.persons[idx]
+        let nationality = person["nationality"]
+
+        if (nationality == undefined || nationality == "" || nationality !== nationality_selected) {
+            continue
+        }
+        
+        nationality_list.push(person)
+    }
+
+    return ({ persons: nationality_list})
+}
+
+
+
 
 
 
@@ -281,7 +310,24 @@ export async function GetPersonsSurnameLetterUS() {
         }
         count[value] += 1
         name_dict[value].push(person)
+
     }
+
+    Object.entries(name_dict).forEach(function([letter,person_list]){
+
+        let person_list_ordered = person_list.sort(function (first, second) {
+            let a = second.name
+            let b = first.name
+            if (a > b) { return -1; }
+            if (b > a) { return 1; }
+            return 0;
+        })
+
+        name_dict[letter] = person_list_ordered
+
+    })
+  
+   
 
     return ({count:count, persons:name_dict})
 }
@@ -325,6 +371,21 @@ export async function GetPersonsSurnameLetterNonUS() {
         }
         name_dict[value].push(person)
     }
+
+    Object.entries(name_dict).forEach(function([letter,person_list]){
+
+        let person_list_ordered = person_list.sort(function (first, second) {
+            let a = second.name
+            let b = first.name
+            if (a > b) { return -1; }
+            if (b > a) { return 1; }
+            return 0;
+        })
+
+        name_dict[letter] = person_list_ordered
+
+    })
+  
 
     return ({count:count, persons:name_dict})
 }

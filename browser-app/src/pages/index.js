@@ -7,7 +7,8 @@ const inter = Inter({ subsets: ['latin'] })
 import { Card, CardGroup, Button, Container, Row, Col } from 'react-bootstrap'
 import {
   GetPersonsByNationalityBirthYear, GetPersonsByNationality, GetPersonsByBirthYear,
-  GetPersonsSurnameLetterNonUS, GetPersonsSurnameLetterUS, GetPersonSurnamesFirstLetter
+  GetPersonsSurnameLetterNonUS, GetPersonsSurnameLetterUS, GetPersonSurnamesFirstLetter, GetPersonsByDatasetBirthYear
+
 } from '/lib/person'
 import Footer from '/components/footer'
 
@@ -38,25 +39,34 @@ export const getStaticProps = async (context) => {
 
   let result_index_surname = await GetPersonSurnamesFirstLetter()
 
+
+
+
+
+  let result_nonmoma_birthyear = await GetPersonsByDatasetBirthYear("nonmoma")
+
+
   return {
     props: {
       years_us: result.count, years_nonus: result2.count, nonus_nat: result_nonusnat.count,
       birthyear_all: result_birthyearall, nonus_surname: result_nonus_surname.count, ex_org: result_ex_org.counter,
       us_surname: result_us_surname.count, ex_moma_date: result_ex_moma_startdate.counter,
       ex_nonmoma_date: result_ex_nonmoma_startdate.counter,
-      index_surname: result_index_surname.count, ex_startdate: result_ex_startdate.counter
+      index_surname: result_index_surname.count, ex_startdate: result_ex_startdate.counter,
+
+      nonmoma_birthyear: result_nonmoma_birthyear.count
     }
   }
 }
 
 
 export default function Home({
-  years_us, years_nonus, nonus_nat, birthyear_all, nonus_surname, us_surname, ex_org, ex_moma_date, ex_nonmoma_date, index_surname, ex_startdate
+  years_us, years_nonus, nonus_nat, birthyear_all, nonus_surname, us_surname, ex_org, ex_moma_date, ex_nonmoma_date, index_surname, ex_startdate, nonmoma_birthyear
 }) {
 
 
-  
-  
+
+
   const data_index_surname = {
     labels: Object.keys(index_surname).sort(),
     datasets: [{
@@ -157,6 +167,16 @@ export default function Home({
     }]
   }
 
+  const data_birthyear_nonmoma = {
+    labels: Object.keys(nonmoma_birthyear),
+    datasets: [{
+      label: '# of Persons',
+      data: Object.values(nonmoma_birthyear),
+      borderWidth: 1
+    }]
+
+  }
+  
   const data_birthyearall = {
     labels: Object.keys(birthyear_all),
     datasets: [{
@@ -221,29 +241,29 @@ export default function Home({
         ></link>
       </Head>
       <main>
-      <Container fluid>
-      <Navbar/>
-        
-        
-       
-      
-          
-          
+        <Container fluid>
+          <Navbar />
+
+
+
+
+
+
           <Row>
 
             <Col>
-              
+
               <a name="all" />
               <h3>Dataset: All</h3>
 
             </Col>
           </Row>
-          
-           
-              <h5>Exhibitions</h5>
-          
-          <Row xs={1} md={3} lg={3}>
-          <Col key="moma-org6">
+
+
+          <h5>Exhibitions</h5>
+
+          <Row xs={1} md={2} lg={2}>
+            <Col key="moma-org6">
               <Card bg="dark"  >
                 <Card.Body>
                   <Card.Title>Start date</Card.Title>
@@ -257,8 +277,8 @@ export default function Home({
             </Col>
 
             <Col key="moma-org41">
-              
-             
+
+
               <Card bg="dark"  >
                 <Card.Body>
                   <Card.Title>Organisation</Card.Title>
@@ -270,14 +290,14 @@ export default function Home({
                 <Card.Footer><Button size="sm" variant="link" href="datasets/combined/exhibitions/organisation/start_date">Explore</Button></Card.Footer>
               </Card>
             </Col>
-            </Row>
-         
-         <br/>
-              <h5>Persons </h5>
-              <h6>US Nationality</h6>
-              <p>The following entry points into the exhibition data relate to people who have been identified as influencing the exhibitions in the dataset.</p>
-           
-          <Row xs={1} md={3} lg={3} >
+          </Row>
+
+          <br />
+          <h5>Persons </h5>
+          <h6>US Nationality</h6>
+          <p>The following entry points into the exhibition data relate to people who have been identified as influencing the exhibitions in the dataset.</p>
+
+          <Row  xs={1} md={2} lg={2}>
 
             <Col key="moma-or7g">
               <Card bg="dark" >
@@ -304,7 +324,7 @@ export default function Home({
                   <Card.Title>Birth year</Card.Title>
                   <Card.Text>
                     Explore exhibitions via <b>birth year</b>
-                    <Bar data={data_us} options={{ maintainAspectRatio: true }} />
+                    <Bar data={data_us}  />
 
                   </Card.Text>
 
@@ -321,14 +341,14 @@ export default function Home({
 
 
 
-<br/>
+          <br />
 
-         
 
-              <h6>non-US Nationality</h6>
-              <p>The following entry points into the exhibition data relate to people who have been identified as influencing the exhibitions in the dataset.</p>
-            
-          <Row xs={1} md={2} lg={3}>
+
+          <h6>non-US Nationality</h6>
+          <p>The following entry points into the exhibition data relate to people who have been identified as influencing the exhibitions in the dataset.</p>
+
+          <Row xs={1} md={2} lg={2}>
             <Col key="moma-start2">
               <Card bg="dark"  >
                 <Card.Body>
@@ -342,7 +362,7 @@ export default function Home({
                   </Card.Text>
 
                 </Card.Body>
-                <Card.Footer><Button variant="link" size="sm" href="datasets/combined/persons/nationality/us/surname_letter">Explore</Button></Card.Footer>
+                <Card.Footer><Button variant="link" size="sm" href="datasets/combined/persons/nationality/nonus/surname_letter">Explore</Button></Card.Footer>
 
               </Card>
 
@@ -355,7 +375,7 @@ export default function Home({
                   <Card.Title>Birth year</Card.Title>
                   <Card.Text>
                     Explore exhibitions via <b>birth year</b>
-                    <Bar data={data_nonus} options={{ maintainAspectRatio: true }} />
+                    <Bar data={data_nonus}  />
 
                   </Card.Text>
 
@@ -380,21 +400,22 @@ export default function Home({
             </Col>
           </Row>
 
-          <br/>
+          <br />
           <Row>
-          
-          <Col class="bg-dark">
-            <br/>
-          </Col>
-          </Row>
-          <br/>
 
-             
-              <a name="moma" />
-              <h3>Dataset: MoMA</h3>
-              <p>The following entry points into the exhibition data relate to exhibitions organised by MoMA.</p>
-            
-          <Row xs={1} md={3} lg={3} >
+            <Col class="bg-dark">
+              <br />
+            </Col>
+          </Row>
+          <br />
+
+
+          <a name="moma" />
+          <h3>Dataset: MoMA</h3>
+          <p>The following entry points into the exhibition data relate to exhibitions organised by MoMA.</p>
+
+<h4>Exhibitions</h4>
+          <Row xs={1} md={2} lg={2}>
             <Col key="moma-org3">
               <Card bg="dark">
                 <Card.Body>
@@ -406,7 +427,7 @@ export default function Home({
                 </Card.Body>
                 <Card.Footer>
                   <Button size="sm" variant="link" href="datasets/moma/exhibitions/organisation">Explore</Button>
-                  </Card.Footer>
+                </Card.Footer>
               </Card>
             </Col>
 
@@ -416,7 +437,7 @@ export default function Home({
                   <Card.Title>Start date</Card.Title>
                   <Card.Text>
                     Explore via <b>start date</b>
-                    <Bar data={data_ex_moma_date} options={{ maintainAspectRatio: true }} />
+                    <Bar data={data_ex_moma_date}  />
                   </Card.Text>
 
                 </Card.Body>
@@ -428,22 +449,23 @@ export default function Home({
             </Col>
 
           </Row>
-          <br/>
+          <br />
           <Row>
-          
-          <Col class="bg-dark">
-            <br/>
-          </Col>
-          </Row>
-         
 
-          <br/>
+            <Col class="bg-dark">
+              <br />
+            </Col>
+          </Row>
+
+
+          <br />
           <a name="nonmoma" />
-              <h3>Dataset: non-MoMA</h3>
-          <Row xs={1} md={3} lg={3}>
+          <h3>Dataset: non-MoMA</h3>
+          <h4>Exhibitions</h4>
+          <Row xs={1} md={2} lg={2}>
             <Col key="moma-org4">
-              
-             
+
+
               <Card bg="dark"  >
                 <Card.Body>
                   <Card.Title>Organisation</Card.Title>
@@ -464,33 +486,46 @@ export default function Home({
                     <Bar data={data_ex_nonmoma_date} />
                   </Card.Text>
                 </Card.Body>
-                <Card.Footer><Button variant="link" size="sm" href="datasets/combined/exhibitions/start_date">Explore</Button></Card.Footer>
+                <Card.Footer><Button variant="link" size="sm" href="datasets/nonmoma/exhibitions/start_date">Explore</Button></Card.Footer>
               </Card>
             </Col>
-           
-
+            
           </Row>
-         
-
           <br/>
+<h4>Persons</h4>
+<Row xs={1} md={2} lg={2}><Col key="nonmoma-birthyear">
+              <Card bg="dark"  >
+                <Card.Body>
+                  <Card.Title>Birth year</Card.Title>
+                  <Card.Text>
+                    Explore via <b>birth year</b>
+                    <Bar data={data_birthyear_nonmoma}  />
+                  </Card.Text>
+                </Card.Body>
+                <Card.Footer><Button variant="link" size="sm" href="datasets/nonmoma/persons/birth_year">Explore</Button></Card.Footer>
+              </Card>
+            </Col>
+</Row>
+
+          <br />
           <Row>
-          
-          <Col class="bg-dark">
-            <br/>
-          </Col>
-          </Row>
-          <br/>
 
-          
+            <Col class="bg-dark">
+              <br />
+            </Col>
+          </Row>
+          <br />
+
+
 
 
           <Row><Col>
-           
+
             <a name="indexes" />
             <h3>Indexes</h3>
-            <h5>People</h5>
+            <h4>Persons</h4>
           </Col></Row>
-          <Row xs={1} md={3} lg={3}>
+          <Row xs={1} md={2} lg={2}>
             <Col key="moma-org5">
               <Card bg="dark"  >
                 <Card.Body>
@@ -510,7 +545,7 @@ export default function Home({
                   <Card.Title>Birth year</Card.Title>
                   <Card.Text>
                     Explore via <b>birth year</b>
-                    <Bar data={data_birthyearall} options={{ maintainAspectRatio: true }} />
+                    <Bar data={data_birthyearall}  />
                   </Card.Text>
                 </Card.Body>
                 <Card.Footer><Button variant="link" size="sm" href="datasets/combined/indexes/person/birth_date_all">Explore</Button></Card.Footer>
@@ -520,23 +555,23 @@ export default function Home({
           </Row>
 
 
-          <br/>
+          <br />
           <Row>
-          
-          <Col class="bg-dark">
-            <br/>
-          </Col>
+
+            <Col class="bg-dark">
+              <br />
+            </Col>
           </Row>
-          <br/>
+          <br />
 
 
-          <Row><Col>
-         
-            
+          <Row  ><Col>
+
+
             <a name="about" />
             <h3>About the Linked Art Exhibition Browser</h3>
           </Col></Row>
-          <Row>
+          <Row >
             <Col>
               <Card bg="dark">
                 <Card.Body>
@@ -554,8 +589,8 @@ export default function Home({
                   <Card.Title>Data analysis</Card.Title>
                   <Card.Text>
                     The entry pages into the data as well as the design of the exhibition pages and the organisation of the website, have been determined via a data analysis using Jupyter Notebooks, available on 
-                      <a href="https://github.com/tgra/linked-art-data-analysis-app" target="_new">GitHub</a>.
-                    
+                    <a href="https://github.com/tgra/linked-art-data-analysis-app" target="_new">GitHub</a>.
+
                   </Card.Text>
                 </Card.Body>
                 <Card.Footer><Button variant="secondary" href="https://github.com/tgra/linked-art-data-analysis-app" target="_new">Data analysis app</Button></Card.Footer>
@@ -568,9 +603,8 @@ export default function Home({
                   <Card.Title>Static HTML app</Card.Title>
                   <Card.Text>
                     The static HTML web pages have been generated using a custom app developed with React and NextJS, available on <a variant="link" target="_new" href="https://github.com/tgra/exhibition-browser">GitHub</a>.
-                    The files are published to a
-                    <a href="https://github.com/tgra/exhibition-browser-static-demo">GitHub repository</a> and then GitHub pages is used to deploy them to 
-                    <a target="_new" href="https://tgra.github.io/exhibition-browser-static-demo/" variant="link">GitHub Pages</a>.
+                    The files are published to a 
+                    <a href="https://github.com/tgra/exhibition-browser-static-demo">GitHub repository</a> and then GitHub pages is used to deploy them to <a target="_new" href="https://tgra.github.io/exhibition-browser-static-demo/" variant="link">GitHub Pages</a>.
                   </Card.Text>
                 </Card.Body>
                 <Card.Footer><Button variant="secondary" target="_new" href="https://github.com/tgra/exhibition-browser">Static HTML app</Button> <Button target="_new" variant="secondary" href="https://tgra.github.io/exhibition-browser-static-demo/" >Website</Button>
@@ -591,59 +625,3 @@ export default function Home({
     </>
   )
 }
-
-
-/*
-
-   
-
-         
-        
-      
-
-
-
-
-*/
-
-
-
-
-
-
-
-/*
-
-All
-
-People
-
-Nationality - US
-
--- surname
-
-Nationality - non-US
-
--- nationality
--- birth year
--- surname
-
-
-
-       <CardGroup>
-                {process.env.top_level_entry.map((entry) => (
-                  <Card bg="dark" key={entry.path} >
-                    <Card.Body>
-                      <Card.Title>{entry.label}</Card.Title>
-                      <Card.Text>
-                        {entry.desc}
-                      </Card.Text>
-                      <Button href="datasets" variant="primary">Go</Button>
-                    </Card.Body>
-                  </Card>
-
-
-                ))}
-              </CardGroup>
-
-              */

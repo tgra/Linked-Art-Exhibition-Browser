@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 
-  basePath: "/exhibition-browser-static-demo",
+  basePath: "/Linked-Art-Exhibition-Browser-MoMA",
   images: {
     unoptimized: true,
   },
@@ -19,7 +19,7 @@ const nextConfig = {
 
     display_histograms : true,
     
-    basePath: "/exhibition-browser-static-demo",
+    basePath: "/Linked-Art-Exhibition-Browser-MoMA",
 
     top_level_entry: [
       { label: "Datasets", path: "datasets", id: "datasets", desc:"Explore the exhibitions by dataset." },
@@ -54,14 +54,3 @@ const nextConfig = {
 
 module.exports = nextConfig
 
-
-
-/*
-{ label: "Exhibitions", path: "exhibitions", id: "exhibitions" },
-      { label: "Persons", path: "persons", id: "persons" },
-      { label: "Indexes", path: "indexes", id: "indexes" },
-
-
-       { label: "Surname", id: "surname", path: "/datasets/combined/indexes/person/surname/smith" },
-     
-*/

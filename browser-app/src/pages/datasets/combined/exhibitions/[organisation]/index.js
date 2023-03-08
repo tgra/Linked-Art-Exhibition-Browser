@@ -90,7 +90,7 @@ const IndexPage = ({
                     
                     <Row>
                      
-                                        <Container>
+                                        <Container fluid>
                                             <Accordion alwaysOpen>
                                                 {
                                                     Object.keys(exSummaryDataList["events"]).sort().map((year) => (

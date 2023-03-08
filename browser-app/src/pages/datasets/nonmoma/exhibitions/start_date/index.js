@@ -64,7 +64,7 @@ const IndexPage = ({
                     <script src="https://unpkg.com/react/umd/react.production.min.js" async></script>
 
                 </Head>
-                <Container>
+                <Container fluid>
                     <Navbar/>
                    
                             <Breadcrumb>

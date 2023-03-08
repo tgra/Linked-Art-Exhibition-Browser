@@ -24,7 +24,7 @@ export default function Home() {
             </Head>
             <main>
 
-                <Container>
+                <Container fluid>
 <Navbar/>
                   
                             <Breadcrumb>
