@@ -44,13 +44,37 @@ Follow instructions and app called `browser-app`
 
 `cd browser-app`
 
-## Additional library installation
+## Dependencies
 
+Additional javascript libraries were installed using command `npm install packagename`, as defined in package.json:
+
+  "dependencies": {
+    "@next/font": "13.1.4",
+    "chart.js": "^4.2.0",
+    "eslint": "8.32.0",
+    "eslint-config-next": "13.1.4",
+    "fortawesome": "^0.0.1-security",
+    "fs": "^0.0.1-security",
+    "leaflet": "^1.9.3",
+    "next": "13.1.4",
+    "randomcolor": "^0.6.2",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.7.0",
+    "react-calendar-timeline": "^0.28.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "18.2.0",
+    "react-leaflet": "^4.2.0",
+    "swr": "^2.0.1"
+  },
+
+Reference:
+https://www.npmjs.com/
+
+
+Information about some of the javascript libraries installed: 
 ### Font Awesome icons
 
 Icon library and toolkit
-
-`npm install fortawesome`
 
 Reference: 
 https://fontawesome.com/v5/docs/web/use-with/react
@@ -59,8 +83,6 @@ https://fontawesome.com/
 ### React-Boostrap
 Bootstrap provides a frontend responsive toolkit. This library provides Bootstrap 5 components built with React.
 
-`npm install react-bootstrap`
-
 Reference:
 https://www.npmjs.com/package/react-bootstrap
 https://getbootstrap.com/
@@ -68,15 +90,12 @@ https://getbootstrap.com/
 ### SWR
 SWR is a React Hooks library for data fetching.
 
-`npm install swr`
 
 Reference:
 https://www.npmjs.com/package/swr
 
 ### Leaflet
 Leaflet is a javascript library for interactive maps
-
-`npm install leaflet react-leaflet`
 
 Reference:
 https://www.npmjs.com/package/react-leaflet
@@ -106,7 +125,7 @@ Update package.json to build static site, adding ` && next export` to build as f
     "lint": "next lint"
   },`
 
-## Run the Linked Art Exhibition Browser web app
+## To run the Linked Art Exhibition Browser web app
 
 ### Development mode
 View the web site locally in development mode. In the root directory:
