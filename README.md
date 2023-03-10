@@ -5,10 +5,9 @@
 The Linked Art Exhibition Browser is a web app that provides a web-based Graphical User Interface for Cultural Heritage exhibitions expressed as Linked Art JSON-LD.
 
 ## Functionality
-The web app can be used to provide a locally-hosted dynamic web-based view on exhibition data. It can also be used to create a static HTML version of the website that can be hosted without the need for server-side dynamic coding, e.g. via GitHub pages as seen at https://tgra.github.io/Linked-Art-Exhibition-Browser-MoMA/
+The Linked Art Exhibition Browser web app can be used to provide a locally-hosted dynamic web-based view on exhibition data. It can also be used to create a static HTML version of the website that can be hosted without the need for server-side dynamic coding, e.g. via GitHub pages as seen at https://tgra.github.io/Linked-Art-Exhibition-Browser-MoMA/
 
 The tool has been created to allow exhibition data expressed as Linked Art to be viewed in a tabular form in static HTML pages, further to a data analysis that identified properties of the data that would translate to a browsable interface.
-
 
 - locally-hosted dynamic web-based view on exhibition data
 - used to create a static HTML version of the website that can be hosted without the need for server-side dynamic coding
@@ -19,13 +18,12 @@ The entry points into the exhibition data that have been encoded in the Exhibiti
 
 
 ## Technical implementation
-The tool uses the React framework Next.js, to generate tabular HTML files from Linked Art JSON-LD, and consequent creation of a static HTML web site. 
+The tool uses the React framework, Next.js, to build a web-based user interface to a Linked Art JSON-LD dataset.
 
 
-## Links
+### Links
 - Next.js - https://nextjs.org/  'The React Framework for the Web'
 - React - https://reactjs.org/ - 'A JavaScript library for building user interfaces'
-
 
 
 ### System Requirements
@@ -35,34 +33,57 @@ The tool uses the React framework Next.js, to generate tabular HTML files from L
 
 Reference https://nextjs.org/docs
 
-## Commands used to create the initial next.js template 
+## Initial next.js template setup
 
 `npx create-next-app@latest`
 
-Instructions followed and app called `browser-app`
+Follow instructions and app called `browser-app`
 
-Chose not to use TypeScript with project
-Chose to use ESLint with project
+- Chose not to use TypeScript with project
+- Chose to use ESLint with project
 
 `cd browser-app`
 
-## Additional installation steps
-### Installed Font Awesome icons
-` cd browser-app`
+## Additional library installation
+
+### Font Awesome icons
+
+Icon library and toolkit
+
 `npm install fortawesome`
 
-Reference: https://fontawesome.com/v5/docs/web/use-with/react
+Reference: 
+https://fontawesome.com/v5/docs/web/use-with/react
+https://fontawesome.com/
 
+### React-Boostrap
+Bootstrap provides a frontend responsive toolkit. This library provides Bootstrap 5 components built with React.
 
-### Installed React-Boostrap
-
-` cd browser-app`
 `npm install react-bootstrap`
 
+Reference:
+https://www.npmjs.com/package/react-bootstrap
+https://getbootstrap.com/
+
 ### SWR
+SWR is a React Hooks library for data fetching.
+
 `npm install swr`
 
-`npm install fs` 
+Reference:
+https://www.npmjs.com/package/swr
+
+### Leaflet
+Leaflet is a javascript library for interactive maps
+
+`npm install leaflet react-leaflet`
+
+Reference:
+https://www.npmjs.com/package/react-leaflet
+https://leafletjs.com/ 
+
+
+### Update package.json in the home dir
 
 Add to package.json
 `"browser": {
@@ -72,7 +93,8 @@ Add to package.json
 }`
 
 
-npm install leaflet react-leaflet
+
+
 ### Updated package.json
 
 Update package.json to build static site, adding ` && next export` to build as follows:
@@ -84,13 +106,25 @@ Update package.json to build static site, adding ` && next export` to build as f
     "lint": "next lint"
   },`
 
-## To run app
+## Run the Linked Art Exhibition Browser web app
 
-### Start app in development mode
+### Development mode
+View the web site locally in development mode. In the root directory:
 `npm run dev`
 
-### Start app in production mode and create static HTML file in the out directory
+### Production mode 
+Create a static HTML version in the /app/out directory
 `npm run build`
 
-### View static HTML site
-cd into `out` directory and enter `http-server` to start http server in the static HTML file directory
+####  View static HTML site
+To view the static HTML pages created in the `out` directory, 
+
+- create a directory at the same level as the `browser-app` directory that has the same name as the `basePath` dir defined in next.config.js e.g. `Linked-Art-Exhibition-Browser-MoMA`
+- copy all files from the `out` directory into this new directory
+- cd to the directory above the `browser-app` directory
+- enter `http-server` to start the local http server
+- navigate to the localhost URL provided
+
+
+
+
