@@ -150,17 +150,17 @@ Update package.json to build static site, adding ` && next export` to build as f
 
 ## To run app
 
-### Start app in development mode
-`npm run dev`
-
 ### Development mode
-View the web site locally in development mode. In the root directory:
+View the web site locally in development mode. 
+
+In the root directory:
 `npm run dev`
 
 Navigate to the localhost URL provided.
 
 ### Production mode 
-Create a static HTML version in the /app/out directory
+
+Create a static HTML version in the /app/out directory with:
 `npm run build`
 
 ####  View static HTML site

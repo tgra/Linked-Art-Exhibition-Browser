@@ -6,23 +6,26 @@ const nextConfig = {
     unoptimized: true,
   },
  
+
   reactStrictMode: false,
+
+  // used to create trailing slashes in static paths generation
   trailingSlash: true,
+  
   typescript: {
     ignoreBuildErrors: true,
   },
   experimental: {
+    // allows larger files to be created
   largePageDataBytes:  128 * 1000000,
   },
 
   env: {
 
-    data_directory : "../data",
-
-    display_histograms : true,
-    
+    // used in the navbar links
     basePath: "/Linked-Art-Exhibition-Browser-MoMA",
 
+    // following are not used at this time
     top_level_entry: [
       { label: "Datasets", path: "datasets", id: "datasets", desc:"Explore the exhibitions by dataset." },
       
