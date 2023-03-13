@@ -6,8 +6,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 import { Card, CardGroup, Button, Container, Row, Col } from 'react-bootstrap'
 import {
-  GetPersonsByNationalityBirthYear, GetPersonsByNationality, GetPersonsByBirthYear,
-  GetPersonsSurnameLetterNonUS, GetPersonsSurnameLetterUS, GetPersonSurnamesFirstLetter, GetPersonsByDatasetBirthYear
+   GetPersonsByNationality, GetPersonsByBirthYear,
+  GetPersonsSurnameLetterNonUS, GetPersonsSurnameLetterUS, GetPersonSurnameFirstLetterAll, GetPersonsBirthYearSelective
 
 } from '/lib/person'
 import Footer from '/components/footer'
@@ -21,8 +21,8 @@ import Navbar from '/components/navbar';
 
 
 export const getStaticProps = async (context) => {
-  let result = await GetPersonsByNationalityBirthYear("us")
-  let result2 = await GetPersonsByNationalityBirthYear("nonus")
+  let result = await GetPersonsBirthYearSelective("us")
+  let result2 = await GetPersonsBirthYearSelective("nonus")
 
   let result_nonusnat = await GetPersonsByNationality()
 
@@ -37,13 +37,9 @@ export const getStaticProps = async (context) => {
   let result_ex_nonmoma_startdate = await GetExsStartdateNonmoma()
   let result_ex_startdate = await GetExsStartDate()
 
-  let result_index_surname = await GetPersonSurnamesFirstLetter()
+  let result_index_surname = await GetPersonSurnameFirstLetterAll()
 
-
-
-
-
-  let result_nonmoma_birthyear = await GetPersonsByDatasetBirthYear("nonmoma")
+  let result_nonmoma_birthyear = await GetPersonsBirthYearSelective("nonmoma")
 
 
   return {
@@ -53,7 +49,6 @@ export const getStaticProps = async (context) => {
       us_surname: result_us_surname.count, ex_moma_date: result_ex_moma_startdate.counter,
       ex_nonmoma_date: result_ex_nonmoma_startdate.counter,
       index_surname: result_index_surname.count, ex_startdate: result_ex_startdate.counter,
-
       nonmoma_birthyear: result_nonmoma_birthyear.count
     }
   }

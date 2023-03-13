@@ -1,19 +1,18 @@
-import { eventNames } from 'process';
-
 const fs = require('fs')
 
 const data_dir = "../data"
+const summary_dir = data_dir + "/summary"
+const person_dir = summary_dir + "/persons/"
+const person_file_prefix = person_dir + "persons_"
+const persons_all = person_file_prefix + "all.json"
+const persons_all_born = person_file_prefix + "all_born.json"
 
 
 
-const persons_all = data_dir + "/summary/persons/persons_all.json"
-
-
-const summary_dir = "/summary/"
-
-const person_dir = "/persons"
-
-const persons_all_born = data_dir + "/summary/persons/persons_all_born.json"
+/*
+Summary.
+return summary list of all persons
+*/
 
 export async function GetPersons() {
     let file = persons_all
@@ -24,32 +23,65 @@ export async function GetPersons() {
 }
 
 
-export async function GetExInfluencersSummaryData(id_list ) {
+/*
+Summary.
+from persons_all.json get list of people grouped by first letter of surname, using input parameter of person ids
 
-    let file = persons_all
-    let rawdata = fs.readFileSync(file);
+@param id_list {list} list of person ids
+
+@return dict of first letters of person surnames with list of persons
+*/
+
+export async function GetExInfluencersSummaryData(id_list) {
+
+    // read persons_all.json and get persons_list
+
+    let rawdata = fs.readFileSync(persons_all);
     let result = JSON.parse(rawdata);
+
     const person_list_all = (result.persons)
 
     let person_list_selected = {}
-   
-    person_list_all.forEach(function(person) {
+
+    // iterate over person list 
+    person_list_all.forEach(function (person) {
+
+        // get person id
         let person_id = person.id
 
+        //get first letter of person's surname
         let letter = person.name.split("")[0]
 
-        if (person_list_selected[letter] == undefined){
+        // create dict of first letter of person's surname with list of persons
+        if (person_list_selected[letter] == undefined) {
             person_list_selected[letter] = []
         }
-        
-        if (id_list.includes(person_id)){
+
+        if (id_list.includes(person_id)) {
             person_list_selected[letter].push(person)
-            }
-        })
+        }
+    })
     return person_list_selected
 
 
 }
+
+
+/*
+Name.
+GetPersonsByEx(exid)
+
+Summary.
+return dict containing list of people who were involved in a selected exhibition
+
+Description.
+using persons_all.json file iterate over list of people and if person was innvolved in selected exhibition, add to list 
+
+Params.
+exid {URI} - exhibition identifier
+
+@return {dict} dictionary of first letters of surnames with associated people entries 
+*/
 
 export async function GetPersonsByEx(exid) {
 
@@ -58,8 +90,8 @@ export async function GetPersonsByEx(exid) {
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
+    // identify if person was involved in selected exhibition, if so add to list called person_list
     result.persons.forEach(function (person) {
-        
         if ("exhibitions" in person) {
             person.exhibitions.forEach(function (ex) {
                 let id = ex.id.split("/").pop()
@@ -68,6 +100,7 @@ export async function GetPersonsByEx(exid) {
         }
     })
 
+    // order list by surname and then first name
     person_list = person_list.sort(function (first, second) {
         let a = second.name
         let b = first.name
@@ -78,24 +111,35 @@ export async function GetPersonsByEx(exid) {
 
     let person_list_letter = {}
 
+
+    // iterate over person list and create a dictionary with first letter of surname and associated list of persons
     person_list.forEach(function (person) {
         let person_letter = person.name.split("")[0]
 
-        if (person_list_letter[person_letter] == undefined){
+        if (person_list_letter[person_letter] == undefined) {
             person_list_letter[person_letter] = []
         }
         person_list_letter[person_letter].push(person)
-        
 
     })
-    
-
-
 
     return person_list_letter
 }
 
 
+/*
+Name.
+GetPersonsByBirthYear(year)
+
+Summary.
+return list of people born in a selected year
+
+
+@param year {integer} selected year to search for. If empty string, return the count list from persons_all_born file, that is, a dict of all years and count of people born in that year
+
+
+@return list of persons, empty dictionary, or summary count dict of all years with corresponding people count
+*/
 export async function GetPersonsByBirthYear(year) {
     let file = persons_all_born
     let rawdata = fs.readFileSync(file);
@@ -113,63 +157,38 @@ export async function GetPersonsByBirthYear(year) {
 }
 
 
+/*
+Summary.
+return summary list of all persons organised by birth year
+*/
 // return list of all birth years in dataset
 
 export async function GetPersonsBirthYearAll() {
-    let file = persons_all_born
-    let rawdata = fs.readFileSync(file);
+    
+    let rawdata = fs.readFileSync(persons_all_born);
     let result = JSON.parse(rawdata);
-
-
-   
     return Object.keys(result.count)
-
-    
-
 }
-    
 
-
-// GetPersonsByNationalityBirthYear
-export async function GetPersonsByNationalityBirthYear(nationality) {
-    let file = data_dir + "/summary/persons/persons_" + nationality.toLowerCase() + "_born.json"
+export async function GetPersonsBirthYearSelective(selection) {
+    let file = person_file_prefix + selection.toLowerCase() + "_born.json"
     let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    return (result)
-
-
+    return JSON.parse(rawdata)
 }
-
-
-
-export async function GetPersonsByDatasetBirthYear(dataset) {
-    let file = data_dir + "/summary/persons/persons_" + dataset + "_born.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    return (result)
-
-
-}
-
-// GetPersonSummary, GetPerson, GetPersonIDs
-
-
-
-
 
 export async function GetPerson(id) {
-
     let file = data_dir + "/person/" + id + ".json"
     let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    return (result)
+    return JSON.parse(rawdata)
 }
 
 
-
+/**
+ * return summary information for selected person from persons_all.json
+ *
+ * @param {uri} id - person id
+ * @returns dict for selected person from persons_all
+ */
 export async function GetPersonSummary(id) {
 
     let file = persons_all
@@ -184,56 +203,13 @@ export async function GetPersonSummary(id) {
     return {}
 }
 
-export async function GetPersonIDs() {
-    var ids = []
-
-    let fpath = persons_all
-    let rawdata = fs.readFileSync(fpath)
-    let result = JSON.parse(rawdata)
-
-    result.persons.forEach(function (person) {
-        if ("id" in person) {
-            let id = person.id.split("/").pop()
-            if (id != "") {
-                ids.push(id)
-            }
-        }
-    })
 
 
-    return (ids)
-}
-
-
-
-export async function GetPersonsByNationalitySelected(nationality_selected) {
-
-    let nationality_list = {}
-
-    let file = persons_all
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    let count = {}
-
-    for (var idx in result.persons) {
-        let person = result.persons[idx]
-        let nationality = person["nationality"]
-
-        if (nationality == undefined || nationality == "" || nationality !== nationality_selected) {
-            continue
-        }
-        
-        nationality_list.push(person)
-    }
-
-    return ({ persons: nationality_list})
-}
-
-
-
-
-
+/**
+ * 
+ * @returns dictionary of persons of non-american nationality grouped by nationality
+ * 
+ */
 
 export async function GetPersonsByNationality() {
 
@@ -250,35 +226,39 @@ export async function GetPersonsByNationality() {
 
         let nationality = person["nationality"]
 
+
         if (nationality == undefined || nationality == "") {
             continue
         }
+
+        // ignore american nationality
         if (["American"].includes(nationality)) {
             continue
         }
 
+
         if (nationality_dict[nationality] == undefined) {
             nationality_dict[nationality] = []
-        }
-
-        if (count[nationality] == undefined) {
             count[nationality] = 0
         }
-        count[nationality] += 1
-        nationality_dict[nationality].push(person)
 
+        nationality_dict[nationality].push(person)
+        count[nationality] += 1
 
     }
 
-    return ({count: count, persons: nationality_dict})
+    return ({ count: count, persons: nationality_dict })
 }
 
 
-// GetPersonsSurnameByLetter
+/**
+ * 
+ * @returns returns dictionary of people of american nationality grouped by the first letter of their surname
+ * 
+ */
 
 export async function GetPersonsSurnameLetterUS() {
 
-    let lang_list = ["American"]
     let name_dict = {}
 
     let file = persons_all
@@ -286,35 +266,37 @@ export async function GetPersonsSurnameLetterUS() {
     let result = JSON.parse(rawdata);
 
     let count = {}
+
+    // iterate over person list
     for (var idx in result.persons) {
+
+        //get person 
         let person = result.persons[idx]
+        
+        let nationality = person["nationality"]
+        if (nationality != "American") {
+            continue
+        }
 
         let name = person["name"]
-        let nationality = person["nationality"]
-        if (nationality == undefined || nationality == "") {
+        // get first letter of surname
+        let letter = name.split("")[0]
+        if (letter == undefined || letter == "") {
             continue
         }
-        let value = name.split("")[0]
-
-        if (value == undefined || value == "") {
-            continue
-        }
-        if (lang_list.includes(nationality) == false) {
-            continue
-        }
-
         
-        if (name_dict[value] == undefined) {
-            name_dict[value] = []
-            count[value] = 0
+        if (name_dict[letter] == undefined) {
+            name_dict[letter] = []
+            count[letter] = 0
         }
-        count[value] += 1
-        name_dict[value].push(person)
-
+        
+        name_dict[letter].push(person)
+        count[letter] += 1
     }
 
-    Object.entries(name_dict).forEach(function([letter,person_list]){
 
+    // order person list
+    Object.entries(name_dict).forEach(function ([letter, person_list]) {
         let person_list_ordered = person_list.sort(function (first, second) {
             let a = second.name
             let b = first.name
@@ -322,19 +304,23 @@ export async function GetPersonsSurnameLetterUS() {
             if (b > a) { return 1; }
             return 0;
         })
-
         name_dict[letter] = person_list_ordered
 
     })
-  
-   
 
-    return ({count:count, persons:name_dict})
+    // return dict with summary count and person dict grouped by first letter of surname
+    return ({ count: count, persons: name_dict })
 }
 
+
+/**
+ * 
+ * @returns returns summary count of non-american persons and the first letter of their surname as well as a list of people grouped by first letter of surname
+ * 
+ */
 export async function GetPersonsSurnameLetterNonUS() {
 
-    let lang_list = ["American"]
+   
     let name_dict = {}
 
     let file = persons_all
@@ -347,33 +333,25 @@ export async function GetPersonsSurnameLetterNonUS() {
 
         let name = person["name"]
         let nationality = person["nationality"]
-        if (nationality == undefined || nationality == "") {
+
+        if (nationality == undefined || nationality == "" || nationality == "American") {
             continue
         }
-        let value = name.split("")[0]
+        let letter = name.split("")[0]
 
-        if (value == undefined || value == "") {
-            continue
-        }
-        if (lang_list.includes(nationality) == true) {
+        if (letter == undefined || letter == "") {
             continue
         }
 
-
-        if (count[value] == undefined) {
-            count[value] = 0
+        if (name_dict[letter ] == undefined) {
+            name_dict[letter ] = []
+            count[letter ] = 0
         }
-
-        count[value] += 1
-        
-        if (name_dict[value] == undefined) {
-            name_dict[value] = []
-        }
-        name_dict[value].push(person)
+        name_dict[letter ].push(person)
+        count[letter ] += 1
     }
 
-    Object.entries(name_dict).forEach(function([letter,person_list]){
-
+    Object.entries(name_dict).forEach(function ([letter, person_list]) {
         let person_list_ordered = person_list.sort(function (first, second) {
             let a = second.name
             let b = first.name
@@ -381,51 +359,38 @@ export async function GetPersonsSurnameLetterNonUS() {
             if (b > a) { return 1; }
             return 0;
         })
-
         name_dict[letter] = person_list_ordered
-
     })
-  
 
-    return ({count:count, persons:name_dict})
+    return ({ count: count, persons: name_dict })
 }
 
-//  GetPersonSurnamesFirstLetter
 
 
+export async function GetPersonSurnameFirstLetterAll() {
 
-
-
-
-export async function GetPersonSurnamesFirstLetter() {
-
-    let file = data_dir + "/summary/persons/persons_all_surname_full.json"
+    let file = person_file_prefix + "all_surname_full.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
-
     let alphabet = [];
-
     let counter = {}
 
     for (var surname in result.persons) {
         let first_letter = surname.split("")[0]
-
-        if (counter[first_letter] == undefined){
+        if (counter[first_letter] == undefined) {
             counter[first_letter] = 0
         }
 
-        counter[first_letter] +=1
-
         alphabet.push(first_letter)
+        counter[first_letter] += 1
 
     }
 
     alphabet = alphabet.filter((v, i, a) => a.indexOf(v) == i)
     alphabet.sort()
 
-
-    return {count:counter, alphabet: alphabet}
+    return { count: counter, alphabet: alphabet }
 
 
 
@@ -433,11 +398,9 @@ export async function GetPersonSurnamesFirstLetter() {
 }
 
 
+export async function GetPersonSurnameFirstLetterSelected(letter) {
 
-
-export async function GetPersonsSurnameByLetter(letter) {
-
-    let file = data_dir + "/summary/persons/persons_all_surname.json"
+    let file = person_file_prefix + "all_surname.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -454,14 +417,9 @@ export async function GetPersonsSurnameByLetter(letter) {
 
 
 
-
-
-// GetPersonSurnamesAll, GetPersonsBySurname
-
-
 export async function GetPersonSurnamesAll() {
 
-    let file = data_dir + "/summary/persons/persons_all_surname_full.json"
+    let file = person_file_prefix + "all_surname_full.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -469,12 +427,11 @@ export async function GetPersonSurnamesAll() {
 
     return surnames_list
 }
-
 
 
 export async function GetPersonsBySurname(surname) {
 
-    let file = data_dir + "/summary/persons/persons_all_surname_full.json"
+    let file = person_file_prefix + "all_surname_full.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -485,291 +442,5 @@ export async function GetPersonsBySurname(surname) {
     if (result.persons[surname] == undefined) {
         return {}
     }
-
     return result.persons[surname]
 }
-
-
-// GetPersonSummary, GetPerson, GetPersonIDs
-
-
-
-// =================
-
-
-/*
-
-
-
-
-
-
-export async function GetPersons(): Promise<PersonData[]> {
-    let file = "../data/summary/persons_all.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-    const personList: PersonData[] = (result.persons) as PersonData[]
-    return personList
-}
-
-
-export async function GetPersonSummary(id: string): Promise<PersonData[]> {
-    let file = "../data/summary/persons_all.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-    let persons = []
-
-    result.persons.forEach(function (person) {
-        if (person["id"].split("/").pop().toUpperCase() == id.toUpperCase()) {
-            persons.push(person)
-        }
-    })
-
-    const personList: PersonData[] = (persons) as PersonData[]
-    return personList
-}
-
-function extractNumber(entity: any) {
-    return entity.id.split("/").pop()
-
-}
-
-export async function GetPersonIDs(): Promise<PersonData[]> {
-    let files = ["persons_total_exhibitions_desc.json", "persons_born_asc.json", "persons_born_desc.json",
-        "persons_died_asc.json", "persons_died_desc.json"]
-
-    var persons_all = []
-    files.forEach(function (f) {
-        let fpath = "../data/summary/" + f
-        let rawdata = fs.readFileSync(fpath)
-        let result = JSON.parse(rawdata)
-        result.persons.forEach(function (person) {
-            // get first letter of surname
-            if ("id" in person) { persons_all.push(person) }
-        })
-
-
-    })
-
-    const personList: PersonData[] = (persons_all) as PersonData[]
-
-
-    return personList
-}
-
-
-export async function GetPersonsTotalExDsc(): Promise<PersonSummaryData[]> {
-    let file = "../data/summary/persons_total_exhibitions_desc.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-    const personList: PersonSummaryData[] = (result.persons) as PersonSummaryData[]
-    return personList
-}
-
-
-export async function GetPersonsBornAsc(): Promise<PersonSummaryData[]> {
-    let file = "../data/summary/persons_born_asc.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-    const personList: PersonSummaryData[] = (result.persons) as PersonSummaryData[]
-    return personList
-}
-
-export async function GetPersonsBornDsc(): Promise<PersonSummaryData[]> {
-
-    let file = "../data/summary/persons_born_desc.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    const personList: PersonSummaryData[] = (result.persons) as PersonSummaryData[]
-
-    return personList
-}
-
-
-
-export async function GetPersonsDiedAsc(): Promise<PersonSummaryData[]> {
-    let file = "../data/summary/persons_died_asc.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-    const personList: PersonSummaryData[] = (result.persons) as PersonSummaryData[]
-    return personList
-}
-
-export async function GetPersonsDiedDsc(): Promise<PersonSummaryData[]> {
-    let file = "../data/summary/persons_died_desc.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-    const personList: PersonSummaryData[] = (result.persons) as PersonSummaryData[]
-    return personList
-}
-
-
-export async function GetPersonsNameDsc(): Promise<PersonSummaryData[]> {
-    let file = "../data/summary/persons_name_desc.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-    const personList: PersonSummaryData[] = (result.persons) as PersonSummaryData[]
-    return personList
-}
-
-
-
-
-
-export async function GetPersonsSurnameByLetter(letter: any) {
-
-    let file = "../data/summary/persons_all_surname.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    if (letter == "") {
-        return result
-    }
-
-    if (result.persons[letter] == undefined) {
-        return {}
-    }
-
-    return result.persons[letter]
-}
-
-
-export async function GetPersonsByNationality(nationality: any) {
-
-    let person_list = []
-    if (nationality == "") {
-        
-        return person_list
-    }
-
-    let file = "../data/summary/persons_all.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    for (var idx in result.persons) {
-        let person = result.persons[idx]
-        if (person["nationality"] == undefined || person["nationality"] == "") {
-            continue
-        }
-        if (person["nationality"] in ["Male", "Female"]) {
-            continue
-        }
-
-        if (nationality == "nonamerican") {
-            if (person["nationality"] != 'American') { person_list.push(person) }
-            continue
-        }
-
-        if (person["nationality"].toLowerCase() == nationality.toLowerCase()) {
-            person_list.push(person)
-        }
-
-    }
-    return person_list
-}
-
-
-
-/*
-
-
-export async function GetPersonsSurnameByLetterNationality(letter: any, nationality: string) {
-
-    let file = "../data/summary/persons_all_surname.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    if (letter == "") {
-        return result
-    }
-
-
-    if (result.persons[letter] == undefined) {
-        return {}
-    }
-
-
-    let person_list = []
-
-    for (var entity in result.persons[letter]) {
-        let abbv = entity
-        for (var p in result.persons[letter][abbv]) {
-
-            if (nationality == "nonamerican") {
-                if (['american', 'male', 'female', ''].includes(result.persons[letter][abbv][p]["nationality"].toLowerCase()) == false) {
-                    person_list.push(result.persons[letter][abbv][p])
-                }
-
-            } else {
-                if (result.persons[letter][abbv][p]["nationality"] && result.persons[letter][abbv][p]["nationality"].toLowerCase() == nationality.toLowerCase()) {
-                    person_list.push(result.persons[letter][abbv][p])
-                }
-            }
-        }
-
-
-    }
-
-
-
-    return person_list
-}
-
-
-export async function GetPersonsBySurname(surname: any) {
-
-    let file = "../data/summary/persons_all_surname_full.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    if (surname == "") {
-        return result
-    }
-
-    if (result.persons[surname] == undefined) {
-        return {}
-    }
-
-    return result.persons[surname]
-}
-
-
-
-export async function GetPersonSurnamesAll() {
-
-    let file = "../data/summary/persons_all_surname_full.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-    let surnames_list = Object.keys(result.persons)
-
-    return surnames_list
-}
-
-export async function GetPersonSurnamesFirstLetter() {
-
-    let file = "../../data/summary/persons_all_surname_full.json"
-    let rawdata = fs.readFileSync(file);
-    let result = JSON.parse(rawdata);
-
-
-    let alphabet = [];
-    for (var surname in result.persons) {
-        let first_letter = surname.split("")[0]
-
-        alphabet.push(first_letter)
-
-    }
-
-    alphabet = alphabet.filter((v, i, a) => a.indexOf(v) == i)
-    alphabet.sort()
-
-    return alphabet
-
-
-
-    
-}
-
-*/

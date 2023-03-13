@@ -1,8 +1,14 @@
-
 import Link from 'next/link';
 import {Nav, Container, Row, Col } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 
+/*
+
+Summary.
+Top-level navigation bar for website.
+
+@return HTML navigation bar for the website. Uses Bootstrap navbar.
+*/
 
 function Navtop() {
     return (

@@ -6,19 +6,19 @@ const inter = Inter({ subsets: ['latin'] })
 
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
-import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/person_exhibition_detail'
+import Person from '/components/person_list'
+import TabPanePerson from '/components/person_detail'
 import Navbar from '/components/navbar';
 import Footer from '/components/footer';
 
-import { GetPersonsByNationalityBirthYear } from '/lib/person'
+import { GetPersonsBirthYearSelective } from '/lib/person'
 import 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
 
 
 
 export const getStaticProps = async (context) => {
-    let result = await GetPersonsByNationalityBirthYear("nonus")
+    let result = await GetPersonsBirthYearSelective("nonus")
 
     let persons = ("persons" in result) ? result.persons : []
     let years = ("count" in result) ? result.count : []

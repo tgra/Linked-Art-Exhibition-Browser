@@ -3,8 +3,8 @@ import Head from 'next/head'
 
 
 import { Table, Nav, Button, Tab, Row, Col, ListGroup, Breadcrumb, Container, SSRProvider, Accordion } from 'react-bootstrap';
-import Person from '/components/person_exhibition_list'
-import TabPanePerson from '/components/person_exhibition_detail'
+import Person from '/components/person_list'
+import TabPanePerson from '/components/person_detail'
 import randomColor from "randomcolor";
 
 import Timeline from 'react-calendar-timeline'
@@ -15,11 +15,11 @@ import Navbar from '/components/navbar';
 import Footer from '/components/footer';
 
 import { GetExs, GetEx, GetExsSameDate, GetExInfluencers, GetExInfluencersIds } from '/lib/exhibition'
-import {  GetExInfluencersSummaryData } from '/lib/person'
+import { GetExInfluencersSummaryData } from '/lib/person'
 
 import React from "react";
 
-import Map from '../../../components/Map';
+import Map from '/components/Map';
 import styles from '../../styles/Home.module.css';
 
 
@@ -61,7 +61,7 @@ export const getStaticProps = async (
     // exhibition id passed as url parameter
     const { id } = context.params
 
-    
+
     // get exhibition data using exhibition id
     const exData = await GetEx(parseInt(id))
 
@@ -74,9 +74,9 @@ export const getStaticProps = async (
 
     // get list of exhibitions that happened at time that overlaps with this exhibition
     const exs_samedate = await GetExsSameDate(id)
-   
-  
-  
+
+
+
     return {
         props: {
             exData, person_list, exs_samedate, id, person_list_summary, id_list
@@ -86,18 +86,18 @@ export const getStaticProps = async (
 
 
 
-const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_list  }) => {
+const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_list }) => {
 
 
 
-   
+
 
     if (exData == undefined) {
         return <div>processing...</div>
     }
 
-     
-     let DEFAULT_CENTER = exData.took_place_at ? exData.took_place_at[0].defined_by : "POINT(0 0)"
+
+    let DEFAULT_CENTER = exData.took_place_at ? exData.took_place_at[0].defined_by : "POINT(0 0)"
     DEFAULT_CENTER = DEFAULT_CENTER.split("POINT(")[1]
     DEFAULT_CENTER = DEFAULT_CENTER.split(")")[0]
     DEFAULT_CENTER = DEFAULT_CENTER.split(" ")
@@ -107,7 +107,7 @@ const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_lis
     person_count = exData.influenced_by.length
 
 
-   
+
     let orgs = Object.keys(exs_samedate)
 
     const groups = [{
@@ -148,11 +148,11 @@ const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_lis
     let sorted_exs_samedate = {}
     Object.entries(exs_samedate).forEach(([org, exlist]) => {
 
-        let sorted_exlist = exlist.sort(function(a,b) {
+        let sorted_exlist = exlist.sort(function (a, b) {
 
-            let  a_start = new Date(a.start)
+            let a_start = new Date(a.start)
             let b_start = new Date(b.start)
-            
+
             return (a_start - b_start)
         })
 
@@ -161,13 +161,13 @@ const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_lis
     }
     )
 
- 
+
 
     Object.entries(exs_samedate).forEach(([org, exlist]) => {
 
 
-     
-        
+
+
 
         exlist.forEach(function (ex) {
             items.push(
@@ -215,10 +215,10 @@ const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_lis
         </div>
         : ""
 
-   
 
 
-        
+
+
     return (
         <SSRProvider>
             <Head>
@@ -236,12 +236,12 @@ const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_lis
             </Head>
             <main>
                 <Container fluid>
-                    <Navbar/>
-              
-         
+                    <Navbar />
+
+
                     <Row>
                         <Col>
-                            
+
                             <Breadcrumb>
                                 <Breadcrumb.Item href={process.env.basePath}>Home</Breadcrumb.Item>
                                 <Breadcrumb.Item >Exhibition</Breadcrumb.Item>
@@ -258,13 +258,13 @@ const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_lis
                     <h3>Summary information</h3>
                     <div className="ex_summary">
                         <Row>
-                          
 
-                        
+
+
                             <Col>
-                            {section_dates} 
+                                {section_dates}
 
-                            {
+                                {
                                     exData.took_place_at ?
                                         <div>
                                             <h5>Location</h5>
@@ -278,61 +278,61 @@ const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_lis
                                                 }</ul>
                                         </div>
                                         : ""}
-                            
-                            {exData.carried_out_by[0] ?
-                                <div>
-                                    <h5>Carried out by</h5>
-                                   <p>{exData.carried_out_by[0]._label}</p>
-                                    
-                                    <ol>
-                                        {exData.carried_out_by[0].equivalent.map((ex_link) => (
-                                            <li key={ex_link.id}><Link href={ex_link.id} target="_new">{ex_link.id.split("//")[1].split("/")[0]}</Link></li>
-                                        ))}
-                                    </ol>
-                                </div>
-                                : ""}
-{
+
+                                {exData.carried_out_by[0] ?
+                                    <div>
+                                        <h5>Carried out by</h5>
+                                        <p>{exData.carried_out_by[0]._label}</p>
+
+                                        <ol>
+                                            {exData.carried_out_by[0].equivalent.map((ex_link) => (
+                                                <li key={ex_link.id}><Link href={ex_link.id} target="_new">{ex_link.id.split("//")[1].split("/")[0]}</Link></li>
+                                            ))}
+                                        </ol>
+                                    </div>
+                                    : ""}
+                                {
                                     (exData.subject_of && exData.subject_of[0].digitally_carried_by[0]?.classified_as[0].id == 'http://vocab.getty.edu/aat/300264578') ?
                                         <div>
-                                            
+
                                             <p>
                                                 <Button variant="secondary" href={exData.subject_of[0]?.digitally_carried_by[0]?.access_point[0]?.id} target="_new">
-                                                Further exhibition information at {exData.subject_of[0]?.digitally_carried_by[0]?.access_point[0]?.id.split("//")[1].split("/")[0]}
+                                                    Further exhibition information at {exData.subject_of[0]?.digitally_carried_by[0]?.access_point[0]?.id.split("//")[1].split("/")[0]}
                                                 </Button>
-                                                </p>
-                                                <p>
+                                            </p>
+                                            <p>
                                                 <Button variant="secondary" href={process.env.basePath + "/datasets/combined/exhibitions/" + exData.carried_out_by[0]._label + "/"}>View other exhibitions carried out by {exData.carried_out_by[0]._label}</Button>
-                                                </p>
+                                            </p>
                                         </div>
                                         : ""
                                 }
-                                </Col>
-                                <Col>
-                                
+                            </Col>
+                            <Col>
+
 
 
                                 <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={20}>
                                     {({ TileLayer, Marker, Popup }) => (
                                         <div>
-                                            <TileLayer  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                             />
                                             <Marker position={DEFAULT_CENTER}>
                                                 <Popup>
                                                     {exData.took_place_at ? exData.took_place_at[0]._label : ""} : {exData._label}
                                                 </Popup>
                                             </Marker>
-                                           
+
                                         </div>
                                     )}
                                 </Map>
-                                    </Col>
+                            </Col>
                         </Row>
                     </div>
 
                     <Row>
                         <Col >
-                        
-                        <hr/>
+
+                            <hr />
                             <h3>Concurrent exhibitions</h3>
 
                             <p>Exhibitions that overlap with this exhibition, in this dataset. <i>Double-click an item in the timeline to view the corresponding exhibition page.</i></p>
@@ -346,120 +346,128 @@ const Ex = ({ exData, person_list, exs_samedate, id, person_list_summary, id_lis
                                 defaultTimeStart={new Date(exData.timespan.begin_of_the_begin)}
                                 defaultTimeEnd={new Date(exData.timespan.end_of_the_end)}
                             />
-<br/>
+                            <br />
                         </Col>
 
                     </Row>
-                   
+
                     <Row><Col >
-                        
 
-                       
-                                    <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={12}>
-                                        {({ TileLayer, Marker, Popup }) => (
-                                            <div>
-                                                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                                                <Marker position={DEFAULT_CENTER}>
-                                                    <Popup>
-                                                        {exData.took_place_at ? exData.took_place_at[0]._label : ""} : {exData._label}
-                                                    </Popup>
-                                                </Marker>
-                                                {
-                                                    Object.keys(exs_samedate).map((org) => (
-                                                        <Marker key={org} position={String(exs_samedate[org][0].coords.split("POINT(")[1]).split(")")[0].split(" ")}>
-                                                            <Popup> <h6>{org}</h6>
-                                                                <ol>
-                                                                    {exs_samedate[org].map((ex) =>
-                                                                        <li key={"m" + ex.id}><Link href={"" + String(ex.id).split("/").pop()}>{ex._label}</Link></li>
-                                                                    )}
-                                                                </ol>
-                                                            </Popup>
-                                                        </Marker>
+
+
+                        <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={12}>
+                            {({ TileLayer, Marker, Popup }) => (
+                                <div>
+                                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                    <Marker position={DEFAULT_CENTER}>
+                                        <Popup>
+                                            {exData.took_place_at ? exData.took_place_at[0]._label : ""} : {exData._label}
+                                        </Popup>
+                                    </Marker>
+                                    {
+                                        Object.keys(exs_samedate).map((org) => (
+                                            <Marker key={org} position={String(exs_samedate[org][0].coords.split("POINT(")[1]).split(")")[0].split(" ")}>
+                                                <Popup> <h6>{org}</h6>
+                                                    <ol>
+                                                        {exs_samedate[org].map((ex) =>
+                                                            <li key={"m" + ex.id}><Link href={"" + String(ex.id).split("/").pop()}>{ex._label}</Link></li>
+                                                        )}
+                                                    </ol>
+                                                </Popup>
+                                            </Marker>
+                                        ))}
+                                </div>
+                            )}
+                        </Map>
+                    </Col><Col>
+                            <h5>Concurrent exhibitions grouped by organisation</h5>
+                            <Accordion alwaysOpen className="accordion_orgs">
+                                {Object.keys(exs_samedate).map((org, index) => (
+                                    <Accordion.Item key={"section_org_" + org} eventKey={"section_org_" + org}>
+                                        <Accordion.Header>{org}</Accordion.Header>
+                                        <Accordion.Body>
+
+                                            <Table key={"concurrent" + index} bordered hover size="sm" striped="columns">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Start</th>
+                                                        <th>End</th>
+                                                        <th>Title</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    {exs_samedate[org].map((ex, index) => (
+
+                                                        <tr key={ex.id}>
+                                                            <td><Button variant="info" href={process.env.basePath + "/exhibition/" + ex.id.split("/").pop()}>{index + 1}</Button></td>
+                                                            <td><nobr>{ex.start.slice(0, -3)}</nobr></td>
+                                                            <td><nobr>{ex.end.slice(0, -3)}</nobr></td>
+                                                            <td><Button variant="link" href={process.env.basePath + "/exhibition/" + ex.id.split("/").pop()}>{ex._label}</Button></td>
+
+                                                        </tr>
                                                     ))}
-                                            </div>
-                                        )}
-                                    </Map>
-</Col><Col>
-<h5>Concurrent exhibitions grouped by organisation</h5>
-<Accordion alwaysOpen className="accordion_orgs">
-                            {Object.keys(exs_samedate).map((org,index) => (
-                                 <Accordion.Item  key={"section_org_" + org} eventKey={"section_org_" + org}>
-                                 <Accordion.Header>{org}</Accordion.Header>
-                                 <Accordion.Body>
-                                   
-                                 <Table key={"concurrent" + index}  bordered hover size="sm" striped="columns">
-      <thead>
-        <tr>  
-          <th>#</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Title</th>
-         
-        </tr>
-      </thead>
-      <tbody>
+                                                </tbody></Table>
 
-      {exs_samedate[org].map((ex, index) => (
+                                        </Accordion.Body></Accordion.Item>
+                                ))}
+                            </Accordion>
 
-<tr key={ex.id}>
-<td><Button variant="info" href={process.env.basePath + "/exhibition/" + ex.id.split("/").pop()}>{index +1}</Button></td>
-<td><nobr>{ex.start.slice(0,-3)}</nobr></td>
-<td><nobr>{ex.end.slice(0,-3)}</nobr></td>
-<td><Button variant="link" href={process.env.basePath + "/exhibition/" + ex.id.split("/").pop()}>{ex._label}</Button></td>
-
-</tr>
-      ))}                            
-            </tbody></Table>
-                                   
-                                </Accordion.Body></Accordion.Item>
-                            ))}
-</Accordion>
-
-                    </Col>
+                        </Col>
                     </Row>
-                    
 
-                   
-<hr/>
-                        <h3>Artists</h3>
 
-                        <p>There were <b>{person_count}</b> persons who influenced this exhibition.</p>
-                        <p>Persons are ordered alphabetically by surname. Select a letter in the concertina to continue. Click on the person&apos;s name to view further information.</p>
 
-                       
+                    <hr />
+                    <h3>Artists</h3>
+
+                    <p>There were <b>{person_count}</b> persons who influenced this exhibition.</p>
+                    <p>Persons are ordered alphabetically by surname. Select a letter in the concertina to continue. Click on the person&apos;s name to view further information.</p>
+
+
 
                     <Accordion alwaysOpen>
-                
-                  {Object.entries(person_list).map(([letter, persons]) => (
-                    <Accordion.Item key={"abv" + letter} eventKey={"abv" + letter}>
-                      <Accordion.Header>{letter}</Accordion.Header>
-                      <Accordion.Body>
-                        <Tab.Container id="list-group-tabs" >
-                          <Row>
-                            <Col sm={3}>
-                              <ListGroup numbered>
-                                {Array.isArray(persons) ? persons.map((person) => (<Person {...person} key={person.id} />)) : ""}
-                              </ListGroup>
-                            </Col>
-                            <Col sm={8}>
-                              <Tab.Content>
-                              {
-                                           
-                                           person_list_summary[letter]?.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />
-                                           ))
-                                     
-                                       
-                                   }
-                              </Tab.Content>
-                            </Col>
-                          </Row>
-                        </Tab.Container>
-                      </Accordion.Body>
-                    </Accordion.Item>
 
-                  ))
-                }
-              </Accordion>
+                        {Object.entries(person_list).map(([letter, persons]) => (
+                            <Accordion.Item key={"abv" + letter} eventKey={"abv" + letter}>
+                                <Accordion.Header>{letter}</Accordion.Header>
+                                <Accordion.Body>
+                                    <Tab.Container id="list-group-tabs" >
+                                        <Row>
+                                            <Col sm={3}>
+                                                <ListGroup numbered>
+                                                    {Array.isArray(persons) ? persons.map((person) => (
+                                                        <ListGroup.Item 
+                    
+                                                            action 
+                                                            key={person.id}
+                                                            href={"#link" + person.id.split("/").pop()}>
+                                                                {person._label}
+                                                        </ListGroup.Item>
+                                                    )) : ""}
+                                                </ListGroup>
+                                            </Col>
+                                            <Col sm={8}>
+                                                <Tab.Content>
+                                                    {
+
+                                                        person_list_summary[letter]?.map((personData) => (<TabPanePerson {...personData} key={"#link" + personData.id.split("/").pop()} />
+                                                        ))
+
+
+                                                    }
+                                                </Tab.Content>
+                                            </Col>
+                                        </Row>
+                                    </Tab.Container>
+                                </Accordion.Body>
+                            </Accordion.Item>
+
+                        ))
+                        }
+                    </Accordion>
 
 
                     <Footer />

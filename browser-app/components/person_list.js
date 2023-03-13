@@ -1,7 +1,10 @@
 
 import { ListGroup} from 'react-bootstrap';
 
-
+/*
+Summary.
+provides a listgroup item for a person with a link that will open up a detailed information panel for the selected person.
+*/
 
 export default function Person({ id, _label,  born, died,  }) {
 

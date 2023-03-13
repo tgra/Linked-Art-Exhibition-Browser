@@ -1,7 +1,20 @@
 const fs = require('fs')
 
 // directory that contains the data files inc original jsonld files and summary files generated with jupyter notebooks
+
+
 const data_dir = "../data"
+
+const ex_file_dir = data_dir + "/activity/"
+const summary_dir = data_dir + "/summary"
+const person_dir = summary_dir + "/persons/"
+const person_file_prefix = person_dir + "persons_"
+const persons_all = person_file_prefix + "all.json"
+
+const activity_dir = summary_dir + "/activity/"
+const activity_file_prefix = activity_dir + "events_"
+const activity_all = activity_file_prefix + "all.json"
+
 
 
 // return jsonld file for exhibition using selected exhibition id
@@ -9,7 +22,7 @@ export async function GetEx(id) {
 
     // file is located in an activity sub-directory and has a filename == exhibition identifer 
     // that has been extracted from @id property
-    let filepath = data_dir + "/activity/" + id + ".json"
+    let filepath = ex_file_dir + id + ".json"
 
     try {
         const data = fs.readFileSync(filepath, 'utf8');
@@ -22,8 +35,8 @@ export async function GetEx(id) {
 }
 
 export async function GetExs() {
-    let file = data_dir + "/summary/activity/events_all.json"
-    let rawdata = fs.readFileSync(file);
+    
+    let rawdata = fs.readFileSync(activity_all);
     let result = JSON.parse(rawdata);
     const exList = (result.events)
     return exList
@@ -32,7 +45,7 @@ export async function GetExs() {
 
 export async function GetExInfluencers(id) {
 
-    let filepath = data_dir + "/activity/" + id + ".json"
+    let filepath = ex_file_dir + id + ".json"
 
     try {
         const data = fs.readFileSync(filepath, 'utf8');
@@ -69,9 +82,15 @@ export async function GetExInfluencers(id) {
 }
 
 
+/**
+ * 
+ * @param id 
+ * @returns list of people who influenced an exhibition eg artist
+ */
+
 export async function GetExInfluencersIds(id) {
 
-    let filepath = data_dir + "/activity/" + id + ".json"
+    let filepath = ex_file_dir + id + ".json"
 
     try {
         const data = fs.readFileSync(filepath, 'utf8');
@@ -96,33 +115,43 @@ export async function GetExInfluencersIds(id) {
 
 
 
-
-
-
-
-
+/**
+ * 
+ * @returns exhibitions run by non-moma orgs grouped by start date
+ * 
+ */
 
 export async function GetExsStartdateNonmoma() {
 
-    let file = data_dir + "/summary/activity/events_nonmoma_startdate.json"
+    let file = activity_file_prefix + "nonmoma_startdate.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
     const exList = (result)
     return exList
 }
+
+/**
+ * 
+ * @returns exhibitions organised by moma grouped by start date
+ * 
+ */
 export async function GetExsStartdateMoma() {
 
-
-    let file = data_dir + "/summary/activity/events_moma_startdate.json"
+    let file = activity_file_prefix + "moma_startdate.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
     const exList = (result)
     return exList
 }
 
+/**
+ * 
+ * @returns return exhibition list for all organisations
+ * 
+ */
 export async function GetExsOrganisation() {
 
-    let file = data_dir + "/summary/activity/events_all_org.json"
+    let file = activity_file_prefix + "all_org.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -130,10 +159,15 @@ export async function GetExsOrganisation() {
     return (result)
 }
 
+/**
+ * 
+ * @param org 
+ * 
+ * @returns exhibition list for a selected organisation
+ */
 export async function GetExsSelectedOrganisation(org) {
 
-
-    let file = data_dir + "/summary/activity/events_all_org.json"
+    let file = activity_file_prefix + "all_org.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -142,9 +176,16 @@ export async function GetExsSelectedOrganisation(org) {
     return ({ "events": events })
 }
 
+
+/**
+ * 
+ * @param event_id - uri - exhibition identifer
+ * 
+ * @returns dictionary of exhibitions grouped by location that were running at time that overlapped with selected exhibition
+ */
 export async function GetExsSameDate(event_id) {
 
-    let file = data_dir + "/summary/activity/ex_co.json"
+    let file = data_dir + activity_file_prefix + "co.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 
@@ -174,14 +215,17 @@ export async function GetExsSameDate(event_id) {
 }
 
 
-
+/**
+ * 
+ * @returns list of organisation names
+ * 
+ */
 export async function GetExsOrganisationAll() {
 
-    let file = data_dir + "/summary/activity/events_all_org.json"
+    let file = activity_file_prefix + "all_org.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
     let orgs = Object.keys(result.counter)
-
     return (orgs)
 }
 
@@ -189,10 +233,9 @@ export async function GetExsOrganisationAll() {
 
 export async function GetExsStartDate() {
 
-    let file = data_dir + "/summary/activity/events_all_startdate.json"
+    let file = activity_file_prefix + "all_startdate.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
-
     return (result)
 }
 

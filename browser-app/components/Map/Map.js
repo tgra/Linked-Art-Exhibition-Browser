@@ -11,6 +11,15 @@ import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 
 const { MapContainer } = ReactLeaflet;
 
+/*
+Summary.
+Leaflet map component that returns a map for use with exhibition location data.
+
+
+@return Leaflet MapContainer.
+*/
+
+
 const Map = ({ children, className, ...rest }) => {
   let mapClassName = styles.map;
 

@@ -5,6 +5,14 @@ import { Bar } from 'react-chartjs-2';
 import randomColor from "randomcolor";
 import Image from 'next/image'
 
+/*
+Summary.
+HTML containing detailed information about a person including an exhibition list and associated histogram
+
+*/
+
+
+
 export default function TabPanePerson({ id, _label, born, died, total_exhibitions, nationality, exhibitions, gender, equivalent, image_url, bio }) {
 
   // assign exhibitions to decade dict
@@ -62,21 +70,9 @@ export default function TabPanePerson({ id, _label, born, died, total_exhibition
 
 
   let datasetsOrg = []
-
   Object.entries(exDecadesOrg).map(([org, decades]) => (
-
     datasetsOrg.push({ label: org, data: labels.map((dec) => (decades[dec] ? decades[dec] : 0)), borderWidth: 1, backgroundColor: randomColor({ luminosity: "dark", seed: org }), })
-
-
   ))
-
-
-
-
-
-
-  let colours = ['red', 'blue', 'yellow', 'green', 'purple', 'orange']
-
 
   const options_stacked = {
     plugins: { title: { display: true, text: 'Number of exhibitions', }, },
@@ -85,12 +81,10 @@ export default function TabPanePerson({ id, _label, born, died, total_exhibition
     scales: { x: { stacked: false, }, y: { stacked: true, }, },
   };
 
-
   let data_stacked = {
     labels: labels,
     datasets: datasetsOrg
   }
-
 
   return (
     <Tab.Pane key={"#link" + id.split("/").pop()} eventKey={"#link" + id.split("/").pop()}>
@@ -99,19 +93,16 @@ export default function TabPanePerson({ id, _label, born, died, total_exhibition
         <Row>
           <Col>
             <p><b>Biographical statement</b> {bio}</p>
-
-            <b>Born</b> {born != undefined ? String(born).split('T')[0].split("-")[0]: ""} <sup><Link href={"/datasets/combined/indexes/person/birth_date/" + born}>(click to view other people born in this year)</Link></sup>
-            <p><b>Died</b> {died != null ? String(died).split('T')[0].split("-")[0]: ""} </p>
+            <b>Born</b> {born != undefined ? String(born).split('T')[0].split("-")[0] : ""} <sup><Link href={"/datasets/combined/indexes/person/birth_date/" + born}>(click to view other people born in this year)</Link></sup>
+            <p><b>Died</b> {died != null ? String(died).split('T')[0].split("-")[0] : ""} </p>
             <p>
               <b>Nationality</b> {nationality}</p>
             <p>
               <b>Gender</b> {gender}</p>
-
             <p>
               <b>External information resources for {_label}</b></p>
             <ol>{equivalent?.map((url) => (
               <li key={url}><Link href={url} target="_new">{String(url).split("/")[2]}</Link></li>
-
             ))}
             </ol>
           </Col>
@@ -125,8 +116,6 @@ export default function TabPanePerson({ id, _label, born, died, total_exhibition
 
         </Row>
       </Container>
-
-
       <br />
       <h4>Exhibitions</h4>
       <p>In this dataset, <b>{_label}</b> was involved in <b>{total_exhibitions}</b> exhibitions across <b>{Object.entries(exDecades).length}</b> decades.</p>
@@ -134,17 +123,13 @@ export default function TabPanePerson({ id, _label, born, died, total_exhibition
         <li>Decade(s) with the most number of exhibitions was the <b>{maxDecade.toString()}</b> with <b>{maxDecadeCount}</b> exhibitions.</li>
         <li>Decade with the least number of exhibitions was the <b>{minDecade.toString()}</b> with <b>{minDecadeCount}</b> exhibitions.</li>
       </ul>
-
       <Bar data={data_stacked} width="200" height="50" options={options_stacked} />
-
       <br />
       <Accordion alwaysOpen >
         {Object.entries(exDecades).map(([decade, exhibitions]) => (
-
           <Accordion.Item key={"section_" + decade} eventKey={"section_" + decade}>
             <Accordion.Header>{decade}0s ({exhibitions && Array.isArray(exhibitions) ? exhibitions.length : ""})</Accordion.Header>
             <Accordion.Body>
-
               <Table key={"decade" + decade} bordered hover size="sm" striped="columns">
                 <thead>
                   <tr>
@@ -153,31 +138,22 @@ export default function TabPanePerson({ id, _label, born, died, total_exhibition
                     <th>End</th>
                     <th>Location</th>
                     <th>Title</th>
-                   
                   </tr>
                 </thead>
                 <tbody>
                   {
                     exhibitions?.map((ex, index) => (
-
                       <tr key={'influenced' + ex.id}>
                         <td><Button variant="primary" href={process.env.basePath + '/exhibition/' + ex.id.split("/").pop()}>{index + 1}</Button></td>
-
-                        <td><nobr>{ex.start?.split('T')[0].slice(0,-3)}</nobr></td>
-                        <td><nobr>{ex.end?.split('T')[0].slice(0,-3)}</nobr></td>
+                        <td><nobr>{ex.start?.split('T')[0].slice(0, -3)}</nobr></td>
+                        <td><nobr>{ex.end?.split('T')[0].slice(0, -3)}</nobr></td>
                         <td><nobr>{ex.location}</nobr></td>
-                        <td><Link  href={'/exhibition/' + ex.id.split("/").pop()}>{ex._label}</Link></td>
-                       
+                        <td><Link href={'/exhibition/' + ex.id.split("/").pop()}>{ex._label}</Link></td>
                       </tr>
-
                     ))
-
                   }
 
                 </tbody></Table>
-
-
-
             </Accordion.Body></Accordion.Item>
         ))}
       </Accordion>
@@ -200,11 +176,4 @@ export default function TabPanePerson({ id, _label, born, died, total_exhibition
 
   )
 }
-
-
-/*
-
-<Bar data={data_bar} width="200" height="50" options={{ maintainAspectRatio: true }} />
-
-*/
 

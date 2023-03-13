@@ -1,8 +1,8 @@
 import Head from 'next/head'
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider, Nav } from 'react-bootstrap';
-import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/person_exhibition_detail'
+import Person from '/components/person_list'
+import TabPanePerson from '/components/person_detail'
 
 import Navbar from '/components/navbar';
 import Footer from 'components/footer'

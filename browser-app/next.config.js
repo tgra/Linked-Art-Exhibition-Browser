@@ -17,6 +17,8 @@ const nextConfig = {
 
   env: {
 
+    data_directory : "../data",
+
     display_histograms : true,
     
     basePath: "/Linked-Art-Exhibition-Browser-MoMA",

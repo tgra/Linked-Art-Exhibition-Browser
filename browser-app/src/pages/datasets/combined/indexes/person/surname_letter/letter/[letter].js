@@ -4,20 +4,20 @@ import Head from 'next/head'
 
 
 import { Tab, Row, Col, Accordion, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
-import Person from '/components/personlistgrouptab'
-import TabPanePerson from '/components/person_exhibition_detail'
+import Person from '/components/person_list'
+import TabPanePerson from '/components/person_detail'
 import Navbar from '/components/navbar';
 import Footer from '/components/footer';
 
 
 
-import { GetPersonsSurnameByLetter, GetPersonSurnamesFirstLetter } from '/lib/person'
+import { GetPersonsSurnameFirstLetterSelected, GetPersonSurnamesFirstLetterAll } from '/lib/person'
 
 
 
 export const getStaticPaths = async () => {
 
-  const result = await GetPersonSurnamesFirstLetter()
+  const result = await GetPersonSurnamesFirstLetterAll()
 
   return {
     paths: result.alphabet?.map((letter) => {
@@ -31,7 +31,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
 
   const { letter } = context.params
-  const persons = await GetPersonsSurnameByLetter(letter)
+  const persons = await GetPersonsSurnameFirstLetterSelected(letter)
 
   return {
     props: {
