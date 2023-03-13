@@ -11,13 +11,13 @@ import Footer from '/components/footer';
 
 
 
-import { GetPersonsSurnameFirstLetterSelected, GetPersonSurnamesFirstLetterAll } from '/lib/person'
+import { GetPersonSurnameFirstLetterSelected, GetPersonSurnameFirstLetterAll } from '/lib/person'
 
 
 
 export const getStaticPaths = async () => {
 
-  const result = await GetPersonSurnamesFirstLetterAll()
+  const result = await GetPersonSurnameFirstLetterAll()
 
   return {
     paths: result.alphabet?.map((letter) => {
@@ -31,7 +31,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
 
   const { letter } = context.params
-  const persons = await GetPersonsSurnameFirstLetterSelected(letter)
+  const persons = await GetPersonSurnameFirstLetterSelected(letter)
 
   return {
     props: {

@@ -185,7 +185,7 @@ export async function GetExsSelectedOrganisation(org) {
  */
 export async function GetExsSameDate(event_id) {
 
-    let file = data_dir + activity_file_prefix + "co.json"
+    let file = activity_file_prefix + "co.json"
     let rawdata = fs.readFileSync(file);
     let result = JSON.parse(rawdata);
 

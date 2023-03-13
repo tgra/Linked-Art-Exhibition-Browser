@@ -4,14 +4,14 @@ import Head from 'next/head'
 import { Row, Col, ListGroup, Breadcrumb, Container, SSRProvider } from 'react-bootstrap';
 
 
-import { GetPersonSurnamesFirstLetterAll } from '/lib/person'
+import { GetPersonSurnameFirstLetterAll } from '/lib/person'
 import Navbar from '/components/navbar';
 import Footer from '/components/footer';
 
 export const getStaticProps = async (context) => {
 
 
-    const result = await GetPersonSurnamesFirstLetterAll()
+    const result = await GetPersonSurnameFirstLetterAll()
 
     return {
         props: {
