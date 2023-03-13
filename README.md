@@ -59,47 +59,77 @@ Next.js was chosen for development as there was a requirement to be able to crea
 - Node.js 12.22.0 or later
 - MacOS, Windows (including WSL), and Linux are supported
 
-### Initial application set up
-
-#### Commands used to create the initial next.js template 
+### Initial next.js template setup
 
 `npx create-next-app@latest`
 
-Instructions were followed and the app was called `browser-app`
+Follow instructions and app called `browser-app`
+
 - Chose not to use TypeScript with project
 - Chose to use ESLint with project
 
-#### Install additional code libraries 
-
-In the `browser-app` directory
 `cd browser-app`
 
-##### Install Font Awesome icons
 
-`npm install fortawesome`
+### Dependencies
+
+Additional javascript libraries were installed using command `npm install packagename`, as defined in package.json:
+
+  "dependencies": {
+    "@next/font": "13.1.4",
+    "chart.js": "^4.2.0",
+    "eslint": "8.32.0",
+    "eslint-config-next": "13.1.4",
+    "fortawesome": "^0.0.1-security",
+    "fs": "^0.0.1-security",
+    "leaflet": "^1.9.3",
+    "next": "13.1.4",
+    "randomcolor": "^0.6.2",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.7.0",
+    "react-calendar-timeline": "^0.28.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "18.2.0",
+    "react-leaflet": "^4.2.0",
+    "swr": "^2.0.1"
+  },
+
+Reference:
+https://www.npmjs.com/
+
+
+Information about some of the javascript libraries installed: 
+#### Font Awesome icons
+
+Icon library and toolkit
 
 Reference: 
 https://fontawesome.com/v5/docs/web/use-with/react
+https://fontawesome.com/
+
+#### React-Boostrap
+Bootstrap provides a frontend responsive toolkit. This library provides Bootstrap 5 components built with React.
+
+Reference:
+https://www.npmjs.com/package/react-bootstrap
+https://getbootstrap.com/
+
+#### SWR
+SWR is a React Hooks library for data fetching.
 
 
-##### Install React-Boostrap
+Reference:
+https://www.npmjs.com/package/swr
 
-`npm install react-bootstrap`
-
-##### SWR
-
-`npm install swr`
-`npm install fs` 
-
-##### Leaflet maps
+#### Leaflet
 Leaflet is a javascript library for interactive maps
-`npm install leaflet react-leaflet`
 
 Reference:
 https://www.npmjs.com/package/react-leaflet
 https://leafletjs.com/ 
 
-#### Update package.json
+
+### Update package.json
 
 Add to package.json
 `"browser": {
@@ -108,9 +138,6 @@ Add to package.json
   "os": false
 }`
 
-
-
-### Updated package.json
 
 Update package.json to build static site, adding ` && next export` to build as follows:
 
@@ -126,30 +153,25 @@ Update package.json to build static site, adding ` && next export` to build as f
 ### Start app in development mode
 `npm run dev`
 
+### Development mode
+View the web site locally in development mode. In the root directory:
+`npm run dev`
+
 Navigate to the localhost URL provided.
 
-### Start app in production mode and create static HTML file in the out directory
+### Production mode 
+Create a static HTML version in the /app/out directory
 `npm run build`
 
-### View static HTML site
-cd into `out` directory and enter `http-server` to start http server in the static HTML file directory
+####  View static HTML site
+To view the static HTML pages created in the `out` directory, 
 
+- create a directory at the same level as the `browser-app` directory that has the same name as the `basePath` dir defined in next.config.js e.g. `Linked-Art-Exhibition-Browser-MoMA`
+- copy all files from the `out` directory into this new directory
+- cd to the directory above the `browser-app` directory
+- enter `http-server` to start the local http server
+- navigate to the localhost URL provided
+  
 
-
-#### Dynamic version
- 1. download the repository files
- 2. in the browser-app directory type ```bash npm run dev```
- 3. open the localhost URL provided in a web browser
-
-#### Static version
- 1. download the repository files
- 2. create a subdirectory 
- 3. in the browser-app directory type ```bash npm run build```. This will create a static HTML web site
- 4. create a subdirectory 'Linked-Art-Exhibition-Browser-MoMA' in the root directory
- 5. copy files from the newly-created 'browser-app/out' directory to the 'Linked-Art-Exhibition-Browser-MoMA' directory
- 6. use the command `http-server` in the root directory 
- 7. navigate to http://localhost:xxxx/Linked-Art-Exhibition-Browser-MoMA
-
-
-## App file description
-There is a  [README file](browser-app/README.md) with a description of the files that are included in the app is located in the browser-app directory.
+## Linked Art Exhibition Browser file/directory description
+There is a  [README file](browser-app/README.md) with a description of the files that are included in the app located in the [browser-app](browser-app) directory.
