@@ -583,8 +583,7 @@ export default function Home({
                 <Card.Body>
                   <Card.Title>Data analysis</Card.Title>
                   <Card.Text>
-                    The entry pages into the data as well as the design of the exhibition pages and the organisation of the website, have been determined via a data analysis using Jupyter Notebooks, available on 
-                    <a href="https://github.com/tgra/linked-art-data-analysis-app" target="_new">GitHub</a>.
+                    The entry pages into the data as well as the design of the exhibition pages and the organisation of the website, have been determined via a data analysis using Jupyter Notebooks, available on GitHub.
 
                   </Card.Text>
                 </Card.Body>
@@ -597,12 +596,12 @@ export default function Home({
                 <Card.Body>
                   <Card.Title>Static HTML app</Card.Title>
                   <Card.Text>
-                    The static HTML web pages have been generated using a custom app developed with React and NextJS, available on <a variant="link" target="_new" href="https://github.com/tgra/exhibition-browser">GitHub</a>.
+                    The static HTML web pages have been generated using a custom app developed with React and NextJS, available on GitHub.
                     The files are published to a 
-                    <a href="https://github.com/tgra/exhibition-browser-static-demo">GitHub repository</a> and then GitHub pages is used to deploy them to <a target="_new" href="https://tgra.github.io/exhibition-browser-static-demo/" variant="link">GitHub Pages</a>.
+                    GitHub repository and then GitHub pages is used to deploy them to GitHub Pages.
                   </Card.Text>
                 </Card.Body>
-                <Card.Footer><Button variant="secondary" target="_new" href="https://github.com/tgra/exhibition-browser">Static HTML app</Button> <Button target="_new" variant="secondary" href="https://tgra.github.io/exhibition-browser-static-demo/" >Website</Button>
+                <Card.Footer><Button variant="secondary" target="_new" href="https://github.com/tgra/exhibition-browser">Static HTML app</Button> <Button target="_new" variant="secondary" href="https://tgra.github.io/Linked-Art-Exhibition-Browser-MoMA/" >Website</Button>
 
                 </Card.Footer>
               </Card>
